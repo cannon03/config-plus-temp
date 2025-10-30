@@ -1,93 +1,87 @@
 <script lang="ts">
 	import {
-		X,
-		Menu,
-		Home,
-		Grid,
-		HelpCircle,
+		LayoutDashboard,
+		MonitorSmartphone,
+		Layers,
+		Settings,
 		LogOut,
-		Bell,
-		TreePine,
-		ArrowRightCircleIcon,
-		ArrowRightFromLine
+		ChevronLeft,
+		ChevronRight,
+		CircleQuestionMark
 	} from 'lucide-svelte';
 
-	// Controlled by parent layout
 	let sidebarOpen = $state(true);
-	async function toggleSidebar() {
+	function toggleSidebar() {
 		sidebarOpen = !sidebarOpen;
 	}
 </script>
 
 {#if sidebarOpen}
-	<aside class="flex min-h-screen w-64 flex-col border-r border-gray-200 bg-white shadow-sm">
-		<!-- Header / Toggle -->
-		<div class="flex items-center justify-between border-b border-gray-200 p-4">
-			<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-				<TreePine class="h-5 w-5 text-white" />
-			</div>
-
-			<h2 class="text-lg font-semibold text-gray-800">Toyama RCU</h2>
+	<aside
+		class="relative flex w-64 flex-col border-r border-gray-200 bg-white shadow-sm transition-all duration-300"
+	>
+		<div class="absolute top-1/2 -right-4 -translate-y-1/2">
 			<button
-				class="rounded-md p-2 hover:bg-gray-100 focus:outline-none"
 				onclick={toggleSidebar}
-				aria-label="Close sidebar"
+				class="flex items-center justify-center rounded-full border border-gray-200 bg-white p-2 shadow-sm transition-all duration-200 hover:bg-gray-100"
+				aria-label="Collapse sidebar"
 			>
-				<X class="h-5 w-5 text-gray-700" />
+				<ChevronLeft class="h-5 w-5 text-gray-700" />
 			</button>
 		</div>
+		<!-- Navigation -->
+		<nav class="flex flex-1 flex-col justify-start space-y-2 p-4">
+			<button
+				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+			>
+				<LayoutDashboard class="h-5 w-5" />
+				<span>Dashboard</span>
+			</button>
+			<button
+				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+			>
+				<MonitorSmartphone class="h-5 w-5" />
+				<span>Devices</span>
+			</button>
+			<button
+				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+			>
+				<Layers class="h-5 w-5" />
+				<span>Scenes</span>
+			</button>
+			<button
+				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+			>
+				<Settings class="h-5 w-5" />
+				<span>Settings</span>
+			</button>
+		</nav>
 
-		<!-- Main Navigation -->
-		<div class="flex-1 p-4">
-			<nav class="space-y-2">
-				<button
-					class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-				>
-					<Home class="h-5 w-5" />
-					<span>Dashboard</span>
-				</button>
+		<!-- Collapse Button (vertically centered, reactive) -->
 
-				<div class="border-t border-gray-200 pt-4">
-					<h3 class="mb-2 px-3 text-xs font-semibold tracking-wider text-gray-500 uppercase">
-						Project: Example
-					</h3>
-
-					<button
-						class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-					>
-						<Grid class="h-5 w-5" />
-						<span>Project Setup</span>
-					</button>
-				</div>
-			</nav>
-		</div>
-
-		<!-- Bottom Actions -->
-		<div class="border-t border-gray-200 p-4">
-			<div class="space-y-2">
-				<button
-					class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-				>
-					<HelpCircle class="h-5 w-5" />
-					<span>Help & Guide</span>
-				</button>
-
-				<button
-					class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-				>
-					<LogOut class="h-5 w-5" />
-					<span>Logout</span>
-				</button>
-			</div>
+		<!-- Footer -->
+		<div class="space-y-2 border-t border-gray-200 p-4">
+			<button
+				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+			>
+				<CircleQuestionMark class="h-5 w-5" />
+				<span>Help & Guide</span>
+			</button>
+			<button
+				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+			>
+				<LogOut class="h-5 w-5" />
+				<span>Logout</span>
+			</button>
 		</div>
 	</aside>
 {:else}
-	<!-- Collapsed state: small icon-only button -->
+	<!-- Collapsed Sidebar Toggle -->
 	<button
-		class="m-2 rounded-md p-2 hover:bg-gray-100 focus:outline-none"
+		class="fixed top-1/2 left-2 -translate-y-1/2 rounded-full border border-gray-200 bg-white p-2 shadow-sm transition-all duration-200 hover:bg-gray-100"
 		onclick={toggleSidebar}
 		aria-label="Open sidebar"
 	>
-		<ArrowRightFromLine class="h-5 w-5 text-gray-700" />
+		<ChevronRight class="h-5 w-5 text-gray-700" />
 	</button>
 {/if}
