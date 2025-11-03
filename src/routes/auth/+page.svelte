@@ -1,6 +1,15 @@
 <script lang="ts">
 	import { Lock } from 'lucide-svelte';
 	import LoginForm from '$lib/components/composed/forms/LoginForm.svelte';
+	import { fetchProjects } from '$lib/api/project';
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	onMount(async () => {
+		if ((await fetchProjects()) != null) {
+			goto('/projects', { replaceState: true });
+		}
+	});
 </script>
 
 <div class="flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8">

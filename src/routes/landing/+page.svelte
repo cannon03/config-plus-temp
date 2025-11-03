@@ -1,4 +1,5 @@
 <script>
+	import { goto } from '$app/navigation';
 	import { Lock, ArrowRight, CheckCircle } from 'lucide-svelte';
 </script>
 
@@ -23,7 +24,7 @@
 			<button
 				class="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
 				on:click={() => {
-					location.href = '/auth';
+					goto('/auth');
 				}}
 			>
 				Get Started

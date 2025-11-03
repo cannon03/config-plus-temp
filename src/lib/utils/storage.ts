@@ -5,7 +5,7 @@ export async function setUsername(username: string) {
 }
 
 export async function setUserId(userId: number) {
-	localStorage.setItem(USERID_KEY, userId);
+	localStorage.setItem(USERID_KEY, String(userId));
 }
 
 export async function setAccessToken(accessToken: string) {

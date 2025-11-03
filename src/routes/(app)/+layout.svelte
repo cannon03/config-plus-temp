@@ -3,8 +3,6 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import NavigationBar from '$lib/components/composed/navigationbar/NavigationBar.svelte';
 	import Sidebar from '$lib/components/composed/sidebar/Sidebar.svelte';
-
-	export const ssr = false;
 	let { children } = $props();
 </script>
 
@@ -24,7 +22,7 @@
 
 		<!-- Scrollable page content -->
 		<main class="flex-1 overflow-y-auto p-6">
-			{@render children?.()}
+			{@render children()}
 		</main>
 	</div>
 </div>

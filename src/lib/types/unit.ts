@@ -1,7 +1,8 @@
-export interface Unit{
-    id : number
-    name :string
-    keypadIds : Array<number>
-    loadIds : Array<number>
-    rcuIds : Array<number>
-}
+export type Unit = {
+	id: number;
+	name: string;
+	description: string;
+	created_at: string;
+	updated_at: string;
+	project: number;
+};
