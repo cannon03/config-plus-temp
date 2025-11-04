@@ -22,7 +22,7 @@
 	});
 
 	function handleViewUnit() {
-		goto(`/units/${unit.id}`);
+		goto(`/units/${unit.id}/dashboard`);
 	}
 </script>
 

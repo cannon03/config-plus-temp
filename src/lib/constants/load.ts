@@ -12,3 +12,13 @@ export const DRIVER_TYPES = {
 	constant_voltage: 'Constant Voltage',
 	dali: 'DALI'
 };
+
+export const LOAD_MODAL_TYPES = {
+	CREATE: 'CREATE A LOAD',
+	EDIT: 'EDIT A LOAD'
+};
+
+export const LOAD_DRIVER_REQUIRED_OPTIONS = {
+	Yes: true,
+	No: false
+};

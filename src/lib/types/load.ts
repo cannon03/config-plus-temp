@@ -16,25 +16,21 @@ export type LoadResponse = {
 	supply_materials: boolean;
 };
 
-type LoadRequestBase = {
+export type LoadRequestWithoutDriver = {
 	name: string;
 	description: string;
 	room: number;
 	load_type: string;
 	quantity: number;
 	wattage_per_unit: number;
+	driver_required: boolean;
 };
 
-export type LoadRequestWithoutDriver = LoadRequestBase & {
-	driver_required: false;
-};
-
-export type LoadRequestWithDriver = LoadRequestBase & {
-	driver_required: true;
+export type DriverInfo = {
 	driver_type: string;
-	loads_per_driver: number;
 	driver_model: string;
+	loads_per_driver: number;
 	supply_materials: boolean;
 };
 
-export type LoadRequest = LoadRequestWithDriver | LoadRequestWithoutDriver;
+export type LoadRequest = LoadRequestWithoutDriver & Partial<DriverInfo>;

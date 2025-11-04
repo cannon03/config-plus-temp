@@ -1,25 +1,54 @@
 <script lang="ts">
-	import type { LoadRequest, LoadResponse } from '$lib/types/load';
+	import type { DriverInfo, LoadRequestWithoutDriver, LoadResponse } from '$lib/types/load';
 	import type { RoomResponse } from '$lib/types/room';
-	import { DRIVER_TYPES, LOAD_TYPES } from '$lib/constants/load';
+	import { DRIVER_TYPES, LOAD_DRIVER_REQUIRED_OPTIONS, LOAD_TYPES } from '$lib/constants/load';
+	import Button from '$lib/components/base/Button.svelte';
+	import { Save } from 'lucide-svelte';
+	import { LOAD_MODAL_TYPES } from '$lib/constants/load';
+	import { createLoad, updateLoad } from '$lib/api/load';
+	import { RELOAD_TARGETS } from '$lib/constants/dashboard';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 
-	const { load, room }: { load?: LoadResponse; room: RoomResponse } = $props();
-	const loadRequest = $state<LoadRequest>({
+	let {
+		load,
+		room,
+		formType,
+		showModal = $bindable(false)
+	}: { load?: LoadResponse; room: RoomResponse; formType: string; showModal: boolean } = $props();
+	const loadRequest = $state<LoadRequestWithoutDriver>({
 		name: load?.name ?? '',
 		description: load?.description ?? '',
 		load_type: load?.load_type ?? '',
 		quantity: load?.quantity ?? 0,
 		wattage_per_unit: load?.wattage_per_unit ?? 0,
 		room: room.id,
-		driver_required: load?.driver_required ?? false,
+		driver_required: load?.driver_required ?? false
+	});
+
+	const driverInfo = $state<DriverInfo>({
 		driver_type: load?.driver_type ?? '',
 		driver_model: load?.driver_model ?? '',
 		loads_per_driver: load?.loads_per_driver ?? 0,
 		supply_materials: load?.supply_materials ?? false
 	});
+
+	async function handleSubmit(e: Event) {
+		e.preventDefault();
+		const payload = {
+			...loadRequest,
+			...(loadRequest.driver_required ? driverInfo : {})
+		};
+		if (formType === LOAD_MODAL_TYPES.CREATE) {
+			await createLoad(payload);
+		} else if (formType === LOAD_MODAL_TYPES.EDIT) {
+			await updateLoad(load!.id, payload);
+		}
+		showModal = false;
+	}
 </script>
 
-<form class="flex flex-col space-y-4">
+<form class="flex flex-col space-y-4" onsubmit={handleSubmit}>
 	<!-- ROOM AND NAME -->
 	<div class="grid grid-cols-2 gap-6">
 		<div class="flex flex-col">
@@ -27,7 +56,7 @@
 			<input
 				type="text"
 				id="room"
-				value={room.name}
+				bind:value={room.name}
 				disabled
 				class="mt-1 cursor-not-allowed rounded-lg border bg-gray-100 px-4 py-2 text-gray-600 shadow-sm"
 			/>
@@ -38,7 +67,7 @@
 				type="text"
 				name="name"
 				id="name"
-				value={loadRequest.name}
+				bind:value={loadRequest.name}
 				class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 			/>
 		</div>
@@ -51,7 +80,7 @@
 			<select
 				name="load_type"
 				id="load_type"
-				value={loadRequest.load_type}
+				bind:value={loadRequest.load_type}
 				class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 			>
 				{#each Object.entries(LOAD_TYPES) as [type, config]}
@@ -65,7 +94,7 @@
 				type="number"
 				name="quantity"
 				id="quantity"
-				value={loadRequest.quantity}
+				bind:value={loadRequest.quantity}
 				class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 			/>
 		</div>
@@ -81,7 +110,7 @@
 				type="number"
 				name="wattage_per_unit"
 				id="wattage_per_unit"
-				value={loadRequest.wattage_per_unit}
+				bind:value={loadRequest.wattage_per_unit}
 				class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 			/>
 		</div>
@@ -90,11 +119,12 @@
 			<select
 				name="driver_required"
 				id="driver_required"
-				value={loadRequest.driver_required}
+				bind:value={loadRequest.driver_required}
 				class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 			>
-				<option value={true}>Yes</option>
-				<option value={false}>No</option>
+				{#each Object.entries(LOAD_DRIVER_REQUIRED_OPTIONS) as [name, val]}
+					<option value={val}>{name}</option>
+				{/each}
 			</select>
 		</div>
 	</div>
@@ -106,7 +136,7 @@
 				<select
 					name="driver_type"
 					id="driver_type"
-					value={loadRequest.driver_type}
+					bind:value={driverInfo.driver_type}
 					class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 				>
 					{#each Object.entries(DRIVER_TYPES) as [type, name]}
@@ -122,7 +152,7 @@
 					type="number"
 					name="loads_per_driver"
 					id="loads_per_driver"
-					value={loadRequest.loads_per_driver}
+					bind:value={driverInfo.loads_per_driver}
 					class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 				/>
 			</div>
@@ -135,7 +165,7 @@
 					type="text"
 					name="driver_model"
 					id="driver_model"
-					value={loadRequest.driver_model}
+					bind:value={driverInfo.driver_model}
 					class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 				/>
 			</div>
@@ -146,7 +176,7 @@
 				<select
 					name="supply_materials"
 					id="supply_materials"
-					value={loadRequest.supply_materials}
+					bind:value={driverInfo.supply_materials}
 					class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 				>
 					<option value={true}>Yes</option>
@@ -162,8 +192,15 @@
 		<textarea
 			name="description"
 			id="description"
-			value={loadRequest.description}
+			bind:value={loadRequest.description}
 			class="mt-1 w-full rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 		></textarea>
+	</div>
+	<div class="flex justify-end">
+		<Button type="submit" variant="loadform"
+			>{formType === LOAD_MODAL_TYPES.CREATE ? 'Create' : 'Update'} Load <Save
+				class="h-4 w-4"
+			/></Button
+		>
 	</div>
 </form>

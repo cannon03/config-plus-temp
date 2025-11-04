@@ -5,9 +5,17 @@
 	import UnitActionsCard from '$lib/components/composed/cards/UnitActionsCard.svelte';
 	import { page } from '$app/state';
 	import { Expand, Minimize } from 'lucide-svelte';
-	import { TABS } from '$lib/constants/section.js';
+	import { RELOAD_TARGETS, TABS } from '$lib/constants/dashboard.js';
 	import { setContext } from 'svelte';
 	import { setDashboardContext } from '$lib/context/dashboard.js';
+	import { fetchUnit } from '$lib/api/unit';
+	import { fetchScenes } from '$lib/api/scene';
+	import { fetchRCUs } from '$lib/api/rcu';
+	import { fetchKeypads } from '$lib/api/keypad';
+	import { fetchLoads } from '$lib/api/load';
+	import { fetchRooms } from '$lib/api/room';
+	import { fetchZones } from '$lib/api/zone';
+	import { fetchDinModules } from '$lib/api/din_module';
 	let { children, params, data } = $props();
 
 	// helper to compute href
@@ -24,7 +32,67 @@
 		return current === target;
 	};
 
-	const ctx = setDashboardContext(data);
+	const ctx = $state(data);
+	setDashboardContext(ctx);
+
+	async function reload(type: string) {
+		switch (type) {
+			case RELOAD_TARGETS.LOADS: {
+				const all = await fetchLoads();
+				ctx.loads = all.filter((l) => ctx.rooms.some((r) => r.id === l.room));
+				console.log('LOADS', $state.snapshot(ctx.loads));
+				break;
+			}
+			case RELOAD_TARGETS.ROOMS: {
+				const all = await fetchRooms();
+				ctx.rooms = all.filter((r) => ctx.zones.some((z) => z.id === r.zone));
+				break;
+			}
+			case RELOAD_TARGETS.SCENES: {
+				const all = await fetchScenes();
+				ctx.scenes = all.filter((s) => s.unit === ctx.unit.id);
+				break;
+			}
+			case RELOAD_TARGETS.RCUS: {
+				const all = await fetchRCUs();
+				ctx.rcus = all.filter((r) => r.unit === ctx.unit.id);
+				break;
+			}
+			case RELOAD_TARGETS.ZONES: {
+				const all = await fetchZones();
+				ctx.zones = all.filter((z) => z.unit === ctx.unit.id);
+				break;
+			}
+			case RELOAD_TARGETS.KEYPADS: {
+				const all = await fetchKeypads();
+				ctx.keypads = all.filter((k) => ctx.rooms.some((r) => k.location_room === r.id));
+				break;
+			}
+			case RELOAD_TARGETS.DIN_MODULES: {
+				const all = await fetchDinModules();
+				ctx.din_modules = all.filter((d) => ctx.rcus.some((r) => d.rcu === r.id));
+				break;
+			}
+		}
+
+		// Notify dependents manually (safe — outside $effect)
+		// setDashboardContext(ctx);
+	}
+
+	$effect(() => {
+		function handler(e: Event) {
+			console.log('EVENT', e.type);
+			reload(e.type);
+		}
+
+		const targets = Object.values(RELOAD_TARGETS);
+
+		for (const event of targets) window.addEventListener(event, handler);
+
+		return () => {
+			for (const event of targets) window.removeEventListener(event, handler);
+		};
+	});
 
 	let expanded = $state(false);
 </script>
