@@ -16,10 +16,11 @@
 			px-4 py-2 text-sm font-medium text-black
 			shadow-sm hover:bg-white-700 focus:ring-2
 			focus:ring-gray-500 focus:ring-offset-2 focus:outline-none`,
-		loadform: `flex justify-between items-center rounded-md border border-transparent bg-blue-600 w-1/4
+		saveform: `flex justify-between gap-2 items-center rounded-md border border-transparent bg-blue-600 w-fit
 			px-4 py-2 text-sm font-medium text-white
 			shadow-sm hover:bg-blue-700 focus:ring-2
-			focus:ring-blue-500 focus:ring-offset-2 focus:outline-none`
+			focus:ring-blue-500 focus:ring-offset-2 focus:outline-none
+			hover:cursor-pointer`
 	} as const;
 
 	type Variant = keyof typeof variants;

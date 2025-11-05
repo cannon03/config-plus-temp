@@ -7,10 +7,17 @@
 	const { loads, room } = $props();
 	let showModal = $state(false);
 	let loadModalTitle = LOAD_MODAL_TYPES.CREATE;
+	let modalKey = $state(0);
+	function openModal() {
+		modalKey++;
+		showModal = true;
+	}
 </script>
 
 <Modal bind:showModal title={loadModalTitle}>
-	<LoadForm formType={loadModalTitle} {room} bind:showModal />
+	{#key modalKey}
+		<LoadForm formType={loadModalTitle} {room} bind:showModal />
+	{/key}
 </Modal>
 
 <div class="rounded-lg border border-gray-200">
@@ -27,9 +34,7 @@
 			</span>
 
 			<button
-				onclick={() => {
-					showModal = true;
-				}}
+				onclick={() => openModal()}
 				class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
 			>
 				<Plus class="mr-1 h-3 w-3" />

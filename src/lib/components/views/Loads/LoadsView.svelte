@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LoadsList from '$lib/components/composed/lists/LoadsList.svelte';
+	import LoadsList from '$lib/components/composed/lists/LoadList.svelte';
 	import { getDashboardContext } from '$lib/context/dashboard';
 	import { getRoomLoads } from '$lib/utils/filter';
 	import { MapPin, Plus } from 'lucide-svelte';

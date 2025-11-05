@@ -42,7 +42,7 @@ export async function deleteLoad(id: number) {
 
 export async function updateLoad(id: number, loadrequest: LoadRequest) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
-		method: 'PUT',
+		method: 'PATCH',
 		headers: API_AUTH_HEADERS,
 		body: JSON.stringify(loadrequest)
 	});

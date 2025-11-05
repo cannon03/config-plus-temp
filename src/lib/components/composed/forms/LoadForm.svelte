@@ -197,7 +197,7 @@
 		></textarea>
 	</div>
 	<div class="flex justify-end">
-		<Button type="submit" variant="loadform"
+		<Button type="submit" variant="saveform"
 			>{formType === LOAD_MODAL_TYPES.CREATE ? 'Create' : 'Update'} Load <Save
 				class="h-4 w-4"
 			/></Button

@@ -1,0 +1,4 @@
+export const ZONE_FORM_TYPES = {
+	CREATE: 'CREATE A ZONE',
+	EDIT: 'EDIT A ZONE'
+};

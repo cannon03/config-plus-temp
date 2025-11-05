@@ -15,5 +15,6 @@ export const RELOAD_TARGETS = {
 	SCENES: 'reload:scenes',
 	RCUS: 'reload:rcus',
 	KEYPADS: 'reload:keypads',
-	DIN_MODULES: 'reload:din_modules'
+	DIN_MODULES: 'reload:din_modules',
+	CHANNELS: 'reload:channels'
 };

@@ -8,6 +8,7 @@ import { fetchZones } from '$lib/api/zone';
 import { fetchDinModules } from '$lib/api/din_module';
 import type { LayoutLoad } from './$types';
 import type { DashboardContext } from '$lib/types/dashboard';
+import { fetchChannels } from '$lib/api/channel';
 
 export const load: LayoutLoad = async ({ params }) => {
 	const unit = await fetchUnit(Number(params.id));
@@ -38,6 +39,8 @@ export const load: LayoutLoad = async ({ params }) => {
 		rcus.some((rcu) => din_module.rcu == rcu.id)
 	);
 
+	const allChannels = await fetchChannels();
+	const channels = allChannels.filter((channel) => loads.some((load) => load.id == channel.load));
 	const ctx = <DashboardContext>{
 		unit: unit,
 		scenes: scenes,
@@ -46,7 +49,8 @@ export const load: LayoutLoad = async ({ params }) => {
 		loads: loads,
 		zones: zones,
 		rooms: rooms,
-		din_modules: din_modules
+		dinModules: din_modules,
+		channels: channels
 	};
 
 	return ctx;

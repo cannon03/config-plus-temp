@@ -1,7 +1,8 @@
 import { API_AUTH_HEADERS, API_BASE } from '$lib/constants/api';
-import type { RoomResponse } from '$lib/types/room';
+import { RELOAD_TARGETS } from '$lib/constants/dashboard';
+import type { RoomRequest, RoomResponse } from '$lib/types/room';
 
-const PATH = '/api/rooms';
+const PATH = '/api/rooms/';
 
 export async function fetchRooms() {
 	const response = await fetch(`${API_BASE}${PATH}`, {
@@ -13,4 +14,43 @@ export async function fetchRooms() {
 		return body as Array<RoomResponse>;
 	}
 	throw Error(`Unable to fetch rooms: ${body}`);
+}
+
+export async function createRoom(roomRequest: RoomRequest) {
+	const response = await fetch(`${API_BASE}${PATH}`, {
+		method: 'POST',
+		headers: API_AUTH_HEADERS,
+		body: JSON.stringify(roomRequest)
+	});
+	const body = await response.json();
+	if (response.ok) {
+		window.dispatchEvent(new Event(RELOAD_TARGETS.ROOMS));
+		return body as RoomResponse;
+	}
+	throw Error(`Unable to create room: ${body}`);
+}
+
+export async function deleteRoom(id: number) {
+	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
+		method: 'DELETE',
+		headers: API_AUTH_HEADERS
+	});
+	if (!response.ok) {
+		throw Error(`Unable to delete room: ${response.statusText}`);
+	}
+	window.dispatchEvent(new Event(RELOAD_TARGETS.ROOMS));
+}
+
+export async function updateRoom(id: number, roomRequest: RoomRequest) {
+	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
+		method: 'PATCH',
+		headers: API_AUTH_HEADERS,
+		body: JSON.stringify(roomRequest)
+	});
+	const body = await response.json();
+	if (response.ok) {
+		window.dispatchEvent(new Event(RELOAD_TARGETS.ROOMS));
+		return body as RoomResponse;
+	}
+	throw Error(`Unable to update room: ${body}`);
 }

@@ -1,9 +1,11 @@
+import type { LOAD_TYPES } from '$lib/constants/load';
+
 export type LoadResponse = {
 	id: number;
 	name: string;
 	description: string;
 	room: number;
-	load_type: string;
+	load_type: LOAD_TYPE_KEY;
 	quantity: number;
 	wattage_per_unit: number;
 	total_wattage: number;
@@ -34,3 +36,5 @@ export type DriverInfo = {
 };
 
 export type LoadRequest = LoadRequestWithoutDriver & Partial<DriverInfo>;
+
+export type LOAD_TYPE_KEY = keyof typeof LOAD_TYPES;

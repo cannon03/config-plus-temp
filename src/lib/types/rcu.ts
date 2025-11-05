@@ -4,3 +4,9 @@ export type RCUResponse = {
 	channel_count: number;
 	unit: number;
 };
+
+export type RCURequest = {
+	name: string;
+	channel_count: number;
+	unit: number;
+};

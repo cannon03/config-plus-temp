@@ -1,3 +1,4 @@
+import type { ChannelResponse } from './channel';
 import type { DinModuleResponse } from './din_module';
 import type { KeypadResponse } from './keypad';
 import type { LoadResponse } from './load';
@@ -15,5 +16,6 @@ export type DashboardContext = {
 	loads: Array<LoadResponse>;
 	zones: Array<ZoneResponse>;
 	rooms: Array<RoomResponse>;
-	din_modules: Array<DinModuleResponse>;
+	dinModules: Array<DinModuleResponse>;
+	channels: Array<ChannelResponse>;
 };

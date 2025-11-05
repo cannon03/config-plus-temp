@@ -3,3 +3,8 @@ export type ZoneResponse = {
 	name: string;
 	unit: number;
 };
+
+export type ZoneRequest = {
+	name: string;
+	unit: number;
+};

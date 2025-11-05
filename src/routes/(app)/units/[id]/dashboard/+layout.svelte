@@ -16,6 +16,7 @@
 	import { fetchRooms } from '$lib/api/room';
 	import { fetchZones } from '$lib/api/zone';
 	import { fetchDinModules } from '$lib/api/din_module';
+	import { fetchChannels } from '$lib/api/channel';
 	let { children, params, data } = $props();
 
 	// helper to compute href
@@ -35,17 +36,42 @@
 	const ctx = $state(data);
 	setDashboardContext(ctx);
 
+	async function refetchLoads() {
+		const all = await fetchLoads();
+		ctx.loads = all.filter((l) => ctx.rooms.some((r) => r.id === l.room));
+	}
+
+	async function refetchRooms() {
+		const all = await fetchRooms();
+		ctx.rooms = all.filter((r) => ctx.zones.some((z) => z.id === r.zone));
+	}
+
+	async function refetchZones() {
+		const all = await fetchZones();
+		ctx.zones = all.filter((z) => z.unit === ctx.unit.id);
+	}
+
+	async function refetchKeypads() {
+		const all = await fetchKeypads();
+		ctx.keypads = all.filter((k) => ctx.rooms.some((r) => k.location_room === r.id));
+	}
+
+	async function refetchChannels() {
+		const all = await fetchChannels();
+		ctx.channels = all.filter((channel) => ctx.loads.some((l) => l.id == channel.load));
+		console.log($state.snapshot(ctx.channels));
+	}
+
 	async function reload(type: string) {
 		switch (type) {
 			case RELOAD_TARGETS.LOADS: {
-				const all = await fetchLoads();
-				ctx.loads = all.filter((l) => ctx.rooms.some((r) => r.id === l.room));
-				console.log('LOADS', $state.snapshot(ctx.loads));
+				await refetchLoads();
 				break;
 			}
 			case RELOAD_TARGETS.ROOMS: {
-				const all = await fetchRooms();
-				ctx.rooms = all.filter((r) => ctx.zones.some((z) => z.id === r.zone));
+				await refetchRooms();
+				await refetchLoads();
+				await refetchKeypads();
 				break;
 			}
 			case RELOAD_TARGETS.SCENES: {
@@ -59,24 +85,27 @@
 				break;
 			}
 			case RELOAD_TARGETS.ZONES: {
-				const all = await fetchZones();
-				ctx.zones = all.filter((z) => z.unit === ctx.unit.id);
+				console.log('REFETCHING ZONES');
+				await refetchZones();
+				await refetchRooms();
+				await refetchLoads();
+				await refetchKeypads();
 				break;
 			}
 			case RELOAD_TARGETS.KEYPADS: {
-				const all = await fetchKeypads();
-				ctx.keypads = all.filter((k) => ctx.rooms.some((r) => k.location_room === r.id));
+				await refetchKeypads();
 				break;
 			}
 			case RELOAD_TARGETS.DIN_MODULES: {
 				const all = await fetchDinModules();
-				ctx.din_modules = all.filter((d) => ctx.rcus.some((r) => d.rcu === r.id));
+				ctx.dinModules = all.filter((d) => ctx.rcus.some((r) => d.rcu === r.id));
+				break;
+			}
+			case RELOAD_TARGETS.CHANNELS: {
+				refetchChannels();
 				break;
 			}
 		}
-
-		// Notify dependents manually (safe — outside $effect)
-		// setDashboardContext(ctx);
 	}
 
 	$effect(() => {
@@ -114,16 +143,13 @@
 			num_rcus={data.rcus.length}
 			num_keypads={data.keypads.length}
 			num_loads={data.loads.length}
-			num_dinModules={data.din_modules.length}
+			num_dinModules={data.dinModules.length}
 		/>
 
 		<UnitActionsCard />
 	</div>
-	<script lang="ts">
-		let expanded = false;
-	</script>
 	<div
-		class={`mt-8 rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300
+		class={`mt-8 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300
 		${expanded ? 'fixed inset-0 z-50 m-6 rounded-2xl shadow-2xl' : ''}`}
 	>
 		<!-- Tabs -->

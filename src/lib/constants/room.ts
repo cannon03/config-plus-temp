@@ -1,0 +1,4 @@
+export const ROOM_FORM_TYPES = {
+	CREATE: 'CREATE A ROOM',
+	EDIT: 'EDIT A ROOM'
+};
