@@ -1,4 +1,8 @@
 <script lang="ts">
+	import { page } from '$app/state';
+	import { fetchProjects } from '$lib/api/project';
+	import Button from '$lib/components/base/Button.svelte';
+	import { fetchUnits } from '$lib/api/unit';
 	import {
 		LayoutDashboard,
 		MonitorSmartphone,
@@ -9,10 +13,33 @@
 		ChevronRight,
 		CircleQuestionMark
 	} from 'lucide-svelte';
+	import { goto } from '$app/navigation';
 
 	let sidebarOpen = $state(true);
 	function toggleSidebar() {
 		sidebarOpen = !sidebarOpen;
+	}
+	console.log('PAGE', $state.snapshot(page.url.pathname));
+
+	const pathName = $derived(page.url.pathname);
+
+	const isUnits = $derived.by(() => pathName.startsWith('/units'));
+	const isProjects = $derived.by(() => pathName.startsWith('/projects'));
+
+	async function navigateToProjectUnits() {
+		const UnitId = Number(page.params.id);
+		const units = await fetchUnits();
+		const thisUnit = units.find((unit) => unit.id == UnitId);
+		const projects = await fetchProjects();
+		const project = projects.find((project) => project.id == thisUnit?.project);
+
+		if (project) {
+			goto(`/projects/${project.id}`);
+		}
+	}
+
+	async function navigateToAllProjects() {
+		goto('/projects');
 	}
 </script>
 
@@ -31,11 +58,11 @@
 		</div>
 		<!-- Navigation -->
 		<nav class="flex flex-1 flex-col justify-start space-y-2 p-4">
-			<button
+			<!-- <button
 				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
 			>
 				<LayoutDashboard class="h-5 w-5" />
-				<span>Dashboard</span>
+				<span>Units</span>
 			</button>
 			<button
 				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
@@ -54,7 +81,25 @@
 			>
 				<Settings class="h-5 w-5" />
 				<span>Settings</span>
-			</button>
+			</button> -->
+
+			{#if isUnits}
+				<Button variant="sidebar" onclick={navigateToProjectUnits}>
+					<LayoutDashboard class="h-5 w-5" />
+					<span>Units</span>
+				</Button>
+			{:else if isProjects}
+				<Button variant="sidebar" onclick={navigateToAllProjects}>
+					<LayoutDashboard class="h-5 w-5" />
+					<span>Projects</span>
+				</Button>
+				<button
+					class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+				>
+					<MonitorSmartphone class="h-5 w-5" />
+					<span>Devices</span>
+				</button>
+			{/if}
 		</nav>
 
 		<!-- Collapse Button (vertically centered, reactive) -->

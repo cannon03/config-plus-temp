@@ -20,7 +20,8 @@
 			px-4 py-2 text-sm font-medium text-white
 			shadow-sm hover:bg-blue-700 focus:ring-2
 			focus:ring-blue-500 focus:ring-offset-2 focus:outline-none
-			hover:cursor-pointer`
+			hover:cursor-pointer`,
+		sidebar: `flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:cursor-pointer`
 	} as const;
 
 	type Variant = keyof typeof variants;

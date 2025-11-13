@@ -1,5 +1,45 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
+	import { fetchProjects } from '$lib/api/project';
+	import type { Project } from '$lib/types/project';
+	import type { Unit } from '$lib/types/unit';
 	import { TreePine, ChevronRight } from 'lucide-svelte';
+	import { fetchUnits } from '$lib/api/unit';
+
+	const pathName = $derived(page.route.id);
+
+	const isUnits = $derived.by(() => pathName?.startsWith('/(app)/units/[id]'));
+	const isProjects = $derived.by(() => pathName?.startsWith('/(app)/projects/[id]'));
+
+	let thisProject: Project | undefined = $state();
+	let thisUnit: Unit | undefined = $state();
+
+	async function setProjectThroughParams() {
+		const allProjects = await fetchProjects();
+		thisProject = allProjects.find((project) => project.id === Number(page.params.id));
+	}
+
+	async function setProjectThroughUnit() {
+		const allProjects = await fetchProjects();
+		thisProject = allProjects.find((project) => project.id === thisUnit!.project);
+	}
+
+	async function setUnit() {
+		const allUnits = await fetchUnits();
+		thisUnit = allUnits.find((unit) => unit.id === Number(page.params.id));
+	}
+
+	$effect(() => {
+		console.log('PAGE', $state.snapshot(page));
+		if (isProjects) {
+			setProjectThroughParams();
+		}
+		if (isUnits) {
+			setUnit();
+			setProjectThroughUnit();
+		}
+	});
 </script>
 
 <nav class="border-b border-gray-200 bg-white shadow-sm">
@@ -18,9 +58,27 @@
 
 			<!-- Breadcrumb (Center) -->
 			<div class="flex items-center justify-center space-x-2 text-sm text-gray-500">
-				<span class="cursor-pointer hover:text-gray-700 hover:underline">Dashboard</span>
-				<ChevronRight class="h-4 w-4" />
-				<span class="font-medium text-gray-700">Project Name</span>
+				<button
+					onclick={() => goto('/projects')}
+					class="cursor-pointer hover:text-gray-700 hover:underline">Dashboard</button
+				>
+				{#if (isProjects && thisProject) || (isUnits && thisProject)}
+					{@const projectId = thisProject.id}
+					<ChevronRight class="h-4 w-4" />
+					<button
+						class="cursor-pointer hover:text-gray-700 hover:underline"
+						onclick={() => goto(`/projects/${projectId}`)}>{thisProject.name}</button
+					>
+				{/if}
+
+				{#if isUnits && thisUnit}
+					{@const unitId = thisUnit.id}
+					<ChevronRight class="h-4 w-4" />
+					<button
+						class="cursor-pointer hover:text-gray-700 hover:underline"
+						onclick={() => goto(`/units/${unitId}/dashboard`)}>{thisUnit.name}</button
+					>
+				{/if}
 			</div>
 
 			<!-- Empty Right (for balance or future items like profile/settings) -->
