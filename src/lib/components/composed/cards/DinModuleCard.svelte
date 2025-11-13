@@ -6,7 +6,7 @@
 	import type { DinModuleResponse } from '$lib/types/din_module';
 	import type { ChannelResponse } from '$lib/types/channel';
 	import type { LoadResponse } from '$lib/types/load';
-	import Modal from '../dialogs/Modal.svelte';
+	import Modal from '../modals/Modal.svelte';
 	import { deleteDinModule } from '$lib/api/din_module';
 	import { getChannelsForModule } from '$lib/utils/filter';
 	import MapChannelForm from '../forms/MapChannelForm.svelte';

@@ -1,3 +1,5 @@
+import type { SCENE_FORM_CONTROL_SCOPES, SCENE_PRESETS } from '$lib/constants/scene';
+
 export type SceneResponse = {
 	id: number;
 	project: {
@@ -12,3 +14,16 @@ export type SceneResponse = {
 	updated_at: string;
 	unit: number;
 };
+
+export type SceneRequest = {
+	unit: number;
+	name: string;
+	scope: string;
+	scope_id: number;
+	priority: number;
+};
+
+export type SceneFormControlScopeValue =
+	(typeof SCENE_FORM_CONTROL_SCOPES)[keyof typeof SCENE_FORM_CONTROL_SCOPES]['value'];
+
+export type ScenePreset = (typeof SCENE_PRESETS)[keyof typeof SCENE_PRESETS];

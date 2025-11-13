@@ -3,7 +3,7 @@
 	import type { LoadResponse } from '$lib/types/load';
 	import type { RoomResponse } from '$lib/types/room';
 	import { LOAD_MODAL_TYPES } from '$lib/constants/load';
-	import Modal from '../dialogs/Modal.svelte';
+	import Modal from '../modals/Modal.svelte';
 	import LoadForm from '../forms/LoadForm.svelte';
 	import { deleteLoad } from '$lib/api/load';
 	import { RELOAD_TARGETS } from '$lib/constants/dashboard';

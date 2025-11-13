@@ -2,7 +2,7 @@
 	import { MapPin, Eye, Trash2, Pencil } from 'lucide-svelte';
 	import type { RoomResponse } from '$lib/types/room';
 	import { deleteRoom } from '$lib/api/room';
-	import Modal from '../dialogs/Modal.svelte';
+	import Modal from '../modals/Modal.svelte';
 	import { ROOM_FORM_TYPES } from '$lib/constants/room';
 	import RoomForm from '../forms/RoomForm.svelte';
 	import type { ZoneResponse } from '$lib/types/zone';

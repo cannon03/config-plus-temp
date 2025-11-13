@@ -4,7 +4,7 @@
 	import ZoneCard from '$lib/components/composed/cards/ZoneCard.svelte';
 	import type { ZoneResponse } from '$lib/types/zone';
 	import type { RoomResponse } from '$lib/types/room';
-	import Modal from '../dialogs/Modal.svelte';
+	import Modal from '../modals/Modal.svelte';
 	import ZoneForm from '../forms/ZoneForm.svelte';
 	import { ZONE_FORM_TYPES } from '$lib/constants/zone';
 	import { getZoneRooms } from '$lib/utils/filter';

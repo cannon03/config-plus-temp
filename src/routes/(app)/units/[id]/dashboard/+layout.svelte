@@ -5,10 +5,8 @@
 	import UnitActionsCard from '$lib/components/composed/cards/UnitActionsCard.svelte';
 	import { page } from '$app/state';
 	import { Expand, Minimize } from 'lucide-svelte';
-	import { RELOAD_TARGETS, TABS } from '$lib/constants/dashboard.js';
-	import { setContext } from 'svelte';
+	import { DASHBOARD_TABS, RELOAD_TARGETS } from '$lib/constants/dashboard.js';
 	import { setDashboardContext } from '$lib/context/dashboard.js';
-	import { fetchUnit } from '$lib/api/unit';
 	import { fetchScenes } from '$lib/api/scene';
 	import { fetchRCUs } from '$lib/api/rcu';
 	import { fetchKeypads } from '$lib/api/keypad';
@@ -17,6 +15,9 @@
 	import { fetchZones } from '$lib/api/zone';
 	import { fetchDinModules } from '$lib/api/din_module';
 	import { fetchChannels } from '$lib/api/channel';
+	import { fetchKeypadKeys } from '$lib/api/keypadkey.js';
+	import { fetchKeypadKeyActions } from '$lib/api/key_action.js';
+	import { fetchSceneLoads } from '$lib/api/scene_load.js';
 	let { children, params, data } = $props();
 
 	// helper to compute href
@@ -54,12 +55,34 @@
 	async function refetchKeypads() {
 		const all = await fetchKeypads();
 		ctx.keypads = all.filter((k) => ctx.rooms.some((r) => k.location_room === r.id));
+		const allKeys = await fetchKeypadKeys();
+		ctx.keypadKeys = allKeys.filter((k) => ctx.keypads.some((kp) => kp.id == k.keypad));
 	}
 
 	async function refetchChannels() {
 		const all = await fetchChannels();
 		ctx.channels = all.filter((channel) => ctx.loads.some((l) => l.id == channel.load));
 		console.log($state.snapshot(ctx.channels));
+	}
+
+	async function refetchKeypadKeys() {
+		const all = await fetchKeypadKeys();
+		ctx.keypadKeys = all.filter((k) => ctx.keypads.some((kp) => kp.id == k.keypad));
+	}
+
+	async function refetchKeyActions() {
+		const all = await fetchKeypadKeyActions();
+		ctx.keyActions = all.filter((ka) => ctx.keypadKeys.some((k) => k.id == ka.key));
+	}
+
+	async function refetchScenes() {
+		const all = await fetchScenes();
+		ctx.scenes = all.filter((s) => s.unit === ctx.unit.id);
+	}
+
+	async function refetchSceneLoads() {
+		const all = await fetchSceneLoads();
+		ctx.sceneLoads = all.filter((sl) => ctx.scenes.some((s) => s.id == sl.scene));
 	}
 
 	async function reload(type: string) {
@@ -75,8 +98,7 @@
 				break;
 			}
 			case RELOAD_TARGETS.SCENES: {
-				const all = await fetchScenes();
-				ctx.scenes = all.filter((s) => s.unit === ctx.unit.id);
+				refetchScenes();
 				break;
 			}
 			case RELOAD_TARGETS.RCUS: {
@@ -103,6 +125,19 @@
 			}
 			case RELOAD_TARGETS.CHANNELS: {
 				refetchChannels();
+				break;
+			}
+			case RELOAD_TARGETS.KEYPAD_KEYS: {
+				refetchKeypadKeys();
+				break;
+			}
+
+			case RELOAD_TARGETS.KEY_ACTIONS: {
+				refetchKeyActions();
+				break;
+			}
+			case RELOAD_TARGETS.SCENE_LOADS: {
+				refetchSceneLoads();
 				break;
 			}
 		}
@@ -155,7 +190,7 @@
 		<!-- Tabs -->
 		<nav class="flex items-center justify-between border-b border-gray-200 bg-white">
 			<ul class="flex flex-wrap gap-1 px-4 pt-3 text-sm font-medium text-gray-600">
-				{#each TABS as tab}
+				{#each DASHBOARD_TABS as tab}
 					{@const SectionIcon = tab.icon}
 					<li>
 						<a

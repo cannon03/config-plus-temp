@@ -9,6 +9,9 @@ import { fetchDinModules } from '$lib/api/din_module';
 import type { LayoutLoad } from './$types';
 import type { DashboardContext } from '$lib/types/dashboard';
 import { fetchChannels } from '$lib/api/channel';
+import { fetchKeypadKeys } from '$lib/api/keypadkey';
+import { fetchSceneLoads } from '$lib/api/scene_load';
+import { fetchKeypadKeyActions } from '$lib/api/key_action';
 
 export const load: LayoutLoad = async ({ params }) => {
 	const unit = await fetchUnit(Number(params.id));
@@ -41,6 +44,21 @@ export const load: LayoutLoad = async ({ params }) => {
 
 	const allChannels = await fetchChannels();
 	const channels = allChannels.filter((channel) => loads.some((load) => load.id == channel.load));
+
+	const allKeypadKeys = await fetchKeypadKeys();
+	const keypadKeys = allKeypadKeys.filter((keypadKey) =>
+		keypads.some((keypad) => keypad.id == keypadKey.keypad)
+	);
+
+	const allKeypadKeyActions = await fetchKeypadKeyActions();
+	const keypadKeyActions = allKeypadKeyActions.filter((keyAction) =>
+		keypadKeys.some((key) => key.id == keyAction.key)
+	);
+
+	const allSceneLoads = await fetchSceneLoads();
+	const sceneLoads = allSceneLoads.filter((sceneLoad) =>
+		scenes.some((scene) => scene.id == sceneLoad.scene)
+	);
 	const ctx = <DashboardContext>{
 		unit: unit,
 		scenes: scenes,
@@ -50,7 +68,10 @@ export const load: LayoutLoad = async ({ params }) => {
 		zones: zones,
 		rooms: rooms,
 		dinModules: din_modules,
-		channels: channels
+		channels: channels,
+		keypadKeys: keypadKeys,
+		keyActions: keypadKeyActions,
+		sceneLoads: sceneLoads
 	};
 
 	return ctx;

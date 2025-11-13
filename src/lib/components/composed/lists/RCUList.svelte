@@ -2,7 +2,7 @@
 	import { getDashboardContext } from '$lib/context/dashboard';
 	import { Cpu, Plus } from 'lucide-svelte';
 	import RCUCard from '$lib/components/composed/cards/RCUCard.svelte';
-	import Modal from '../dialogs/Modal.svelte';
+	import Modal from '../modals/Modal.svelte';
 	import RCUForm from '../forms/RCUForm.svelte';
 	import { RCU_FORM_TYPES } from '$lib/constants/rcu';
 

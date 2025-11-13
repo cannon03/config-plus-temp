@@ -3,7 +3,7 @@
 	import { getChannelsForRCU, getDinModulesForRCU } from '$lib/utils/filter';
 	import MappedChannelList from '$lib/components/composed/lists/MappedChannelList.svelte';
 	import DinModuleList from '$lib/components/composed/lists/DinModuleList.svelte';
-	import Modal from '../dialogs/Modal.svelte';
+	import Modal from '../modals/Modal.svelte';
 	import { deleteRCU } from '$lib/api/rcu';
 	import RCUForm from '../forms/RCUForm.svelte';
 	import { RCU_FORM_TYPES } from '$lib/constants/rcu';

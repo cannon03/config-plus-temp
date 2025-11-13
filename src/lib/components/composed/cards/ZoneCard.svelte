@@ -3,7 +3,7 @@
 	import RoomList from '$lib/components/composed/lists/RoomList.svelte';
 	import type { ZoneResponse } from '$lib/types/zone';
 	import type { RoomResponse } from '$lib/types/room';
-	import Modal from '../dialogs/Modal.svelte';
+	import Modal from '../modals/Modal.svelte';
 	import { deleteZone } from '$lib/api/zone';
 	import { ROOM_FORM_TYPES } from '$lib/constants/room';
 	import RoomForm from '../forms/RoomForm.svelte';

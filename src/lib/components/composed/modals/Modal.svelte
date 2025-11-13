@@ -1,13 +1,23 @@
-<script>
+<script lang="ts">
 	import { X } from 'lucide-svelte';
 
-	let { showModal = $bindable(), title, children } = $props();
+	let {
+		showModal = $bindable(),
+		title,
+		onClosed,
+		children
+	}: {
+		showModal: boolean;
+		title: string;
+		onClosed?: () => void;
+		children: () => any;
+	} = $props();
 
-	let dialog = $state(); // HTMLDialogElement
+	let dialog: HTMLDialogElement | undefined = $state(); // HTMLDialogElement
 
 	$effect(() => {
-		if (showModal) dialog.showModal();
-		else dialog.close();
+		if (showModal) dialog?.showModal();
+		else dialog?.close();
 	});
 </script>
 
@@ -15,7 +25,10 @@
 <dialog
 	class="m-auto rounded-lg bg-white p-6 shadow-lg"
 	bind:this={dialog}
-	onclose={() => (showModal = false)}
+	onclose={() => {
+		showModal = false;
+		onClosed?.();
+	}}
 	onclick={(e) => {
 		if (e.target === dialog) dialog.close();
 	}}
@@ -23,7 +36,7 @@
 	<div class="flex flex-col gap-4">
 		<h2 class="flex justify-between">
 			{title}
-			<button class="hover:cursor-pointer" onclick={() => dialog.close()}
+			<button class="hover:cursor-pointer" onclick={() => dialog?.close()}
 				><X class="h-5 w-5" /></button
 			>
 		</h2>

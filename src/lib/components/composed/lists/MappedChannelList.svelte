@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Link, Trash2 } from 'lucide-svelte';
 	import { findLoadName } from '$lib/utils/filter';
-	import Modal from '../dialogs/Modal.svelte';
+	import Modal from '../modals/Modal.svelte';
 	import { deleteChannel } from '$lib/api/channel';
 
 	const { channels, loads } = $props();

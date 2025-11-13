@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Trash2, Lightbulb, Pencil, MapPin, Plus } from 'lucide-svelte';
-	import Modal from '../dialogs/Modal.svelte';
+	import Modal from '../modals/Modal.svelte';
 	import { LOAD_MODAL_TYPES } from '$lib/constants/load';
 	import LoadForm from '../forms/LoadForm.svelte';
 	import LoadCard from '../cards/LoadCard.svelte';
