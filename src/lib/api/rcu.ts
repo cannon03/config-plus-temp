@@ -1,4 +1,4 @@
-import { API_AUTH_HEADERS, API_BASE } from '$lib/constants/api';
+import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 import { RELOAD_TARGETS } from '$lib/constants/dashboard';
 import type { RCURequest, RCUResponse } from '$lib/types/rcu';
 
@@ -7,7 +7,7 @@ const PATH = '/api/rcus/';
 export async function fetchRCUs() {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'GET',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 
 	const body = await response.json();
@@ -21,7 +21,7 @@ export async function fetchRCUs() {
 export async function createRCU(rcuRequest: RCURequest) {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'POST',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(rcuRequest)
 	});
 	const body = await response.json();
@@ -35,7 +35,7 @@ export async function createRCU(rcuRequest: RCURequest) {
 export async function deleteRCU(id: number) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'DELETE',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	if (!response.ok) {
 		throw Error(`Unable to delete rcu: ${response.statusText}`);
@@ -46,7 +46,7 @@ export async function deleteRCU(id: number) {
 export async function updateRCU(id: number, rcuRequest: RCURequest) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'PATCH',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(rcuRequest)
 	});
 	const body = await response.json();

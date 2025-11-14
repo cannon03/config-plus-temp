@@ -1,4 +1,4 @@
-import { API_AUTH_HEADERS, API_BASE } from '$lib/constants/api';
+import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 import { RELOAD_TARGETS } from '$lib/constants/dashboard';
 import type { KeypadRequest, KeypadResponse } from '$lib/types/keypad';
 
@@ -7,7 +7,7 @@ const PATH = '/api/keypads/';
 export async function fetchKeypads() {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'GET',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	const body = await response.json();
 	if (response.ok) {
@@ -19,7 +19,7 @@ export async function fetchKeypads() {
 export async function createKeypad(keypadRequest: KeypadRequest) {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'POST',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(keypadRequest)
 	});
 	const body = await response.json();
@@ -33,7 +33,7 @@ export async function createKeypad(keypadRequest: KeypadRequest) {
 export async function deleteKeypad(id: number) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'DELETE',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	if (!response.ok) {
 		throw Error(`Unable to delete keypad: ${response.statusText}`);

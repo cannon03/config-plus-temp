@@ -1,4 +1,4 @@
-import { API_AUTH_HEADERS, API_BASE } from '$lib/constants/api';
+import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 import { RELOAD_TARGETS } from '$lib/constants/dashboard';
 import type { SceneLoadRequest, SceneLoadResponse } from '$lib/types/scene_load';
 
@@ -7,7 +7,7 @@ const PATH = '/api/scene_loads/';
 export async function fetchSceneLoads() {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'GET',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	const body = await response.json();
 	if (response.ok) {
@@ -19,7 +19,7 @@ export async function fetchSceneLoads() {
 export async function createSceneLoad(sceneLoadRequest: SceneLoadRequest) {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'POST',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(sceneLoadRequest)
 	});
 	const body = await response.json();

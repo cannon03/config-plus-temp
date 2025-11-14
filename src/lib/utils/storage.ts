@@ -1,6 +1,6 @@
 import { ACCESS_TOKEN_KEY, USERID_KEY, USERNAME_KEY } from '$lib/constants/storage';
 
-export async function setUsername(username: string) {
+export function setUsername(username: string) {
 	localStorage.setItem(USERNAME_KEY, username);
 }
 
@@ -8,7 +8,7 @@ export async function setUserId(userId: number) {
 	localStorage.setItem(USERID_KEY, String(userId));
 }
 
-export async function setAccessToken(accessToken: string) {
+export function setAccessToken(accessToken: string) {
 	localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
 }
 

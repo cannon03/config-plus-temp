@@ -1,4 +1,4 @@
-import { API_AUTH_HEADERS, API_BASE } from '$lib/constants/api';
+import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 import { RELOAD_TARGETS } from '$lib/constants/dashboard';
 import type { DinModuleRequest, DinModuleResponse } from '$lib/types/din_module';
 
@@ -7,7 +7,7 @@ const PATH = '/api/dinmodules/';
 export async function fetchDinModules() {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'GET',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	const body = await response.json();
 	if (response.ok) {
@@ -19,7 +19,7 @@ export async function fetchDinModules() {
 export async function createDinModule(dinModuleRequest: DinModuleRequest) {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'POST',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(dinModuleRequest)
 	});
 	const body = await response.json();
@@ -33,7 +33,7 @@ export async function createDinModule(dinModuleRequest: DinModuleRequest) {
 export async function deleteDinModule(id: number) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'DELETE',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	if (!response.ok) {
 		throw Error(`Unable to delete din module: ${response.statusText}`);
@@ -44,7 +44,7 @@ export async function deleteDinModule(id: number) {
 export async function updateDinModule(id: number, dinModuleRequest: DinModuleRequest) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'PATCH',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(dinModuleRequest)
 	});
 	const body = await response.json();

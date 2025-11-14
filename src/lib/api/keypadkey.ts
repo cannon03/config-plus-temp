@@ -1,4 +1,4 @@
-import { API_AUTH_HEADERS, API_BASE } from '$lib/constants/api';
+import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 import { RELOAD_TARGETS } from '$lib/constants/dashboard';
 import type { KeypadKeyRequest, KeypadKeyResponse } from '$lib/types/keypadkey';
 
@@ -7,7 +7,7 @@ const PATH = '/api/keypadkeys/';
 export async function fetchKeypadKeys() {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'GET',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	const body = await response.json();
 	if (response.ok) {
@@ -19,7 +19,7 @@ export async function fetchKeypadKeys() {
 export async function updateKeypadKey(id: number, keypadKeyRequest: KeypadKeyRequest) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'PATCH',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(keypadKeyRequest)
 	});
 	const body = await response.json();

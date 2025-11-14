@@ -1,4 +1,4 @@
-import { API_AUTH_HEADERS, API_BASE } from '$lib/constants/api';
+import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 
 const PATH = `/api/firmware_mappings_export/`;
 
@@ -7,7 +7,7 @@ export async function fetchFirmwareMappings(unitId: number) {
 	url.searchParams.set('unit', unitId.toString());
 	const response = await fetch(url, {
 		method: 'GET',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 
 	if (!response.ok) {

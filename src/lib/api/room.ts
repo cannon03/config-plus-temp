@@ -1,4 +1,4 @@
-import { API_AUTH_HEADERS, API_BASE } from '$lib/constants/api';
+import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 import { RELOAD_TARGETS } from '$lib/constants/dashboard';
 import type { RoomRequest, RoomResponse } from '$lib/types/room';
 
@@ -7,7 +7,7 @@ const PATH = '/api/rooms/';
 export async function fetchRooms() {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'GET',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	const body = await response.json();
 	if (response.ok) {
@@ -19,7 +19,7 @@ export async function fetchRooms() {
 export async function createRoom(roomRequest: RoomRequest) {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'POST',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(roomRequest)
 	});
 	const body = await response.json();
@@ -33,7 +33,7 @@ export async function createRoom(roomRequest: RoomRequest) {
 export async function deleteRoom(id: number) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'DELETE',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	if (!response.ok) {
 		throw Error(`Unable to delete room: ${response.statusText}`);
@@ -44,7 +44,7 @@ export async function deleteRoom(id: number) {
 export async function updateRoom(id: number, roomRequest: RoomRequest) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'PATCH',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(roomRequest)
 	});
 	const body = await response.json();

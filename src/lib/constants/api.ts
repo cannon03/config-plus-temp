@@ -6,7 +6,7 @@ export const API_HEADERS = {
 	'Content-Type': 'application/json'
 };
 
-export const API_AUTH_HEADERS = {
+export const getApiAuthHeaders = () => ({
 	...API_HEADERS,
 	Authorization: `Token ${getAccessToken()}`
-};
+});

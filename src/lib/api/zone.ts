@@ -1,4 +1,4 @@
-import { API_AUTH_HEADERS, API_BASE } from '$lib/constants/api';
+import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 import { RELOAD_TARGETS } from '$lib/constants/dashboard';
 import type { ZoneRequest, ZoneResponse } from '$lib/types/zone';
 
@@ -7,7 +7,7 @@ const PATH = '/api/zones/';
 export async function fetchZones() {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'GET',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	const body = await response.json();
 	if (response.ok) {
@@ -19,7 +19,7 @@ export async function fetchZones() {
 export async function createZone(zoneRequest: ZoneRequest) {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'POST',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(zoneRequest)
 	});
 	const body = await response.json();
@@ -34,7 +34,7 @@ export async function createZone(zoneRequest: ZoneRequest) {
 export async function deleteZone(id: number) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'DELETE',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	if (!response.ok) {
 		throw Error(`Unable to delete zone: ${response.statusText}`);
@@ -45,7 +45,7 @@ export async function deleteZone(id: number) {
 export async function updateZone(id: number, zoneRequest: ZoneRequest) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'PATCH',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(zoneRequest)
 	});
 	const body = await response.json();

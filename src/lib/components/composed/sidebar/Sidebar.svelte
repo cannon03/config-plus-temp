@@ -40,11 +40,11 @@
 	}
 	async function logOut() {
 		signOut();
-		goto('/');
+		await goto('/');
 	}
 
 	async function navigateToAllProjects() {
-		goto('/projects');
+		await goto('/projects');
 	}
 </script>
 

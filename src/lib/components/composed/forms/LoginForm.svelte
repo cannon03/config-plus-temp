@@ -26,7 +26,7 @@
 		setUserId(authResult.user.id);
 		setAccessToken(authResult.token);
 
-		goto('/projects', { replaceState: true });
+		await goto('/projects', { replaceState: true });
 	}
 </script>
 

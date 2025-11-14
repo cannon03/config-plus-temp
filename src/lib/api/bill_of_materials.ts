@@ -1,4 +1,4 @@
-import { API_AUTH_HEADERS, API_BASE } from '$lib/constants/api';
+import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 
 const PATH = '/api/bom/project_bom_xlsx/';
 
@@ -7,7 +7,7 @@ export async function fetchBillOfMaterials(projectId: number) {
 	url.searchParams.set('project_id', projectId.toString());
 	const response = await fetch(url, {
 		method: 'GET',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	if (!response.ok) {
 		throw Error(`Unable to fetch bill of materials: ${response.statusText}`);

@@ -1,4 +1,4 @@
-import { API_AUTH_HEADERS, API_BASE } from '$lib/constants/api';
+import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 import { RELOAD_TARGETS } from '$lib/constants/dashboard';
 import type { LoadRequest, LoadResponse } from '$lib/types/load';
 
@@ -6,7 +6,7 @@ const PATH = '/api/loads/';
 export async function fetchLoads() {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'GET',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	const body = await response.json();
 	if (response.ok) {
@@ -18,7 +18,7 @@ export async function fetchLoads() {
 export async function createLoad(loadRequest: LoadRequest) {
 	const response = await fetch(`${API_BASE}${PATH}`, {
 		method: 'POST',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(loadRequest)
 	});
 	const body = await response.json();
@@ -32,7 +32,7 @@ export async function createLoad(loadRequest: LoadRequest) {
 export async function deleteLoad(id: number) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'DELETE',
-		headers: API_AUTH_HEADERS
+		headers: getApiAuthHeaders()
 	});
 	if (!response.ok) {
 		throw Error(`Unable to delete load: ${response.statusText}`);
@@ -43,7 +43,7 @@ export async function deleteLoad(id: number) {
 export async function updateLoad(id: number, loadrequest: LoadRequest) {
 	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
 		method: 'PATCH',
-		headers: API_AUTH_HEADERS,
+		headers: getApiAuthHeaders(),
 		body: JSON.stringify(loadrequest)
 	});
 	const body = await response.json();
