@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import type { Project } from '$lib/types/project';
-	import { Plus } from 'lucide-svelte';
+	import { Download, Plus } from 'lucide-svelte';
 
 	let projects = $state<Array<Project>>([]);
 

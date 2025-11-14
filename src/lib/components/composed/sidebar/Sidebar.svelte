@@ -14,6 +14,7 @@
 		CircleQuestionMark
 	} from 'lucide-svelte';
 	import { goto } from '$app/navigation';
+	import { signOut } from '$lib/utils/auth';
 
 	let sidebarOpen = $state(true);
 	function toggleSidebar() {
@@ -37,6 +38,10 @@
 			goto(`/projects/${project.id}`);
 		}
 	}
+	async function logOut() {
+		signOut();
+		goto('/');
+	}
 
 	async function navigateToAllProjects() {
 		goto('/projects');
@@ -58,31 +63,6 @@
 		</div>
 		<!-- Navigation -->
 		<nav class="flex flex-1 flex-col justify-start space-y-2 p-4">
-			<!-- <button
-				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-			>
-				<LayoutDashboard class="h-5 w-5" />
-				<span>Units</span>
-			</button>
-			<button
-				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-			>
-				<MonitorSmartphone class="h-5 w-5" />
-				<span>Devices</span>
-			</button>
-			<button
-				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-			>
-				<Layers class="h-5 w-5" />
-				<span>Scenes</span>
-			</button>
-			<button
-				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-			>
-				<Settings class="h-5 w-5" />
-				<span>Settings</span>
-			</button> -->
-
 			{#if isUnits}
 				<Button variant="sidebar" onclick={navigateToProjectUnits}>
 					<LayoutDashboard class="h-5 w-5" />
@@ -114,6 +94,7 @@
 			</button>
 			<button
 				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+				onclick={logOut}
 			>
 				<LogOut class="h-5 w-5" />
 				<span>Logout</span>

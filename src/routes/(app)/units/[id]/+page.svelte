@@ -26,5 +26,5 @@
 		num_dinModules={din_modules.length}
 	/>
 
-	<UnitActionsCard />
+	<UnitActionsCard {unit} />
 </div>

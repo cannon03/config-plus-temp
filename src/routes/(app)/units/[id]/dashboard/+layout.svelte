@@ -181,7 +181,7 @@
 			num_dinModules={data.dinModules.length}
 		/>
 
-		<UnitActionsCard />
+		<UnitActionsCard unit={data.unit} />
 	</div>
 	<div
 		class={`mt-8 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300
