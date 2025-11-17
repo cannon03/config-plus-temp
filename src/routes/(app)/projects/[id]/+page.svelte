@@ -6,26 +6,51 @@
 	import ListUnitsDashboardCard from '$lib/components/composed/cards/ListUnitsDashboardCard.svelte';
 
 	import type { Unit } from '$lib/types/unit';
-	import { Download } from 'lucide-svelte';
+	import { Download, Plus } from 'lucide-svelte';
 	import { downloadBillOfMaterials } from '$lib/utils/download';
+	import Modal from '$lib/components/composed/modals/Modal.svelte';
+	import CreateUnitForm from '$lib/components/composed/forms/CreateUnitForm.svelte';
 
 	const projectId = Number(page.params.id);
 	let units = $state<Array<Unit>>([]);
 
+	let showModal = $state(false);
+	let showModalKey = $state(0);
+
 	onMount(async () => {
+		reloadUnits();
+	});
+
+	async function reloadUnits() {
 		const allUnits = await fetchUnits();
 		units = allUnits.filter((u) => u.project === projectId);
-	});
+	}
 
 	async function getBillOfMaterials() {
 		downloadBillOfMaterials(projectId, 'BOM');
 	}
+
+	function openCreateUnitModal() {
+		showModalKey++;
+		showModal = true;
+	}
 </script>
 
-<!-- Header + Button Row -->
-<div class="mb-4 flex items-center justify-between">
-	<h2 class="text-lg font-semibold">Units</h2>
+<Modal onClosed={async () => await reloadUnits()} title="Create Unit" bind:showModal>
+	{#key showModalKey}
+		<CreateUnitForm {projectId} bind:showModal />
+	{/key}
+</Modal>
 
+<!-- Header + Button Row -->
+<div class="mb-4 flex items-center justify-end gap-2">
+	<h2 class="flex-1 text-lg font-semibold">Units</h2>
+	<button
+		class="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
+		onclick={openCreateUnitModal}
+		>Add Unit
+		<Plus class="h-4 w-4 opacity-80" />
+	</button>
 	<button
 		class="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
 		onclick={getBillOfMaterials}
@@ -38,6 +63,8 @@
 <!-- Units Grid -->
 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 	{#each units as unit}
-		<ListUnitsDashboardCard {unit} />
+		<div class="block">
+			<ListUnitsDashboardCard {unit} {reloadUnits} />
+		</div>
 	{/each}
 </div>

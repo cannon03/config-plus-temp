@@ -1,13 +1,17 @@
 <script lang="ts">
-	import { CalendarDays, Info, Folder } from 'lucide-svelte';
+	import { CalendarDays, Info, Folder, Trash2 } from 'lucide-svelte';
 	import Button from '$lib/components/base/Button.svelte';
 	import { goto } from '$app/navigation';
 	import type { Unit } from '$lib/types/unit';
+	import Modal from '../modals/Modal.svelte';
+	import { deleteUnit } from '$lib/api/unit';
 
-	const { unit }: { unit: Unit } = $props();
+	const { unit, reloadUnits }: { unit: Unit; reloadUnits: () => void } = $props();
 
 	const createdAtDate = new Date(unit.created_at);
 	const updatedAtDate = new Date(unit.updated_at);
+
+	let showModal = $state(false);
 
 	const formattedCreatedAt = createdAtDate.toLocaleDateString('en-IN', {
 		year: 'numeric',
@@ -24,18 +28,53 @@
 	function handleViewUnit() {
 		goto(`/units/${unit.id}/dashboard`);
 	}
+
+	async function del(e: Event) {
+		await deleteUnit(unit.id);
+		showModal = false;
+		reloadUnits();
+	}
 </script>
 
+<Modal bind:showModal title="Delete Unit">
+	<div class="flex flex-col items-center gap-6 text-center">
+		<p class="text-sm text-gray-600">
+			Are you sure you want to delete this Unit? This action cannot be undone.
+		</p>
+
+		<div class="mt-4 flex gap-3">
+			<button
+				onclick={del}
+				class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
+			>
+				Yes, Delete
+			</button>
+			<button
+				onclick={() => (showModal = false)}
+				class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+			>
+				Cancel
+			</button>
+		</div>
+	</div>
+</Modal>
 <div
-	class="group flex h-[32vh] w-[22vw] flex-col justify-between rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+	class="group flex flex-col justify-between rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
 >
 	<!-- Header -->
 	<div class="border-b border-gray-100 px-6 py-5">
-		<h2
-			class="mb-1 truncate text-lg font-semibold text-gray-900 transition-colors group-hover:text-blue-600"
-		>
-			{unit.name}
-		</h2>
+		<div class="flex justify-between">
+			<h2
+				class="mb-1 truncate text-lg font-semibold text-gray-900 transition-colors group-hover:text-blue-600"
+			>
+				{unit.name}
+			</h2>
+			<button onclick={() => (showModal = true)}
+				><Trash2
+					class="h-4 w-4 text-red-600 opacity-80 hover:cursor-pointer hover:text-red-800"
+				/></button
+			>
+		</div>
 		<p class="line-clamp-2 text-sm text-gray-500">
 			{unit.description || 'No description available.'}
 		</p>

@@ -19,5 +19,6 @@ export const RELOAD_TARGETS = {
 	CHANNELS: 'reload:channels',
 	KEYPAD_KEYS: 'reload:keypadkeys',
 	KEY_ACTIONS: 'reload:keypadkeyactions',
-	SCENE_LOADS: 'reload:sceneloads'
+	SCENE_LOADS: 'reload:sceneloads',
+	UNITS: 'reload:units'
 } as const;

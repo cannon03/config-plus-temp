@@ -6,3 +6,9 @@ export type Unit = {
 	updated_at: string;
 	project: number;
 };
+
+export type UnitRequest = {
+	name: string;
+	description: string;
+	project: number;
+};

@@ -16,8 +16,11 @@
 	let dialog: HTMLDialogElement | undefined = $state(); // HTMLDialogElement
 
 	$effect(() => {
-		if (showModal) dialog?.showModal();
-		else dialog?.close();
+		if (showModal) {
+			dialog?.showModal();
+		} else {
+			dialog?.close();
+		}
 	});
 </script>
 
@@ -28,15 +31,16 @@
 	onclose={() => {
 		showModal = false;
 		onClosed?.();
+		console.log('MODAL CLOSED');
 	}}
 	onclick={(e) => {
-		if (e.target === dialog) dialog.close();
+		if (e.target === dialog) showModal = false;
 	}}
 >
 	<div class="flex flex-col gap-4">
 		<h2 class="flex justify-between">
 			{title}
-			<button class="hover:cursor-pointer" onclick={() => dialog?.close()}
+			<button class="hover:cursor-pointer" onclick={() => (showModal = false)}
 				><X class="h-5 w-5" /></button
 			>
 		</h2>

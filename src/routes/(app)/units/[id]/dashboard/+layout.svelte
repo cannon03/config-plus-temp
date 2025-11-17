@@ -18,6 +18,7 @@
 	import { fetchKeypadKeys } from '$lib/api/keypadkey.js';
 	import { fetchKeypadKeyActions } from '$lib/api/key_action.js';
 	import { fetchSceneLoads } from '$lib/api/scene_load.js';
+	import { fetchUnits } from '$lib/api/unit';
 	let { children, params, data } = $props();
 
 	// helper to compute href
