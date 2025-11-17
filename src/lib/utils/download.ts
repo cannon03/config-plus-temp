@@ -1,5 +1,6 @@
 import { fetchBillOfMaterials } from '$lib/api/bill_of_materials';
 import { fetchElectricalLayout } from '$lib/api/electrical_layout';
+import { getDownloadURL } from '$lib/api/project_files';
 import { fetchFirmwareMappings } from '$lib/api/rcu_mappings';
 
 function downloadJSON(data: unknown, filename: string) {
@@ -35,4 +36,17 @@ export async function downloadBillOfMaterials(projectId: number, exportName: str
 	const formattedDate = `${day}-${month}-${year}`;
 	const data = await fetchBillOfMaterials(projectId);
 	downloadJSON(data, `${exportName}-bill-of-materials-${formattedDate}.xlsx`);
+}
+
+export async function downloadProjectFile(fileId: number) {
+	const response = await getDownloadURL(fileId);
+	const downloadUrl = response.download_url;
+	const a = document.createElement('a');
+	a.href = downloadUrl;
+	a.download = ''; // let server filename be used
+	a.style.display = 'none';
+
+	document.body.appendChild(a);
+	a.click();
+	a.remove();
 }

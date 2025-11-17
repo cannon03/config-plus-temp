@@ -3,6 +3,7 @@
 	import { fetchProjects } from '$lib/api/project';
 	import Button from '$lib/components/base/Button.svelte';
 	import { fetchUnits } from '$lib/api/unit';
+
 	import {
 		LayoutDashboard,
 		MonitorSmartphone,
@@ -15,27 +16,35 @@
 	} from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { signOut } from '$lib/utils/auth';
+	import type { Project } from '$lib/types/project';
 
 	let sidebarOpen = $state(true);
 	function toggleSidebar() {
 		sidebarOpen = !sidebarOpen;
 	}
-	console.log('PAGE', $state.snapshot(page.url.pathname));
 
-	const pathName = $derived(page.url.pathname);
+	const pathName = $derived(page.route.id);
 
-	const isUnits = $derived.by(() => pathName.startsWith('/units'));
-	const isProjects = $derived.by(() => pathName.startsWith('/projects'));
+	const isUnits = $derived.by(() => pathName?.startsWith('/(app)/units'));
+	const isProjects = $derived.by(() => pathName?.startsWith('/(app)/projects'));
+	const atFiles = $derived.by(() => pathName?.startsWith('/(app)/projects/[id]/files'));
 
 	async function navigateToProjectUnits() {
-		const UnitId = Number(page.params.id);
-		const units = await fetchUnits();
-		const thisUnit = units.find((unit) => unit.id == UnitId);
-		const projects = await fetchProjects();
-		const project = projects.find((project) => project.id == thisUnit?.project);
+		const pageId = Number(page.params.id);
+		let projectId = undefined;
 
-		if (project) {
-			goto(`/projects/${project.id}`);
+		if (isUnits) {
+			const units = await fetchUnits();
+			const thisUnit = units.find((unit) => unit.id == pageId);
+			const projects = await fetchProjects();
+			const project = projects.find((project) => project.id == thisUnit!.project);
+			projectId = project?.id;
+		} else if (atFiles) {
+			projectId = pageId;
+		}
+
+		if (projectId) {
+			goto(`/projects/${projectId}`);
 		}
 	}
 	async function logOut() {
@@ -79,6 +88,13 @@
 					<MonitorSmartphone class="h-5 w-5" />
 					<span>Devices</span>
 				</button>
+
+				{#if atFiles}
+					<Button variant="sidebar" onclick={navigateToProjectUnits}>
+						<LayoutDashboard class="h-5 w-5" />
+						<span>Dashboard</span></Button
+					>
+				{/if}
 			{/if}
 		</nav>
 

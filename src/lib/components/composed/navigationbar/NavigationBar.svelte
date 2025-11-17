@@ -11,6 +11,7 @@
 
 	const isUnits = $derived.by(() => pathName?.startsWith('/(app)/units/[id]'));
 	const isProjects = $derived.by(() => pathName?.startsWith('/(app)/projects/[id]'));
+	const atFiles = $derived.by(() => pathName?.startsWith('/(app)/projects/[id]/files'));
 
 	let thisProject: Project | undefined = $state();
 	let thisUnit: Unit | undefined = $state();
@@ -69,6 +70,14 @@
 						class="cursor-pointer hover:text-gray-700 hover:underline"
 						onclick={() => goto(`/projects/${projectId}`)}>{thisProject.name}</button
 					>
+
+					{#if atFiles}
+						<ChevronRight class="h-4 w-4" />
+						<button
+							class="cursor-pointer hover:text-gray-700 hover:underline"
+							onclick={() => goto(`/projects/${projectId}/files`)}>Files</button
+						>
+					{/if}
 				{/if}
 
 				{#if isUnits && thisUnit}

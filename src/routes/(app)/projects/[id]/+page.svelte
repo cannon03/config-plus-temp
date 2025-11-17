@@ -6,10 +6,11 @@
 	import ListUnitsDashboardCard from '$lib/components/composed/cards/ListUnitsDashboardCard.svelte';
 
 	import type { Unit } from '$lib/types/unit';
-	import { Download, Plus } from 'lucide-svelte';
+	import { Download, Folder, Plus } from 'lucide-svelte';
 	import { downloadBillOfMaterials } from '$lib/utils/download';
 	import Modal from '$lib/components/composed/modals/Modal.svelte';
 	import CreateUnitForm from '$lib/components/composed/forms/CreateUnitForm.svelte';
+	import { goto } from '$app/navigation';
 
 	const projectId = Number(page.params.id);
 	let units = $state<Array<Unit>>([]);
@@ -45,17 +46,28 @@
 <!-- Header + Button Row -->
 <div class="mb-4 flex items-center justify-end gap-2">
 	<h2 class="flex-1 text-lg font-semibold">Units</h2>
+
+	<button
+		class="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
+		onclick={() => goto(`/projects/${projectId}/files`)}
+	>
+		Project Files
+		<Folder class="h-4 w-4 opacity-80" />
+	</button>
+
 	<button
 		class="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
 		onclick={openCreateUnitModal}
-		>Add Unit
+	>
+		Add Unit
 		<Plus class="h-4 w-4 opacity-80" />
 	</button>
+
 	<button
 		class="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
 		onclick={getBillOfMaterials}
 	>
-		<span>Bill of Materials</span>
+		Bill of Materials
 		<Download class="h-4 w-4 opacity-80" />
 	</button>
 </div>

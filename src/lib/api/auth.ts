@@ -1,4 +1,4 @@
-import type { AuthRequest, AuthResult } from '$lib/types/auth';
+import type { AuthRequest } from '$lib/types/auth';
 import { API_BASE, API_HEADERS } from '../constants/api';
 
 const PATH = '/api-token-auth/';
