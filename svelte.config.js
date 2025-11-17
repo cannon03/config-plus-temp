@@ -1,16 +1,16 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
-/** @type {import('@sveltejs/kit').Config} */
 const config = {
-	// Consult https://svelte.dev/docs/kit/integrations
-	// for more information about preprocessors
 	preprocess: vitePreprocess(),
-	kit: { adapter: adapter(
-		{
-			fallback: '200.html'
+	kit: {
+		adapter: adapter({
+			fallback: 'index.html' // 👈 Vercel SPA fallback MUST be index.html
+		}),
+		prerender: {
+			entries: [] // 👈 optional but recommended for SPA mode
 		}
-	) }
+	}
 };
 
 export default config;
