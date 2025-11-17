@@ -48,7 +48,7 @@
 	<h2 class="flex-1 text-lg font-semibold">Units</h2>
 
 	<button
-		class="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
+		class="flex cursor-pointer items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
 		onclick={() => goto(`/projects/${projectId}/files`)}
 	>
 		Project Files
@@ -56,7 +56,7 @@
 	</button>
 
 	<button
-		class="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
+		class="flex cursor-pointer items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
 		onclick={openCreateUnitModal}
 	>
 		Add Unit
@@ -64,7 +64,7 @@
 	</button>
 
 	<button
-		class="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
+		class="flex cursor-pointer items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
 		onclick={getBillOfMaterials}
 	>
 		Bill of Materials

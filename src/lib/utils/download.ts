@@ -34,8 +34,14 @@ export async function downloadBillOfMaterials(projectId: number, exportName: str
 	const month = String(date.getMonth() + 1).padStart(2, '0');
 	const day = String(date.getDate()).padStart(2, '0');
 	const formattedDate = `${day}-${month}-${year}`;
-	const data = await fetchBillOfMaterials(projectId);
-	downloadJSON(data, `${exportName}-bill-of-materials-${formattedDate}.xlsx`);
+	const blob = await fetchBillOfMaterials(projectId);
+
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = `${exportName}-bill-of-materials-${formattedDate}.xlsx`;
+	a.click();
+	URL.revokeObjectURL(url);
 }
 
 export async function downloadProjectFile(fileId: number) {
