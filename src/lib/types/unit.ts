@@ -10,5 +10,6 @@ export type Unit = {
 export type UnitRequest = {
 	name: string;
 	description: string;
+	notes: string;
 	project: number;
 };
