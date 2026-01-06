@@ -4,6 +4,7 @@ import type { KeypadKeyActionResponse } from './key_action';
 import type { KeypadResponse } from './keypad';
 import type { KeypadKeyResponse } from './keypadkey';
 import type { LoadResponse } from './load';
+import type { RoomProductResponse } from './product';
 import type { RCUResponse } from './rcu';
 import type { RoomResponse } from './room';
 import type { SceneResponse } from './scene';
@@ -24,4 +25,5 @@ export type DashboardContext = {
 	keypadKeys: Array<KeypadKeyResponse>;
 	keyActions: Array<KeypadKeyActionResponse>;
 	sceneLoads: Array<SceneLoadResponse>;
+	roomProducts: Array<RoomProductResponse>;
 };

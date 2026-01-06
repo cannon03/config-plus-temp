@@ -12,6 +12,8 @@ import { fetchChannels } from '$lib/api/channel';
 import { fetchKeypadKeys } from '$lib/api/keypadkey';
 import { fetchSceneLoads } from '$lib/api/scene_load';
 import { fetchKeypadKeyActions } from '$lib/api/key_action';
+import { fetchRoomProductById } from '$lib/api/room_product';
+import type { RoomProductResponse } from '$lib/types/product';
 
 export const load: LayoutLoad = async ({ params }) => {
 	const unit = await fetchUnit(Number(params.id));
@@ -59,6 +61,17 @@ export const load: LayoutLoad = async ({ params }) => {
 	const sceneLoads = allSceneLoads.filter((sceneLoad) =>
 		scenes.some((scene) => scene.id == sceneLoad.scene)
 	);
+
+	async function fetchRoomProducts() {
+		let allRoomProducts: Array<RoomProductResponse> = [];
+		for (const room of rooms) {
+			const products = await fetchRoomProductById(room.id);
+			allRoomProducts = [...allRoomProducts, ...products];
+		}
+		return allRoomProducts;
+	}
+
+	const roomProducts = await fetchRoomProducts();
 	const ctx = <DashboardContext>{
 		unit: unit,
 		scenes: scenes,
@@ -71,7 +84,8 @@ export const load: LayoutLoad = async ({ params }) => {
 		channels: channels,
 		keypadKeys: keypadKeys,
 		keyActions: keypadKeyActions,
-		sceneLoads: sceneLoads
+		sceneLoads: sceneLoads,
+		roomProducts: roomProducts
 	};
 
 	return ctx;
