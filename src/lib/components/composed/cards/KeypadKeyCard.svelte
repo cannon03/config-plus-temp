@@ -35,7 +35,7 @@
 
 	const { rows, cols, layout } = $derived.by(() => type);
 	const keyMap = $derived.by(() => new Map(layout.map((k) => [`${k.row},${k.col}`, k])));
-	const buttonSize = $derived.by(() => (keypadKeys.length >= 6 ? 12 : 16));
+	const buttonSize = 20;
 
 	$effect(() => {
 		console.log('BUTTON SIZE', $state.snapshot(buttonSize));

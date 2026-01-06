@@ -7,6 +7,7 @@ import KeyImage6Key from '$lib/assets/T23_6-key.svg';
 export const KEYPAD_TYPES = {
 	'1key': {
 		key: '1key',
+		type: 'standard',
 		label: '1-Key Keypad',
 		num_keys: 1,
 		layout: [{ key_id: 1, row: 2, col: 2 }],
@@ -16,6 +17,7 @@ export const KEYPAD_TYPES = {
 	},
 	'2key': {
 		key: '2key',
+		type: 'standard',
 		label: '2-Key Keypad',
 		num_keys: 2,
 		layout: [
@@ -28,6 +30,7 @@ export const KEYPAD_TYPES = {
 	},
 	'3key': {
 		key: '3key',
+		type: 'standard',
 		label: '3-Key Keypad',
 		num_keys: 3,
 		layout: [
@@ -41,6 +44,7 @@ export const KEYPAD_TYPES = {
 	},
 	'4key': {
 		key: '4key',
+		type: 'standard',
 		label: '4-Key Keypad',
 		num_keys: 4,
 		layout: [
@@ -55,6 +59,7 @@ export const KEYPAD_TYPES = {
 	},
 	'6key': {
 		key: '6key',
+		type: 'standard',
 		label: '6-Key Keypad',
 		num_keys: 6,
 		layout: [
