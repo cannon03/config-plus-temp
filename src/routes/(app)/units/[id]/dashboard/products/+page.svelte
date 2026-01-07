@@ -4,20 +4,37 @@
 	import { Search } from 'lucide-svelte';
 	import type { ProductResponse } from '$lib/types/product';
 	import { onMount } from 'svelte';
+	import Modal from '$lib/components/composed/modals/Modal.svelte';
+	import AddRoomProductForm from '$lib/components/composed/forms/AddRoomProductForm.svelte';
 
 	let search = $state('');
 	const ctx = getDashboardContext();
+	let selectedProduct = $state<ProductResponse>();
 	let products: Array<ProductResponse> = $state([]);
+	let showModal = $state(false);
+	let showModalKey = $state(0);
 
 	async function searchProducts(event: Event) {
 		if (event) event.preventDefault();
 		const searchResponse = await fuzzySearchProducts(search);
 		products = searchResponse.results;
 	}
+
+	async function showAddRoomProductModal(product: ProductResponse) {
+		selectedProduct = product;
+		showModalKey++;
+		showModal = true;
+	}
 	onMount(async () => {
 		// products = await fetchProducts();
 	});
 </script>
+
+{#key showModalKey}
+	<Modal bind:showModal title="Add Product to Room">
+		<AddRoomProductForm rooms={ctx.rooms} product={selectedProduct} bind:showModal />
+	</Modal>
+{/key}
 
 <div class="w-full space-y-10 bg-[#f7f9fc] p-6">
 	<!-- Search -->
@@ -87,7 +104,8 @@
 
 					<div class="text-right">
 						<button
-							class="rounded-full border border-[#4C8BF5]/30 bg-[#4C8BF5]/10 px-3 py-1 text-xs font-semibold text-[#4C8BF5] hover:bg-[#4C8BF5]/20"
+							class="rounded-full border border-[#4C8BF5]/30 bg-[#4C8BF5]/10 px-3 py-1 text-xs font-semibold text-[#4C8BF5] hover:cursor-pointer hover:bg-[#4C8BF5]/20"
+							onclick={() => showAddRoomProductModal(p)}
 						>
 							Add
 						</button>

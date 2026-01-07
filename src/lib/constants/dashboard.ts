@@ -21,5 +21,6 @@ export const RELOAD_TARGETS = {
 	KEYPAD_KEYS: 'reload:keypadkeys',
 	KEY_ACTIONS: 'reload:keypadkeyactions',
 	SCENE_LOADS: 'reload:sceneloads',
-	UNITS: 'reload:units'
+	UNITS: 'reload:units',
+	ROOM_PRODUCTS: 'reload:roomproducts'
 } as const;

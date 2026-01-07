@@ -18,7 +18,8 @@
 	import { fetchKeypadKeys } from '$lib/api/keypadkey.js';
 	import { fetchKeypadKeyActions } from '$lib/api/key_action.js';
 	import { fetchSceneLoads } from '$lib/api/scene_load.js';
-	import { fetchUnits } from '$lib/api/unit';
+	import { fetchRoomProductById } from '$lib/api/room_product';
+	import type { RoomProductResponse } from '$lib/types/product';
 	let { children, params, data } = $props();
 
 	// helper to compute href
@@ -86,6 +87,15 @@
 		ctx.sceneLoads = all.filter((sl) => ctx.scenes.some((s) => s.id == sl.scene));
 	}
 
+	async function refetchRoomProducts() {
+		let allRoomProducts: Array<RoomProductResponse> = [];
+		for (const room of ctx.rooms) {
+			const products = await fetchRoomProductById(room.id);
+			allRoomProducts = [...allRoomProducts, ...products];
+		}
+		ctx.roomProducts = allRoomProducts;
+	}
+
 	async function reload(type: string) {
 		switch (type) {
 			case RELOAD_TARGETS.LOADS: {
@@ -96,6 +106,19 @@
 				await refetchRooms();
 				await refetchLoads();
 				await refetchKeypads();
+				await refetchRoomProducts();
+				break;
+			}
+			case RELOAD_TARGETS.ZONES: {
+				await refetchZones();
+				await refetchRooms();
+				await refetchLoads();
+				await refetchKeypads();
+				await refetchRoomProducts();
+				break;
+			}
+			case RELOAD_TARGETS.SCENE_LOADS: {
+				await refetchSceneLoads();
 				break;
 			}
 			case RELOAD_TARGETS.SCENES: {
@@ -108,7 +131,6 @@
 				break;
 			}
 			case RELOAD_TARGETS.ZONES: {
-				console.log('REFETCHING ZONES');
 				await refetchZones();
 				await refetchRooms();
 				await refetchLoads();
@@ -139,6 +161,10 @@
 			}
 			case RELOAD_TARGETS.SCENE_LOADS: {
 				refetchSceneLoads();
+				break;
+			}
+			case RELOAD_TARGETS.ROOM_PRODUCTS: {
+				refetchRoomProducts();
 				break;
 			}
 		}

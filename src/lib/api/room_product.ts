@@ -1,5 +1,5 @@
 import { API_BASE, getApiAuthHeaders } from '$lib/constants/api';
-import type { RoomProductResponse } from '$lib/types/product';
+import type { RoomProductRequest, RoomProductResponse } from '$lib/types/product';
 
 const PATH = '/api/room_products/';
 
@@ -25,4 +25,17 @@ export async function fetchRoomProducts() {
 		return body as Array<RoomProductResponse>;
 	}
 	throw Error(`Unable to fetch load: ${body}`);
+}
+
+export async function createRoomProduct(roomProductRequest: RoomProductRequest) {
+	const response = await fetch(`${API_BASE}${PATH}`, {
+		method: 'POST',
+		headers: getApiAuthHeaders(),
+		body: JSON.stringify(roomProductRequest)
+	});
+	const body = await response.json();
+	if (response.ok) {
+		return body as RoomProductResponse;
+	}
+	throw Error(`Unable to create load: ${body}`);
 }
