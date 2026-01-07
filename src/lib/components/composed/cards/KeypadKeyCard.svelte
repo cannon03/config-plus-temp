@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { KEYPAD_TYPES } from '$lib/constants/keypad';
-	import switchIcon from '$lib/assets/keypad_switch.svg';
 	import backgroundImage from '$lib/assets/keypad_background.svg';
 	import type { KeypadKeyResponse } from '$lib/types/keypadkey';
-	import { Info } from 'lucide-svelte';
-	import KeypadKeyInfoModal from '../modals/KeypadKeyInfoModal.svelte';
 	import KeypadKeyButton from '$lib/components/buttons/KeypadKeyButton.svelte';
 	import type { KeypadKeyActionResponse } from '$lib/types/key_action';
 	import type { Unit } from '$lib/types/unit';

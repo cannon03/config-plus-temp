@@ -33,3 +33,9 @@ export type RoomProductResponse = {
 	created_at: string;
 	updated_at: string;
 };
+
+export type ProductSearchResponse = {
+	query: string;
+	count: number;
+	results: Array<ProductResponse>;
+};
