@@ -1,6 +1,7 @@
 import { getAccessToken } from '$lib/utils/storage';
 
-export const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+// export const API_BASE = 'https://configapi.toyamaworld.com';
+export const API_BASE = 'http://localhost:8000';
 
 export const API_HEADERS = {
 	'Content-Type': 'application/json'

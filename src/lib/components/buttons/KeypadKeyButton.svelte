@@ -1,6 +1,6 @@
 <script lang="ts">
 	import switchIcon from '$lib/assets/keypad_switch.svg';
-	import type { KeypadKeyResponse } from '$lib/types/keypadkey';
+	import type { KeypadInputResponse } from '$lib/types/keypadkey';
 	import { Info } from 'lucide-svelte';
 	import KeypadKeyInfoModal from '../composed/modals/KeypadKeyInfoModal.svelte';
 	import type { KeypadKeyActionResponse } from '$lib/types/key_action';
@@ -23,7 +23,7 @@
 		zones,
 		loads
 	}: {
-		keypadKey: KeypadKeyResponse;
+		keypadKey: KeypadInputResponse;
 		keyActions: Array<KeypadKeyActionResponse>;
 		unit: Unit;
 		keyPad: KeypadResponse;
@@ -45,16 +45,15 @@
 	}
 </script>
 
-{#if showKeypadEditModal}
-	<!-- Svelte will re render the modal every time showKeypadEditModal changes -->
+<!-- {#if showKeypadEditModal}
 	<KeypadKeyInfoModal bind:showModal={showKeypadEditModal} {keypadKey} />
-{/if}
+{/if} -->
 
-{#key sceneModalKey}
+<!-- {#key sceneModalKey}
 	<Modal bind:showModal title={SCENE_FORM_TYPES.CREATE}>
 		<SceneForm bind:showModal {unit} {allRooms} {keyPad} {zones} {loads} {keypadKey} />
 	</Modal>
-{/key}
+{/key} -->
 
 <div class="relative flex flex-col items-center justify-center">
 	<!-- Main key button -->
@@ -81,7 +80,7 @@
 		}}
 		class="mt-2 rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white shadow-sm hover:cursor-pointer"
 	>
-		{keypadKey.name ?? 'Key ' + keypadKey.key_number}
+		{keypadKey.name ?? 'Key ' + keypadKey.key_index}
 	</button>
 
 	<!-- Green status indicator -->

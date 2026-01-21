@@ -9,3 +9,12 @@ export type KeypadKeyResponse = {
 export type KeypadKeyRequest = {
 	name: string;
 };
+
+export type KeypadInputResponse = {
+	keypad: number;
+	id: number;
+	name: string;
+	input_type: string;
+	key_index: number;
+	mode: string;
+};

@@ -10,7 +10,7 @@
 	import { deleteKeypad } from '$lib/api/keypad';
 	import type { Unit } from '$lib/types/unit';
 	import type { ZoneResponse } from '$lib/types/zone';
-	import type { KeypadKeyResponse } from '$lib/types/keypadkey';
+	import type { KeypadInputResponse, KeypadKeyResponse } from '$lib/types/keypadkey';
 	import type { LoadResponse } from '$lib/types/load';
 	import type { KeypadKeyActionResponse } from '$lib/types/key_action';
 
@@ -26,7 +26,7 @@
 		unit: Unit;
 		zones: Array<ZoneResponse>;
 		loads: Array<LoadResponse>;
-		allKeypadKeys: Array<KeypadKeyResponse>;
+		allKeypadKeys: Array<KeypadInputResponse>;
 		keypad: KeypadResponse;
 		rooms: Array<RoomResponse>;
 		keyActions: Array<KeypadKeyActionResponse>;

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { KEYPAD_TYPES } from '$lib/constants/keypad';
 	import backgroundImage from '$lib/assets/keypad_background.svg';
-	import type { KeypadKeyResponse } from '$lib/types/keypadkey';
+	import type { KeypadInputResponse, KeypadKeyResponse } from '$lib/types/keypadkey';
 	import KeypadKeyButton from '$lib/components/buttons/KeypadKeyButton.svelte';
 	import type { KeypadKeyActionResponse } from '$lib/types/key_action';
 	import type { Unit } from '$lib/types/unit';
@@ -20,7 +20,7 @@
 		loads,
 		type
 	}: {
-		keypadKeys: Array<KeypadKeyResponse>;
+		keypadKeys: Array<KeypadInputResponse>;
 		keyActions: Array<KeypadKeyActionResponse>;
 		unit: Unit;
 		keyPad: KeypadResponse;
@@ -57,7 +57,7 @@
 		{#each Array(rows) as _, r}
 			{#each Array(cols) as _, c}
 				{@const map_obj = keyMap.get(`${r + 1},${c + 1}`)}
-				{@const keypadKey = keypadKeys.find((k) => k.key_number === map_obj?.key_id)}
+				{@const keypadKey = keypadKeys.find((k) => k.key_index === map_obj?.key_id)}
 				{#if keypadKey}
 					<KeypadKeyButton
 						{unit}

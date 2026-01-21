@@ -1,12 +1,12 @@
-export type KeypadResponse = {
+export type LogicBoardResponse = {
 	id: number;
 	location_room: number;
 	address: number;
-	num_keys: 1 | 2 | 3 | 4 | 5 | 6;
+	num_keys: 1 | 2 | 3 | 4;
 	cat6_branch: number;
 };
 
-export type KeypadRequest = {
+export type LogicBoardRequest = {
 	location_room: number;
 	address: number;
 	num_keys: number;

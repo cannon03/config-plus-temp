@@ -9,11 +9,13 @@ import { fetchDinModules } from '$lib/api/din_module';
 import type { LayoutLoad } from './$types';
 import type { DashboardContext } from '$lib/types/dashboard';
 import { fetchChannels } from '$lib/api/channel';
-import { fetchKeypadKeys } from '$lib/api/keypadkey';
+// import { fetchKeypadKeys } from '$lib/api/keypadkey';
 import { fetchSceneLoads } from '$lib/api/scene_load';
 import { fetchKeypadKeyActions } from '$lib/api/key_action';
 import { fetchRoomProductById } from '$lib/api/room_product';
 import type { RoomProductResponse } from '$lib/types/product';
+import type { KeypadKeyResponse } from '$lib/types/keypadkey';
+import { fetchKeypadInputs } from '$lib/api/keypadkey';
 
 export const load: LayoutLoad = async ({ params }) => {
 	const unit = await fetchUnit(Number(params.id));
@@ -36,6 +38,8 @@ export const load: LayoutLoad = async ({ params }) => {
 		rooms.some((room) => keypad.location_room == room.id)
 	);
 
+	const allKeypadInputs = await fetchKeypadInputs();
+
 	const allLoads = await fetchLoads();
 	const loads = allLoads.filter((load) => rooms.some((room) => load.room == room.id));
 
@@ -47,15 +51,23 @@ export const load: LayoutLoad = async ({ params }) => {
 	const allChannels = await fetchChannels();
 	const channels = allChannels.filter((channel) => loads.some((load) => load.id == channel.load));
 
-	const allKeypadKeys = await fetchKeypadKeys();
-	const keypadKeys = allKeypadKeys.filter((keypadKey) =>
-		keypads.some((keypad) => keypad.id == keypadKey.keypad)
-	);
+	// const allKeypadKeys: Array<KeypadKeyResponse> = [
+	// 	{
+	// 		id: 0,
+	// 		keypad: 0,
+	// 		key_number: 0,
+	// 		mode: '',
+	// 		name: null
+	// 	}
+	// ];
+	// const keypadKeys = allKeypadKeys.filter((keypadKey) =>
+	// 	keypads.some((keypad) => keypad.id == keypadKey.keypad)
+	// );
 
 	const allKeypadKeyActions = await fetchKeypadKeyActions();
-	const keypadKeyActions = allKeypadKeyActions.filter((keyAction) =>
-		keypadKeys.some((key) => key.id == keyAction.key)
-	);
+	// const keypadKeyActions = allKeypadKeyActions.filter((keyAction) =>
+	// 	keypadKeys.some((key) => key.id == keyAction.key)
+	// );
 
 	const allSceneLoads = await fetchSceneLoads();
 	const sceneLoads = allSceneLoads.filter((sceneLoad) =>
@@ -82,10 +94,11 @@ export const load: LayoutLoad = async ({ params }) => {
 		rooms: rooms,
 		dinModules: din_modules,
 		channels: channels,
-		keypadKeys: keypadKeys,
-		keyActions: keypadKeyActions,
+		// keypadKeys: keypadKeys,
+		keyActions: allKeypadKeyActions,
 		sceneLoads: sceneLoads,
-		roomProducts: roomProducts
+		roomProducts: roomProducts,
+		keypadInputs: allKeypadInputs
 	};
 
 	return ctx;
