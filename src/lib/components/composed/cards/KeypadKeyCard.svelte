@@ -11,22 +11,22 @@
 	import type { LoadResponse } from '$lib/types/load';
 
 	const {
+		keypad,
 		keypadKeys,
-		keyActions,
-		unit,
+		allZones,
 		allRooms,
-		keyPad,
-		zones,
-		loads,
+		selectedRoom,
+		selectedZone,
+		keyActions,
 		type
 	}: {
+		keypad: KeypadResponse;
 		keypadKeys: Array<KeypadInputResponse>;
-		keyActions: Array<KeypadKeyActionResponse>;
-		unit: Unit;
-		keyPad: KeypadResponse;
-		zones: Array<ZoneResponse>;
+		allZones: Array<ZoneResponse>;
 		allRooms: Array<RoomResponse>;
-		loads: Array<LoadResponse>;
+		selectedRoom: RoomResponse;
+		selectedZone: ZoneResponse;
+		keyActions: Array<KeypadKeyActionResponse>;
 		type: (typeof KEYPAD_TYPES)[keyof typeof KEYPAD_TYPES];
 	} = $props();
 
@@ -36,6 +36,7 @@
 
 	$effect(() => {
 		console.log('BUTTON SIZE', $state.snapshot(buttonSize));
+		console.log('KEYPAD KEYS', $state.snapshot(keypadKeys));
 	});
 </script>
 
@@ -60,14 +61,14 @@
 				{@const keypadKey = keypadKeys.find((k) => k.key_index === map_obj?.key_id)}
 				{#if keypadKey}
 					<KeypadKeyButton
-						{unit}
-						{zones}
-						{loads}
-						{allRooms}
-						{keyPad}
+						{keypad}
 						{buttonSize}
 						{keyActions}
 						{keypadKey}
+						{allZones}
+						{allRooms}
+						{selectedRoom}
+						{selectedZone}
 					/>
 				{:else}
 					<div class="h-{buttonSize} w-{buttonSize}"></div>

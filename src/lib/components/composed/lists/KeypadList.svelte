@@ -10,23 +10,26 @@
 
 	let ctx = getDashboardContext();
 
+	const rooms = $derived.by(() => ctx.domainGraph.layout.zones.flatMap((z) => z.rooms));
+	const keypads = $derived.by(() => rooms.flatMap((room) => room.keypads));
+	const loads = $derived.by(() => rooms.flatMap((room) => room.loads));
 	function getRoomOfKeypads(keypad: KeypadResponse) {
-		return ctx.rooms.filter((room) => room.id === keypad.location_room);
+		return rooms.filter((room) => room.id === keypad.location_room);
 	}
 
 	const keypadsByRoom: Record<number, Array<RoomResponse>> = $derived.by(() =>
-		Object.fromEntries(ctx.keypads.map((keypad) => [keypad.id, getRoomOfKeypads(keypad)]))
+		Object.fromEntries(keypads.map((keypad) => [keypad.id, getRoomOfKeypads(keypad)]))
 	);
 
 	let showModal = $state(false);
 	const availiableAddresses = $derived.by(() =>
-		KEYPAD_ADDRESSES.filter((address) => !ctx.keypads.some((keypad) => keypad.address === address))
+		KEYPAD_ADDRESSES.filter((address) => !keypads.some((keypad) => keypad.address === address))
 	);
 </script>
 
-{#key availiableAddresses || ctx.rooms}
+{#key availiableAddresses || rooms}
 	<Modal title="Add Keypad" bind:showModal>
-		<AddKeypadForm bind:showModal addresses={availiableAddresses} rooms={ctx.rooms} />
+		<AddKeypadForm bind:showModal addresses={availiableAddresses} {rooms} />
 	</Modal>
 {/key}
 
@@ -50,7 +53,7 @@
 
 	<!-- Main Content -->
 	<div class="flex-1 overflow-y-auto p-6">
-		{#if ctx.keypads.length === 0}
+		{#if keypads.length === 0}
 			<!-- Empty State -->
 			<div class="flex h-full flex-col items-center justify-center text-center">
 				<div class="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gray-100">
@@ -71,16 +74,8 @@
 		{:else}
 			<!-- Keypads Grid -->
 			<div class="flex flex-row flex-wrap justify-evenly gap-6">
-				{#each ctx.keypads as keypad}
-					<KeypadCard
-						zones={ctx.zones}
-						loads={ctx.loads}
-						allKeypadKeys={ctx.keypadKeys}
-						keyActions={ctx.keyActions}
-						unit={ctx.unit}
-						{keypad}
-						rooms={ctx.rooms}
-					/>
+				{#each keypads as keypad}
+					<KeypadCard allKeypadKeys={keypad.inputs} keyActions={[]} {keypad} {room} />
 				{/each}
 			</div>
 		{/if}

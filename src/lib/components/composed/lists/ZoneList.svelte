@@ -7,7 +7,6 @@
 	import Modal from '../modals/Modal.svelte';
 	import ZoneForm from '../forms/ZoneForm.svelte';
 	import { ZONE_FORM_TYPES } from '$lib/constants/zone';
-	import { getZoneRooms } from '$lib/utils/filter';
 
 	const ctx = getDashboardContext();
 
@@ -21,7 +20,7 @@
 
 <Modal title={ZONE_FORM_TYPES.CREATE} bind:showModal>
 	{#key modalKey}
-		<ZoneForm type={ZONE_FORM_TYPES.CREATE} unit={ctx.unit} bind:showModal />
+		<ZoneForm type={ZONE_FORM_TYPES.CREATE} unit={ctx.domainGraph.unit} bind:showModal />
 	{/key}
 </Modal>
 
@@ -38,9 +37,9 @@
 
 	<!-- Zones -->
 	<div class="space-y-4">
-		{#if ctx.zones.length > 0}
-			{#each ctx.zones as zone}
-				<ZoneCard unit={ctx.unit} {zone} rooms={getZoneRooms(zone.id, ctx.rooms)} />
+		{#if ctx.domainGraph.layout.zones.length > 0}
+			{#each ctx.domainGraph.layout.zones as zone}
+				<ZoneCard unit={ctx.domainGraph.unit} {zone} />
 			{/each}
 		{:else}
 			<div class="py-8 text-center">

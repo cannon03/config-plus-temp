@@ -15,28 +15,27 @@
 	import type { KeypadKeyActionResponse } from '$lib/types/key_action';
 
 	const {
-		unit,
-		zones,
-		loads,
 		keypad,
-		allKeypadKeys,
-		rooms,
+		keypadKeys,
+		allZones,
+		allRooms,
+		selectedRoom,
+		selectedZone,
 		keyActions
 	}: {
-		unit: Unit;
-		zones: Array<ZoneResponse>;
-		loads: Array<LoadResponse>;
-		allKeypadKeys: Array<KeypadInputResponse>;
+		keypadKeys: Array<KeypadInputResponse>;
 		keypad: KeypadResponse;
-		rooms: Array<RoomResponse>;
+		allZones: Array<ZoneResponse>;
+		allRooms: Array<RoomResponse>;
+		selectedRoom: RoomResponse;
+		selectedZone: ZoneResponse;
 		keyActions: Array<KeypadKeyActionResponse>;
 	} = $props();
 
-	const keypadKeys = $derived.by(() => allKeypadKeys.filter((k) => k.keypad === keypad.id));
+	// const keypadKeys = $derived.by(() => allKeypadKeys.filter((k) => k.keypad === keypad.id));
 	const mappedKeys = $derived.by(() =>
 		keypadKeys.filter((k) => keyActions.some((ka) => ka.key === k.id))
 	);
-	const room = $derived.by(() => rooms.find((r) => r.id === keypad.location_room)!);
 
 	const keypadType = $derived.by(
 		() => KEYPAD_TYPES[`${keypad.num_keys}key` as keyof typeof KEYPAD_TYPES]
@@ -81,7 +80,7 @@
 			<h3 class="font-semibold text-gray-900">Address {keypad.address}</h3>
 			<h3 class="font-semibold text-gray-900">CAT-6 Branch: {keypad.cat6_branch}</h3>
 
-			<p class="text-sm text-gray-600">{room.name}</p>
+			<p class="text-sm text-gray-600">{selectedRoom.name}</p>
 
 			<p class="text-xs text-blue-600">{keypad.num_keys}-key Keypad</p>
 		</div>
@@ -95,14 +94,14 @@
 	</div>
 
 	<KeypadKeyCard
-		{unit}
-		allRooms={rooms}
-		keyPad={keypad}
-		{zones}
-		{loads}
+		{keypad}
 		{keyActions}
 		type={keypadType}
 		{keypadKeys}
+		{allZones}
+		{allRooms}
+		{selectedRoom}
+		{selectedZone}
 	/>
 
 	<!-- Programming Status -->

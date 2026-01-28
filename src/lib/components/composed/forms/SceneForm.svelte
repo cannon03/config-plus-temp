@@ -1,8 +1,6 @@
 <script lang="ts">
-	// (same script as before \u2014 untouched)
 	import { SCENE_FORM_CONTROL_SCOPES, SCENE_PRESETS, SCENE_PRIORITY } from '$lib/constants/scene';
-	import type { KeypadResponse } from '$lib/types/keypad';
-	import type { KeypadKeyResponse } from '$lib/types/keypadkey';
+
 	import type { RoomResponse } from '$lib/types/room';
 	import type { SceneFormControlScopeValue, ScenePreset, SceneRequest } from '$lib/types/scene';
 	import type { Unit } from '$lib/types/unit';
@@ -18,44 +16,48 @@
 	import { SCENE_LOAD_DELAY_MS, SCENE_LOAD_FADE_MS } from '$lib/constants/scene_load';
 	import { KEY_ACTION_STATES, KEY_ACTION_TYPES, KEY_EVENT_TYPES } from '$lib/constants/key_action';
 	import { createKeyAction } from '$lib/api/key_action';
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import SceneLoadsManager from '../lists/SceneLoadsManager.svelte';
 	import SceneLoadsSelectorCard from '../cards/SceneLoadsSelectorCard.svelte';
 	import ControlScopeSelectorCard from '../cards/ControlScopeSelectorCard.svelte';
 	import ScenePresetSelectorCard from '../cards/ScenePresetSelectorCard.svelte';
 	import KeyActionSelectorCard from '../cards/KeyActionSelectorCard.svelte';
 	import { MODAL_RETURN_TYPES } from '$lib/constants/modal';
+	import type { InputResponse } from '$lib/types/input';
+	import type { KeyInput } from '$lib/types/key_input';
 
 	let {
 		unit,
+		room,
+		inputKey,
+		input,
+		allZones,
 		allRooms,
-		keypadKey,
-		keyPad,
-		zones,
+		zone,
 		loads,
 		showModal = $bindable(false)
 	}: {
 		unit: Unit;
-		keypadKey: KeypadKeyResponse;
-		keyPad: KeypadResponse;
-		zones: Array<ZoneResponse>;
+		input: InputResponse;
+		inputKey: KeyInput;
+		allZones: Array<ZoneResponse>;
 		allRooms: Array<RoomResponse>;
+		zone: ZoneResponse;
+		room: RoomResponse;
 		loads: Array<LoadResponse>;
 		showModal?: boolean;
 	} = $props();
 
 	let controlScope = $state<SceneFormControlScopeValue>(SCENE_FORM_CONTROL_SCOPES.ROOM.value);
 
-	let selectedRoomId = $state(keyPad.location_room);
-	let selectedZoneId = $state(
-		zones.find((zone) => zone.id === allRooms.find((r) => r.id === keyPad.location_room)!.zone)!.id
-	);
+	let selectedRoomId = $derived(room.id);
+	let selectedZoneId = $derived(zone.id);
 
 	let sceneLoads = $state<Array<SceneLoadData>>([]);
 	let showSuccessModal = $state(false);
 
-	const selectedRoom = $derived.by(() => allRooms.find((room) => room.id === selectedRoomId)!);
-	const selectedZone = $derived.by(() => zones.find((zone) => zone.id === selectedZoneId)!);
+	const selectedRoom = $derived.by(() => room);
+	const selectedZone = $derived.by(() => zone);
 
 	let selectedLoad = $state<LoadResponse | null>(null);
 
@@ -70,7 +72,8 @@
 		return 0;
 	});
 
-	let sceneName = $state(keypadKey.name ?? `Key ${keypadKey.key_number}`);
+	let keyIdentifier = $derived(inputKey.key_index);
+	let sceneName = $derived(inputKey.name ?? `Key ${keyIdentifier}`);
 
 	let sceneRequest = $derived.by<SceneRequest>(() => ({
 		unit: unit.id,
@@ -81,12 +84,9 @@
 	}));
 
 	let availiableLoads = $derived.by(() => {
-		if (controlScope === SCENE_FORM_CONTROL_SCOPES.ROOM.value)
-			return loads.filter((load) => load.room === selectedRoom.id);
-		if (controlScope === SCENE_FORM_CONTROL_SCOPES.ZONE.value) {
-			const zoneRooms = allRooms.filter((room) => room.zone === selectedZone.id);
-			return loads.filter((load) => zoneRooms.some((room) => room.id === load.room));
-		}
+		if (controlScope === SCENE_FORM_CONTROL_SCOPES.ROOM.value) return room.loads;
+		if (controlScope === SCENE_FORM_CONTROL_SCOPES.ZONE.value)
+			return zone.rooms.flatMap((room) => room.loads);
 		return loads;
 	});
 
@@ -114,7 +114,7 @@
 		await createSceneLoads(sceneLoadsRequests);
 
 		await createKeyAction(<KeyActionRequest>{
-			key: keypadKey.id,
+			key: inputKey.id,
 			event_type: selectedKeyAction,
 			action_type: KEY_ACTION_TYPES.scene,
 			action_target: scene.id,
@@ -136,6 +136,10 @@
 			showModal = false;
 		}
 	}
+
+	onMount(() => {
+		console.log('LOADS IN SCENE EDITOR:', $state.snapshot(loads));
+	});
 </script>
 
 <Modal title="Success" bind:showModal={showSuccessModal} {onClosed}>
@@ -208,9 +212,9 @@
 				bind:selectedZoneId
 				bind:sceneLoads
 				{availiableLoads}
-				keypad={keyPad}
+				{input}
 				{allRooms}
-				{zones}
+				zones={allZones}
 				{unit}
 			/>
 

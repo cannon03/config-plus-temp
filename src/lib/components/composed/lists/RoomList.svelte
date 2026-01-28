@@ -4,7 +4,7 @@
 	import type { RoomResponse } from '$lib/types/room';
 	import type { ZoneResponse } from '$lib/types/zone';
 
-	let { zone, rooms }: { zone: ZoneResponse; rooms: RoomResponse[] } = $props();
+	let { zone, rooms }: { zone: ZoneResponse; rooms: Array<RoomResponse> } = $props();
 </script>
 
 {#if rooms.length > 0}

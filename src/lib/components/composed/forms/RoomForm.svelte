@@ -12,6 +12,8 @@
 		type,
 		showModal = $bindable(false)
 	}: { zone: ZoneResponse; room?: RoomResponse; showModal: boolean; type: string } = $props();
+
+	console.log('ZONE', zone);
 	let roomRequest = $state<RoomRequest>({
 		zone: zone.id,
 		name: room?.name ?? ''

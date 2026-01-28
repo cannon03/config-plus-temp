@@ -4,7 +4,7 @@
 	import type { SceneFormControlScopeValue } from '$lib/types/scene';
 	import type { ZoneResponse } from '$lib/types/zone';
 	import type { Unit } from '$lib/types/unit';
-	import type { KeypadResponse } from '$lib/types/keypad';
+	import type { InputResponse } from '$lib/types/input';
 	import type { LoadResponse } from '$lib/types/load';
 	import type { SceneLoadData } from '$lib/types/scene_load';
 
@@ -14,7 +14,7 @@
 		selectedZoneId = $bindable(),
 		sceneLoads = $bindable(),
 		availiableLoads,
-		keypad,
+		input,
 		allRooms,
 		zones,
 		unit
@@ -24,7 +24,7 @@
 		selectedZoneId: number;
 		sceneLoads: Array<SceneLoadData>;
 		availiableLoads: Array<LoadResponse>;
-		keypad: KeypadResponse;
+		input: InputResponse;
 		allRooms: Array<RoomResponse>;
 		zones: Array<ZoneResponse>;
 		unit: Unit;
@@ -40,8 +40,8 @@
 		} else if (controlScope === SCENE_FORM_CONTROL_SCOPES.ZONE.value) {
 			selectedZoneId = value;
 		} else if (controlScope === SCENE_FORM_CONTROL_SCOPES.ALL.value) {
-			selectedRoomId = keypad.location_room;
-			selectedZoneId = allRooms.find((r) => r.id === keypad.location_room)?.zone ?? selectedZoneId;
+			selectedRoomId = input.location_room;
+			selectedZoneId = allRooms.find((r) => r.id === input.location_room)?.zone ?? selectedZoneId;
 		}
 	}
 

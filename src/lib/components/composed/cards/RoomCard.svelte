@@ -6,14 +6,20 @@
 	import { ROOM_FORM_TYPES } from '$lib/constants/room';
 	import RoomForm from '../forms/RoomForm.svelte';
 	import type { ZoneResponse } from '$lib/types/zone';
+	import { onMount } from 'svelte';
 
 	let { zone, room }: { zone: ZoneResponse; room: RoomResponse } = $props();
+
 	let showDelModal = $state(false);
 	let showModal = $state(false);
 	async function del(e: Event) {
 		await deleteRoom(room.id);
 		showDelModal = false;
 	}
+
+	onMount(() => {
+		console.log('ZONE__ROOM', zone);
+	});
 </script>
 
 <Modal title="Delete Room" bind:showModal={showDelModal}>
@@ -39,9 +45,9 @@
 	</div>
 </Modal>
 
-<Modal title={ROOM_FORM_TYPES.EDIT} bind:showModal>
+<!-- <Modal title={ROOM_FORM_TYPES.EDIT} bind:showModal>
 	<RoomForm {zone} {room} type={ROOM_FORM_TYPES.EDIT} bind:showModal />
-</Modal>
+</Modal> -->
 
 <div
 	class="flex items-center justify-between rounded-lg border border-gray-200 p-3 hover:bg-gray-50"

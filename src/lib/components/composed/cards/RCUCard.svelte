@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Cpu, Trash2, Pencil, Plus } from 'lucide-svelte';
-	import { getChannelsForRCU, getDinModulesForRCU } from '$lib/utils/filter';
+	import { getChannelsForRCU } from '$lib/utils/filter';
 	import MappedChannelList from '$lib/components/composed/lists/MappedChannelList.svelte';
 	import DinModuleList from '$lib/components/composed/lists/DinModuleList.svelte';
 	import Modal from '../modals/Modal.svelte';
@@ -39,7 +39,7 @@
 	let showMapChannelModal = $state(false);
 
 	const rcuChannels = $derived.by(() => getChannelsForRCU(rcu.id, channels));
-	const rcuModules = $derived.by(() => getDinModulesForRCU(rcu.id, dinModules));
+	const rcuModules = $derived.by(() => rcu.din_modules);
 
 	const usedChannels = $derived.by(() => rcuChannels.map((ch) => ch.channel_number));
 

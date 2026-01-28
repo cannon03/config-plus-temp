@@ -1,5 +1,6 @@
 import type { ChannelResponse } from './channel';
 import type { DinModuleResponse } from './din_module';
+import type { UnitDomainGraphResponse } from './domain_graph';
 import type { KeypadKeyActionResponse } from './key_action';
 import type { KeypadResponse } from './keypad';
 import type { KeypadInputResponse } from './keypadkey';
@@ -13,17 +14,18 @@ import type { Unit } from './unit';
 import type { ZoneResponse } from './zone';
 
 export type DashboardContext = {
-	unit: Unit;
-	scenes: Array<SceneResponse>;
-	rcus: Array<RCUResponse>;
-	keypads: Array<KeypadResponse>;
-	loads: Array<LoadResponse>;
-	zones: Array<ZoneResponse>;
-	rooms: Array<RoomResponse>;
-	dinModules: Array<DinModuleResponse>;
-	channels: Array<ChannelResponse>;
-	keyActions: Array<KeypadKeyActionResponse>;
-	sceneLoads: Array<SceneLoadResponse>;
-	roomProducts: Array<RoomProductResponse>;
-	keypadInputs: Array<KeypadInputResponse>;
+	// unit: Unit;
+	// scenes: Array<SceneResponse>;
+	// rcus: Array<RCUResponse>;
+	// keypads: Array<KeypadResponse>;
+	// loads: Array<LoadResponse>;
+	// zones: Array<ZoneResponse>;
+	// rooms: Array<RoomResponse>;
+	// dinModules: Array<DinModuleResponse>;
+	// channels: Array<ChannelResponse>;
+	// keyActions: Array<KeypadKeyActionResponse>;
+	// sceneLoads: Array<SceneLoadResponse>;
+	// roomProducts: Array<RoomProductResponse>;
+	// keypadInputs: Array<KeypadInputResponse>;
+	domainGraph: UnitDomainGraphResponse;
 };

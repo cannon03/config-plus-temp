@@ -1,5 +1,6 @@
 import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 import { RELOAD_TARGETS } from '$lib/constants/dashboard';
+import type { UnitDomainGraphResponse } from '$lib/types/domain_graph';
 import type { Unit, UnitRequest } from '$lib/types/unit';
 
 const PATH = '/api/units/';
@@ -57,4 +58,16 @@ export async function deleteUnit(unitId: number) {
 		return;
 	}
 	throw Error(`Unable to delete unit: ${response.statusText}`);
+}
+
+export async function fetchUnitDomainGraph(unitId: number) {
+	const response = await fetch(`${API_BASE}${PATH}${unitId}/domain_graph/`, {
+		method: 'GET',
+		headers: getApiAuthHeaders()
+	});
+	const body = await response.json();
+	if (response.ok) {
+		return body as UnitDomainGraphResponse;
+	}
+	throw Error(`Unable to fetch unit: ${body}`);
 }

@@ -12,27 +12,29 @@
 	import type { KeypadResponse } from '$lib/types/keypad';
 	import type { ZoneResponse } from '$lib/types/zone';
 	import type { LoadResponse } from '$lib/types/load';
+	import { getDashboardContext } from '$lib/context/dashboard';
 
 	const {
+		keypad,
 		keypadKey,
-		keyActions,
-		buttonSize,
-		unit,
+		allZones,
 		allRooms,
-		keyPad,
-		zones,
-		loads
+		selectedRoom,
+		selectedZone,
+		keyActions,
+		buttonSize
 	}: {
+		keypad: KeypadResponse;
 		keypadKey: KeypadInputResponse;
-		keyActions: Array<KeypadKeyActionResponse>;
-		unit: Unit;
-		keyPad: KeypadResponse;
-		zones: Array<ZoneResponse>;
+		allZones: Array<ZoneResponse>;
 		allRooms: Array<RoomResponse>;
-		loads: Array<LoadResponse>;
+		selectedRoom: RoomResponse;
+		selectedZone: ZoneResponse;
+		keyActions: Array<KeypadKeyActionResponse>;
 		buttonSize: number;
 	} = $props();
 
+	const ctx = getDashboardContext();
 	let showKeypadEditModal = $state(false);
 	let showModal = $state(false);
 	const existingKeyActions = $derived.by(() => keyActions.filter((ka) => ka.key === keypadKey.id));
@@ -49,11 +51,21 @@
 	<KeypadKeyInfoModal bind:showModal={showKeypadEditModal} {keypadKey} />
 {/if} -->
 
-<!-- {#key sceneModalKey}
+{#key sceneModalKey}
 	<Modal bind:showModal title={SCENE_FORM_TYPES.CREATE}>
-		<SceneForm bind:showModal {unit} {allRooms} {keyPad} {zones} {loads} {keypadKey} />
+		<SceneForm
+			bind:showModal
+			unit={ctx.domainGraph.unit}
+			input={keypad}
+			inputKey={keypadKey}
+			{allZones}
+			{allRooms}
+			room={selectedRoom}
+			zone={selectedZone}
+			loads={selectedRoom.loads}
+		/>
 	</Modal>
-{/key} -->
+{/key}
 
 <div class="relative flex flex-col items-center justify-center">
 	<!-- Main key button -->

@@ -7,19 +7,7 @@
 	import { Expand, Minimize } from 'lucide-svelte';
 	import { DASHBOARD_TABS, RELOAD_TARGETS } from '$lib/constants/dashboard.js';
 	import { setDashboardContext } from '$lib/context/dashboard.js';
-	import { fetchScenes } from '$lib/api/scene';
-	import { fetchRCUs } from '$lib/api/rcu';
-	import { fetchKeypads } from '$lib/api/keypad';
-	import { fetchLoads } from '$lib/api/load';
-	import { fetchRooms } from '$lib/api/room';
-	import { fetchZones } from '$lib/api/zone';
-	import { fetchDinModules } from '$lib/api/din_module';
-	import { fetchChannels } from '$lib/api/channel';
-	import { fetchKeypadKeys } from '$lib/api/keypadkey.js';
-	import { fetchKeypadKeyActions } from '$lib/api/key_action.js';
-	import { fetchSceneLoads } from '$lib/api/scene_load.js';
-	import { fetchRoomProductById } from '$lib/api/room_product';
-	import type { RoomProductResponse } from '$lib/types/product';
+	import { fetchUnitDomainGraph } from '$lib/api/unit';
 	let { children, params, data } = $props();
 
 	// helper to compute href
@@ -39,136 +27,149 @@
 	const ctx = $state(data);
 	setDashboardContext(ctx);
 
-	async function refetchLoads() {
-		const all = await fetchLoads();
-		ctx.loads = all.filter((l) => ctx.rooms.some((r) => r.id === l.room));
-	}
+	// async function refetchLoads() {
+	// 	const all = await fetchLoads();
+	// 	ctx.loads = all.filter((l) => ctx.rooms.some((r) => r.id === l.room));
+	// }
 
-	async function refetchRooms() {
-		const all = await fetchRooms();
-		ctx.rooms = all.filter((r) => ctx.zones.some((z) => z.id === r.zone));
-	}
+	// async function refetchRooms() {
+	// 	const all = await fetchRooms();
+	// 	ctx.rooms = all.filter((r) => ctx.zones.some((z) => z.id === r.zone));
+	// }
 
-	async function refetchZones() {
-		const all = await fetchZones();
-		ctx.zones = all.filter((z) => z.unit === ctx.unit.id);
-	}
+	// async function refetchZones() {
+	// 	const all = await fetchZones();
+	// 	ctx.zones = all.filter((z) => z.unit === ctx.unit.id);
+	// }
 
-	async function refetchKeypads() {
-		const all = await fetchKeypads();
-		ctx.keypads = all.filter((k) => ctx.rooms.some((r) => k.location_room === r.id));
-		const allKeys = await fetchKeypadKeys();
-		ctx.keypadKeys = allKeys.filter((k) => ctx.keypads.some((kp) => kp.id == k.keypad));
-	}
+	// async function refetchKeypads() {
+	// 	const all = await fetchKeypads();
+	// 	ctx.keypads = all.filter((k) => ctx.rooms.some((r) => k.location_room === r.id));
+	// 	const allKeys = await fetchKeypadKeys();
+	// 	ctx.keypadKeys = allKeys.filter((k) => ctx.keypads.some((kp) => kp.id == k.keypad));
+	// }
 
-	async function refetchChannels() {
-		const all = await fetchChannels();
-		ctx.channels = all.filter((channel) => ctx.loads.some((l) => l.id == channel.load));
-		console.log($state.snapshot(ctx.channels));
-	}
+	// async function refetchChannels() {
+	// 	const all = await fetchChannels();
+	// 	ctx.channels = all.filter((channel) => ctx.loads.some((l) => l.id == channel.load));
+	// 	console.log($state.snapshot(ctx.channels));
+	// }
 
-	async function refetchKeypadKeys() {
-		const all = await fetchKeypadKeys();
-		ctx.keypadKeys = all.filter((k) => ctx.keypads.some((kp) => kp.id == k.keypad));
-	}
+	// async function refetchKeypadKeys() {
+	// 	const all = await fetchKeypadKeys();
+	// 	ctx.keypadKeys = all.filter((k) => ctx.keypads.some((kp) => kp.id == k.keypad));
+	// }
 
-	async function refetchKeyActions() {
-		const all = await fetchKeypadKeyActions();
-		ctx.keyActions = all.filter((ka) => ctx.keypadKeys.some((k) => k.id == ka.key));
-	}
+	// async function refetchKeyActions() {
+	// 	const all = await fetchKeypadKeyActions();
+	// 	ctx.keyActions = all.filter((ka) => ctx.keypadKeys.some((k) => k.id == ka.key));
+	// }
 
-	async function refetchScenes() {
-		const all = await fetchScenes();
-		ctx.scenes = all.filter((s) => s.unit === ctx.unit.id);
-	}
+	// async function refetchScenes() {
+	// 	const all = await fetchScenes();
+	// 	ctx.scenes = all.filter((s) => s.unit === ctx.unit.id);
+	// }
 
-	async function refetchSceneLoads() {
-		const all = await fetchSceneLoads();
-		ctx.sceneLoads = all.filter((sl) => ctx.scenes.some((s) => s.id == sl.scene));
-	}
+	// async function refetchSceneLoads() {
+	// 	const all = await fetchSceneLoads();
+	// 	ctx.sceneLoads = all.filter((sl) => ctx.scenes.some((s) => s.id == sl.scene));
+	// }
 
-	async function refetchRoomProducts() {
-		let allRoomProducts: Array<RoomProductResponse> = [];
-		for (const room of ctx.rooms) {
-			const products = await fetchRoomProductById(room.id);
-			allRoomProducts = [...allRoomProducts, ...products];
-		}
-		ctx.roomProducts = allRoomProducts;
-	}
+	// async function refetchRoomProducts() {
+	// 	let allRoomProducts: Array<RoomProductResponse> = [];
+	// 	for (const room of ctx.rooms) {
+	// 		const products = await fetchRoomProductById(room.id);
+	// 		allRoomProducts = [...allRoomProducts, ...products];
+	// 	}
+	// 	ctx.roomProducts = allRoomProducts;
+	// }
+
+	// async function reload(type: string) {
+	// 	switch (type) {
+	// 		case RELOAD_TARGETS.LOADS: {
+	// 			await refetchLoads();
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.ROOMS: {
+	// 			await refetchRooms();
+	// 			await refetchLoads();
+	// 			await refetchKeypads();
+	// 			await refetchRoomProducts();
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.ZONES: {
+	// 			await refetchZones();
+	// 			await refetchRooms();
+	// 			await refetchLoads();
+	// 			await refetchKeypads();
+	// 			await refetchRoomProducts();
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.SCENE_LOADS: {
+	// 			await refetchSceneLoads();
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.SCENES: {
+	// 			refetchScenes();
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.RCUS: {
+	// 			const all = await fetchRCUs();
+	// 			ctx.rcus = all.filter((r) => r.unit === ctx.unit.id);
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.ZONES: {
+	// 			await refetchZones();
+	// 			await refetchRooms();
+	// 			await refetchLoads();
+	// 			await refetchKeypads();
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.KEYPADS: {
+	// 			await refetchKeypads();
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.DIN_MODULES: {
+	// 			const all = await fetchDinModules();
+	// 			ctx.dinModules = all.filter((d) => ctx.rcus.some((r) => d.rcu === r.id));
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.CHANNELS: {
+	// 			refetchChannels();
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.KEYPAD_KEYS: {
+	// 			refetchKeypadKeys();
+	// 			break;
+	// 		}
+
+	// 		case RELOAD_TARGETS.KEY_ACTIONS: {
+	// 			refetchKeyActions();
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.SCENE_LOADS: {
+	// 			refetchSceneLoads();
+	// 			break;
+	// 		}
+	// 		case RELOAD_TARGETS.ROOM_PRODUCTS: {
+	// 			refetchRoomProducts();
+	// 			break;
+	// 		}
+	// 	}
+	// }
 
 	async function reload(type: string) {
-		switch (type) {
-			case RELOAD_TARGETS.LOADS: {
-				await refetchLoads();
-				break;
-			}
-			case RELOAD_TARGETS.ROOMS: {
-				await refetchRooms();
-				await refetchLoads();
-				await refetchKeypads();
-				await refetchRoomProducts();
-				break;
-			}
-			case RELOAD_TARGETS.ZONES: {
-				await refetchZones();
-				await refetchRooms();
-				await refetchLoads();
-				await refetchKeypads();
-				await refetchRoomProducts();
-				break;
-			}
-			case RELOAD_TARGETS.SCENE_LOADS: {
-				await refetchSceneLoads();
-				break;
-			}
-			case RELOAD_TARGETS.SCENES: {
-				refetchScenes();
-				break;
-			}
-			case RELOAD_TARGETS.RCUS: {
-				const all = await fetchRCUs();
-				ctx.rcus = all.filter((r) => r.unit === ctx.unit.id);
-				break;
-			}
-			case RELOAD_TARGETS.ZONES: {
-				await refetchZones();
-				await refetchRooms();
-				await refetchLoads();
-				await refetchKeypads();
-				break;
-			}
-			case RELOAD_TARGETS.KEYPADS: {
-				await refetchKeypads();
-				break;
-			}
-			case RELOAD_TARGETS.DIN_MODULES: {
-				const all = await fetchDinModules();
-				ctx.dinModules = all.filter((d) => ctx.rcus.some((r) => d.rcu === r.id));
-				break;
-			}
-			case RELOAD_TARGETS.CHANNELS: {
-				refetchChannels();
-				break;
-			}
-			case RELOAD_TARGETS.KEYPAD_KEYS: {
-				refetchKeypadKeys();
-				break;
-			}
-
-			case RELOAD_TARGETS.KEY_ACTIONS: {
-				refetchKeyActions();
-				break;
-			}
-			case RELOAD_TARGETS.SCENE_LOADS: {
-				refetchSceneLoads();
-				break;
-			}
-			case RELOAD_TARGETS.ROOM_PRODUCTS: {
-				refetchRoomProducts();
-				break;
-			}
+		if ((Object.values(RELOAD_TARGETS) as string[]).includes(type)) {
+			ctx.domainGraph = await fetchUnitDomainGraph(ctx.domainGraph.unit.id);
 		}
 	}
+
+	const rcus = ctx.domainGraph.hardware.rcus;
+	const zones = ctx.domainGraph.layout.zones;
+	const rooms = ctx.domainGraph.layout.zones.flatMap((zone) => zone.rooms);
+	const loads = rooms.flatMap((room) => room.loads);
+	const keypads = rooms.flatMap((room) => room.keypads);
+	const dinModules = rcus.flatMap((rcu) => rcu.din_modules);
 
 	$effect(() => {
 		function handler(e: Event) {
@@ -193,22 +194,22 @@
 	<div class="grid w-full grid-cols-1 gap-6 lg:grid-cols-3">
 		<!-- Pass required props from the page load into these components -->
 		<ProjectProgressCard
-			num_scenes={data.scenes.length}
-			num_rcus={data.rcus.length}
-			num_keypads={data.keypads.length}
-			num_rooms={data.rooms.length}
-			num_zones={data.zones.length}
-			num_loads={data.loads.length}
+			num_scenes={0}
+			num_rcus={rcus.length}
+			num_keypads={keypads.length}
+			num_rooms={rooms.length}
+			num_zones={zones.length}
+			num_loads={loads.length}
 		/>
 
 		<HardwareInfoCard
-			num_rcus={data.rcus.length}
-			num_keypads={data.keypads.length}
-			num_loads={data.loads.length}
-			num_dinModules={data.dinModules.length}
+			num_rcus={rcus.length}
+			num_keypads={keypads.length}
+			num_loads={loads.length}
+			num_dinModules={dinModules.length}
 		/>
 
-		<UnitActionsCard unit={data.unit} />
+		<UnitActionsCard unit={ctx.domainGraph.unit} />
 	</div>
 	<div
 		class={`mt-8 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300

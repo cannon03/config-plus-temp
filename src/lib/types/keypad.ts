@@ -1,9 +1,9 @@
-export type KeypadResponse = {
-	id: number;
-	location_room: number;
-	address: number;
+import type { InputResponse } from './input';
+import type { KeypadInputResponse } from './keypadkey';
+
+export interface KeypadResponse extends InputResponse {
 	num_keys: 1 | 2 | 3 | 4 | 5 | 6;
-	cat6_branch: number;
+	inputs: Array<KeypadInputResponse>;
 };
 
 export type KeypadRequest = {
