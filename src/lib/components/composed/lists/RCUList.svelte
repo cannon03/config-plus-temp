@@ -12,10 +12,6 @@
 	const loads = $derived.by(() =>
 		ctx.domainGraph.layout.zones.flatMap((z) => z.rooms).flatMap((r) => r.loads)
 	);
-	const channels = $derived.by(() => ctx.domainGraph.hardware.rcus.flatMap((rcu) => rcu.channels));
-	const dinModules = $derived.by(() =>
-		ctx.domainGraph.hardware.rcus.flatMap((rcu) => rcu.din_modules)
-	);
 </script>
 
 <Modal bind:showModal title="Create RCU">
@@ -35,7 +31,7 @@
 		{#if ctx.domainGraph.hardware.rcus.length > 0}
 			<div class="space-y-4">
 				{#each ctx.domainGraph.hardware.rcus as rcu}
-					<RCUCard {rcu} unit={ctx.domainGraph.unit} {loads} {channels} {dinModules} />
+					<RCUCard {rcu} unit={ctx.domainGraph.unit} {loads} />
 				{/each}
 			</div>
 		{:else}

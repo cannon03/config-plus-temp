@@ -36,7 +36,7 @@
 			<div class="flex w-40 items-center justify-between space-x-2 rounded bg-gray-50 p-2 text-xs">
 				<span class="font-medium">CH{channel.channel_number}</span>
 				<Link class="h-3 w-3 text-gray-400" />
-				<span class="truncate text-gray-600">{findLoadName(channel.load, loads)}</span>
+				<span class="truncate text-gray-600">{findLoadName(channel.load_id, loads)}</span>
 				<button
 					class="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-600"
 					onclick={() => {
