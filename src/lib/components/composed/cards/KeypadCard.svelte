@@ -37,9 +37,19 @@
 		keypadKeys.filter((k) => keyActions.some((ka) => ka.key === k.id))
 	);
 
-	const keypadType = $derived.by(
-		() => KEYPAD_TYPES[`${keypad.num_keys}key` as keyof typeof KEYPAD_TYPES]
-	);
+	const keypadType = $derived.by(() => {
+		if (keypad.sub_type === 'corridor') {
+			return KEYPAD_TYPES['corridor'];
+		}
+		return KEYPAD_TYPES[`${keypad.num_keys}key` as keyof typeof KEYPAD_TYPES];
+	});
+
+	const keypadLabel = $derived.by(() => {
+		if (keypad.sub_type === 'corridor') {
+			return 'Corridor Panel';
+		}
+		return `${keypad.num_keys}-key Keypad`;
+	});
 
 	let showDelModal = $state(false);
 	async function del(e: Event) {
@@ -82,7 +92,7 @@
 
 			<p class="text-sm text-gray-600">{selectedRoom.name}</p>
 
-			<p class="text-xs text-blue-600">{keypad.num_keys}-key Keypad</p>
+			<p class="text-xs text-blue-600">{keypadLabel}</p>
 		</div>
 		<button
 			class="p-1 text-red-500 transition-colors hover:text-red-700"
