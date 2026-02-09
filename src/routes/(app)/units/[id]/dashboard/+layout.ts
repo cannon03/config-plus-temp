@@ -65,7 +65,7 @@ export const load: LayoutLoad = async ({ params }) => {
 	// 	keypads.some((keypad) => keypad.id == keypadKey.keypad)
 	// );
 
-	const allKeypadKeyActions = await fetchKeypadKeyActions();
+	// const allKeypadKeyActions = await fetchKeypadKeyActions();
 	// const keypadKeyActions = allKeypadKeyActions.filter((keyAction) =>
 	// 	keypadKeys.some((key) => key.id == keyAction.key)
 	// );
