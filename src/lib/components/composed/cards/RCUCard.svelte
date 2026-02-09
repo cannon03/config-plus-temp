@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Cpu, Trash2, Pencil, Plus } from 'lucide-svelte';
-	import { getChannelsForRCU, getDinModulesForRCU } from '$lib/utils/filter';
 	import MappedChannelList from '$lib/components/composed/lists/MappedChannelList.svelte';
 	import DinModuleList from '$lib/components/composed/lists/DinModuleList.svelte';
 	import Modal from '../modals/Modal.svelte';
@@ -12,23 +11,17 @@
 	import type { Unit } from '$lib/types/unit';
 	import type { RCUResponse } from '$lib/types/rcu';
 	import type { LoadResponse } from '$lib/types/load';
-	import type { ChannelResponse } from '$lib/types/channel';
-	import type { DinModuleResponse } from '$lib/types/din_module';
 	import DinModuleForm from '../forms/DinModuleForm.svelte';
 	import { DIN_MODULE_FORM_TYPES } from '$lib/constants/din_module';
 
 	const {
 		unit,
 		rcu,
-		loads,
-		channels,
-		dinModules
+		loads
 	}: {
 		unit: Unit;
 		rcu: RCUResponse;
 		loads: Array<LoadResponse>;
-		channels: Array<ChannelResponse>;
-		dinModules: Array<DinModuleResponse>;
 	} = $props();
 
 	const totalChannels = rcu.channel_count;
@@ -38,23 +31,29 @@
 	let showAddModuleModal = $state(false);
 	let showMapChannelModal = $state(false);
 
-	const rcuChannels = $derived.by(() => getChannelsForRCU(rcu.id, channels));
-	const rcuModules = $derived.by(() => getDinModulesForRCU(rcu.id, dinModules));
+	// Use channels directly from the RCU object
+	const rcuChannels = $derived.by(() => rcu.channels || []);
+	const rcuModules = $derived.by(() => rcu.din_modules || []);
 
 	const usedChannels = $derived.by(() => rcuChannels.map((ch) => ch.channel_number));
 
-	// compute available ones
+	// compute available channels
 	const availableChannels = $derived.by(() =>
 		Array.from({ length: totalChannels }, (_, i) => i + 1).filter(
 			(num) => !usedChannels.includes(num)
 		)
 	);
 
-	const usedLoadIds = $derived.by(() => new Set(channels.map((ch) => ch.load)));
+	// Get all used load IDs from RCU channels and DIN module channels
+	const usedLoadIds = $derived.by(() => {
+		const rcuLoadIds = rcuChannels.map((ch) => ch.load_id);
+		const dinLoadIds = rcuModules.flatMap((m) => (m.channels || []).map((ch) => ch.load_id));
+		return new Set([...rcuLoadIds, ...dinLoadIds]);
+	});
 
 	const availableLoads = $derived.by(() => loads.filter((load) => !usedLoadIds.has(load.id)));
 
-	const usedAddresses = $derived.by(() => new Set(dinModules.map((module) => module.address)));
+	const usedAddresses = $derived.by(() => new Set(rcuModules.map((module) => module.address)));
 	const availableAddresses = $derived.by(() =>
 		Array.from({ length: rcu.channel_count }, (_, i) => i + 1).filter(
 			(num) => !usedAddresses.has(num)
@@ -157,6 +156,6 @@
 			</button>
 		</div>
 
-		<DinModuleList modules={rcuModules} {channels} {loads} />
+		<DinModuleList modules={rcuModules} {loads} />
 	</div>
 </div>

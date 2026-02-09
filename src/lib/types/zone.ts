@@ -1,7 +1,9 @@
+import type { RoomResponse } from './room';
+
 export type ZoneResponse = {
 	id: number;
 	name: string;
-	unit: number;
+	rooms: Array<RoomResponse>;
 };
 
 export type ZoneRequest = {

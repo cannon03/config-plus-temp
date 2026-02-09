@@ -1,6 +1,10 @@
 import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 import { RELOAD_TARGETS } from '$lib/constants/dashboard';
-import type { KeypadKeyRequest, KeypadKeyResponse } from '$lib/types/keypadkey';
+import type {
+	KeypadInputResponse,
+	KeypadKeyRequest,
+	KeypadKeyResponse
+} from '$lib/types/keypadkey';
 
 const PATH = '/api/keypadkeys/';
 
@@ -28,4 +32,16 @@ export async function updateKeypadKey(id: number, keypadKeyRequest: KeypadKeyReq
 		return body as KeypadKeyResponse;
 	}
 	throw Error(`Unable to update keypad key: ${body}`);
+}
+
+export async function fetchKeypadInputs() {
+	const response = await fetch(`${API_BASE}/api/keypad_inputs/`, {
+		method: 'GET',
+		headers: getApiAuthHeaders()
+	});
+	const body = await response.json();
+	if (response.ok) {
+		return body as Array<KeypadInputResponse>;
+	}
+	throw Error(`Unable to fetch keypad inputs: ${body}`);
 }

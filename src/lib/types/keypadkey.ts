@@ -1,3 +1,5 @@
+import type { KeyInput } from "./key_input";
+
 export type KeypadKeyResponse = {
 	id: number;
 	name: string | null;
@@ -8,4 +10,8 @@ export type KeypadKeyResponse = {
 
 export type KeypadKeyRequest = {
 	name: string;
+};
+
+export interface KeypadInputResponse extends KeyInput {
+	keypad: number;
 };

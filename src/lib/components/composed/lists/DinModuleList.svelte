@@ -2,13 +2,13 @@
 	import { Settings } from 'lucide-svelte';
 	import DinModuleCard from '$lib/components/composed/cards/DinModuleCard.svelte';
 
-	const { modules, channels, loads } = $props();
+	const { modules, loads } = $props();
 </script>
 
 {#if modules.length > 0}
 	<div class="space-y-3">
 		{#each modules as module}
-			<DinModuleCard {module} {channels} {loads} />
+			<DinModuleCard {module} {loads} />
 		{/each}
 	</div>
 {:else}

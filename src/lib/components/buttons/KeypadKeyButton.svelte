@@ -1,6 +1,6 @@
 <script lang="ts">
 	import switchIcon from '$lib/assets/keypad_switch.svg';
-	import type { KeypadKeyResponse } from '$lib/types/keypadkey';
+	import type { KeypadInputResponse } from '$lib/types/keypadkey';
 	import { Info } from 'lucide-svelte';
 	import KeypadKeyInfoModal from '../composed/modals/KeypadKeyInfoModal.svelte';
 	import type { KeypadKeyActionResponse } from '$lib/types/key_action';
@@ -12,27 +12,29 @@
 	import type { KeypadResponse } from '$lib/types/keypad';
 	import type { ZoneResponse } from '$lib/types/zone';
 	import type { LoadResponse } from '$lib/types/load';
+	import { getDashboardContext } from '$lib/context/dashboard';
 
 	const {
+		keypad,
 		keypadKey,
-		keyActions,
-		buttonSize,
-		unit,
+		allZones,
 		allRooms,
-		keyPad,
-		zones,
-		loads
+		selectedRoom,
+		selectedZone,
+		keyActions,
+		buttonSize
 	}: {
-		keypadKey: KeypadKeyResponse;
-		keyActions: Array<KeypadKeyActionResponse>;
-		unit: Unit;
-		keyPad: KeypadResponse;
-		zones: Array<ZoneResponse>;
+		keypad: KeypadResponse;
+		keypadKey: KeypadInputResponse;
+		allZones: Array<ZoneResponse>;
 		allRooms: Array<RoomResponse>;
-		loads: Array<LoadResponse>;
+		selectedRoom: RoomResponse;
+		selectedZone: ZoneResponse;
+		keyActions: Array<KeypadKeyActionResponse>;
 		buttonSize: number;
 	} = $props();
 
+	const ctx = getDashboardContext();
 	let showKeypadEditModal = $state(false);
 	let showModal = $state(false);
 	const existingKeyActions = $derived.by(() => keyActions.filter((ka) => ka.key === keypadKey.id));
@@ -45,14 +47,23 @@
 	}
 </script>
 
-{#if showKeypadEditModal}
-	<!-- Svelte will re render the modal every time showKeypadEditModal changes -->
+<!-- {#if showKeypadEditModal}
 	<KeypadKeyInfoModal bind:showModal={showKeypadEditModal} {keypadKey} />
-{/if}
+{/if} -->
 
 {#key sceneModalKey}
 	<Modal bind:showModal title={SCENE_FORM_TYPES.CREATE}>
-		<SceneForm bind:showModal {unit} {allRooms} {keyPad} {zones} {loads} {keypadKey} />
+		<SceneForm
+			bind:showModal
+			unit={ctx.domainGraph.unit}
+			input={keypad}
+			inputKey={keypadKey}
+			{allZones}
+			{allRooms}
+			room={selectedRoom}
+			zone={selectedZone}
+			loads={selectedRoom.loads}
+		/>
 	</Modal>
 {/key}
 
@@ -81,7 +92,7 @@
 		}}
 		class="mt-2 rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white shadow-sm hover:cursor-pointer"
 	>
-		{keypadKey.name ?? 'Key ' + keypadKey.key_number}
+		{keypadKey.name ?? 'Key ' + keypadKey.key_index}
 	</button>
 
 	<!-- Green status indicator -->

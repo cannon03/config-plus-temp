@@ -1,17 +1,17 @@
 <script lang="ts">
 	import LoadsList from '$lib/components/composed/lists/LoadList.svelte';
 	import { getDashboardContext } from '$lib/context/dashboard';
-	import { getRoomLoads } from '$lib/utils/filter';
-	import { MapPin, Plus } from 'lucide-svelte';
+	import { MapPin } from 'lucide-svelte';
 
 	const ctx = getDashboardContext();
+	const rooms = $derived.by(() => ctx.domainGraph.layout.zones.flatMap((z) => z.rooms));
 </script>
 
 <!-- Loads by Room -->
 <div class="space-y-6">
-	{#if ctx.rooms.length > 0}
-		{#each ctx.rooms as room}
-			<LoadsList loads={getRoomLoads(ctx.loads, room.id)} {room} />
+	{#if rooms.length > 0}
+		{#each rooms as room}
+			<LoadsList loads={room.loads} {room} />
 		{/each}
 	{:else}
 		<!-- Empty State -->

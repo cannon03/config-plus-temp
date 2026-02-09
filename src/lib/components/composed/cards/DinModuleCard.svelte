@@ -4,21 +4,17 @@
 	import MappedChannelList from '$lib/components/composed/lists/MappedChannelList.svelte';
 
 	import type { DinModuleResponse } from '$lib/types/din_module';
-	import type { ChannelResponse } from '$lib/types/channel';
 	import type { LoadResponse } from '$lib/types/load';
 	import Modal from '../modals/Modal.svelte';
 	import { deleteDinModule } from '$lib/api/din_module';
-	import { getChannelsForModule } from '$lib/utils/filter';
 	import MapChannelForm from '../forms/MapChannelForm.svelte';
 	import { CHANNEL_CONTENT_TYPES } from '$lib/constants/channel';
 
 	const {
 		module,
-		channels,
 		loads
 	}: {
 		module: DinModuleResponse;
-		channels: Array<ChannelResponse>;
 		loads: Array<LoadResponse>;
 	} = $props();
 
@@ -28,7 +24,8 @@
 	let showDelModal = $state(false);
 	let showMapModal = $state(false);
 
-	const moduleChannels = $derived.by(() => getChannelsForModule(module.id, channels));
+	// Use channels directly from the module object
+	const moduleChannels = $derived.by(() => module.channels || []);
 
 	const usedChannels = $derived.by(() => moduleChannels.map((ch) => ch.channel_number));
 
@@ -39,7 +36,7 @@
 		)
 	);
 
-	const usedLoadIds = $derived.by(() => new Set(channels.map((ch) => ch.load)));
+	const usedLoadIds = $derived.by(() => new Set(moduleChannels.map((ch) => ch.load_id)));
 
 	const availableLoads = $derived.by(() =>
 		loads.filter(

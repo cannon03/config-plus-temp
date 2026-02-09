@@ -12,12 +12,22 @@
 		showModal = $bindable(false)
 	}: { rooms: Array<RoomResponse>; addresses: Array<number>; showModal?: boolean } = $props();
 
+	let selectedKeypadType = $state<keyof typeof KEYPAD_TYPES>('1key');
+
 	let keypadRequest = $state<KeypadRequest>({
 		location_room: rooms[0]?.id ?? 0,
 		cat6_branch: KEYPAD_CAT6_BRANCHES[0],
 		address: addresses[0] ?? 0,
-		num_keys: KEYPAD_TYPES['1key'].num_keys
+		num_keys: KEYPAD_TYPES['1key'].num_keys,
+		sub_type: KEYPAD_TYPES['1key'].subtype
 	});
+
+	function selectKeypadType(type: keyof typeof KEYPAD_TYPES) {
+		selectedKeypadType = type;
+		const config = KEYPAD_TYPES[type];
+		keypadRequest.num_keys = config.num_keys;
+		keypadRequest.sub_type = config.subtype;
+	}
 
 	async function handleSubmit(e: Event) {
 		e.preventDefault();
@@ -85,9 +95,9 @@
 			{#each Object.entries(KEYPAD_TYPES) as [type, config]}
 				<button
 					type="button"
-					onclick={() => (keypadRequest.num_keys = config.num_keys)}
-					class="group flex flex-col items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm font-medium text-gray-700 transition-all hover:cursor-pointer hover:border-blue-300 hover:bg-blue-50 hover:shadow-sm focus:outline-none {keypadRequest.num_keys ===
-					config.num_keys
+					onclick={() => selectKeypadType(type as keyof typeof KEYPAD_TYPES)}
+					class="group flex flex-col items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm font-medium text-gray-700 transition-all hover:cursor-pointer hover:border-blue-300 hover:bg-blue-50 hover:shadow-sm focus:outline-none {selectedKeypadType ===
+					type
 						? 'border-blue-400 bg-blue-50 shadow-sm ring-2 ring-blue-400'
 						: ''}"
 				>

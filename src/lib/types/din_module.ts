@@ -1,4 +1,5 @@
 import type { DIN_MODULE_TYPES } from '$lib/constants/din_module';
+import type { ChannelResponse } from './channel';
 
 export type DinModuleResponse = {
 	id: number;
@@ -6,6 +7,7 @@ export type DinModuleResponse = {
 	address: number;
 	dali_bus_count: number | null;
 	rcu: number;
+	channels: Array<ChannelResponse>;
 };
 
 export type DinModuleRequest = {

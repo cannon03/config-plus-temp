@@ -11,7 +11,7 @@
 	import ZoneForm from '../forms/ZoneForm.svelte';
 	import type { Unit } from '$lib/types/unit';
 
-	let { unit, zone, rooms }: { unit: Unit; zone: ZoneResponse; rooms: RoomResponse[] } = $props();
+	let { unit, zone }: { unit: Unit; zone: ZoneResponse } = $props();
 	let showDelModal = $state(false);
 	let showModal = $state(false);
 	let modalKey = $state(0);
@@ -66,7 +66,7 @@
 			<Layers class="h-5 w-5 text-blue-600" />
 			<div>
 				<h5 class="font-medium text-gray-900">{zone.name}</h5>
-				<p class="text-sm text-gray-500">Unit {zone.unit}</p>
+				<p class="text-sm text-gray-500">Unit {unit.id}</p>
 			</div>
 		</div>
 
@@ -100,6 +100,6 @@
 			</button>
 		</div>
 
-		<RoomList {zone} {rooms} />
+		<RoomList {zone} rooms={zone.rooms} />
 	</div>
 </div>

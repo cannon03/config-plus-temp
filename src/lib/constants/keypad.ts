@@ -3,10 +3,12 @@ import KeyImage2Key from '$lib/assets/T23_2-key.svg';
 import KeyImage3Key from '$lib/assets/T23_3-key.svg';
 import KeyImage4Key from '$lib/assets/T23_4-key.svg';
 import KeyImage6Key from '$lib/assets/T23_6-key.svg';
+import CorridorPanelImage from '$lib/assets/corridor-panel.svg';
 
 export const KEYPAD_TYPES = {
 	'1key': {
 		key: '1key',
+		subtype: 'standard',
 		label: '1-Key Keypad',
 		num_keys: 1,
 		layout: [{ key_id: 1, row: 2, col: 2 }],
@@ -16,6 +18,7 @@ export const KEYPAD_TYPES = {
 	},
 	'2key': {
 		key: '2key',
+		subtype: 'standard',
 		label: '2-Key Keypad',
 		num_keys: 2,
 		layout: [
@@ -28,6 +31,7 @@ export const KEYPAD_TYPES = {
 	},
 	'3key': {
 		key: '3key',
+		subtype: 'standard',
 		label: '3-Key Keypad',
 		num_keys: 3,
 		layout: [
@@ -41,6 +45,7 @@ export const KEYPAD_TYPES = {
 	},
 	'4key': {
 		key: '4key',
+		subtype: 'standard',
 		label: '4-Key Keypad',
 		num_keys: 4,
 		layout: [
@@ -55,6 +60,7 @@ export const KEYPAD_TYPES = {
 	},
 	'6key': {
 		key: '6key',
+		subtype: 'standard',
 		label: '6-Key Keypad',
 		num_keys: 6,
 		layout: [
@@ -68,6 +74,21 @@ export const KEYPAD_TYPES = {
 		rows: 3,
 		cols: 2,
 		image: KeyImage6Key
+	},
+	'corridor': {
+		key: 'corridor',
+		subtype: 'corridor',
+		label: 'Corridor Panel',
+		num_keys: 4,
+		layout: [
+			{ key_id: 1, row: 1, col: 1 },
+			{ key_id: 2, row: 1, col: 2 },
+			{ key_id: 3, row: 2, col: 1 },
+			{ key_id: 4, row: 2, col: 2 }
+		],
+		rows: 2,
+		cols: 2,
+		image: CorridorPanelImage
 	}
 } as const;
 

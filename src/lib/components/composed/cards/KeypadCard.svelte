@@ -10,37 +10,46 @@
 	import { deleteKeypad } from '$lib/api/keypad';
 	import type { Unit } from '$lib/types/unit';
 	import type { ZoneResponse } from '$lib/types/zone';
-	import type { KeypadKeyResponse } from '$lib/types/keypadkey';
+	import type { KeypadInputResponse, KeypadKeyResponse } from '$lib/types/keypadkey';
 	import type { LoadResponse } from '$lib/types/load';
 	import type { KeypadKeyActionResponse } from '$lib/types/key_action';
 
 	const {
-		unit,
-		zones,
-		loads,
 		keypad,
-		allKeypadKeys,
-		rooms,
+		keypadKeys,
+		allZones,
+		allRooms,
+		selectedRoom,
+		selectedZone,
 		keyActions
 	}: {
-		unit: Unit;
-		zones: Array<ZoneResponse>;
-		loads: Array<LoadResponse>;
-		allKeypadKeys: Array<KeypadKeyResponse>;
+		keypadKeys: Array<KeypadInputResponse>;
 		keypad: KeypadResponse;
-		rooms: Array<RoomResponse>;
+		allZones: Array<ZoneResponse>;
+		allRooms: Array<RoomResponse>;
+		selectedRoom: RoomResponse;
+		selectedZone: ZoneResponse;
 		keyActions: Array<KeypadKeyActionResponse>;
 	} = $props();
 
-	const keypadKeys = $derived.by(() => allKeypadKeys.filter((k) => k.keypad === keypad.id));
+	// const keypadKeys = $derived.by(() => allKeypadKeys.filter((k) => k.keypad === keypad.id));
 	const mappedKeys = $derived.by(() =>
 		keypadKeys.filter((k) => keyActions.some((ka) => ka.key === k.id))
 	);
-	const room = $derived.by(() => rooms.find((r) => r.id === keypad.location_room)!);
 
-	const keypadType = $derived.by(
-		() => KEYPAD_TYPES[`${keypad.num_keys}key` as keyof typeof KEYPAD_TYPES]
-	);
+	const keypadType = $derived.by(() => {
+		if (keypad.sub_type === 'corridor') {
+			return KEYPAD_TYPES['corridor'];
+		}
+		return KEYPAD_TYPES[`${keypad.num_keys}key` as keyof typeof KEYPAD_TYPES];
+	});
+
+	const keypadLabel = $derived.by(() => {
+		if (keypad.sub_type === 'corridor') {
+			return 'Corridor Panel';
+		}
+		return `${keypad.num_keys}-key Keypad`;
+	});
 
 	let showDelModal = $state(false);
 	async function del(e: Event) {
@@ -81,9 +90,9 @@
 			<h3 class="font-semibold text-gray-900">Address {keypad.address}</h3>
 			<h3 class="font-semibold text-gray-900">CAT-6 Branch: {keypad.cat6_branch}</h3>
 
-			<p class="text-sm text-gray-600">{room.name}</p>
+			<p class="text-sm text-gray-600">{selectedRoom.name}</p>
 
-			<p class="text-xs text-blue-600">{keypad.num_keys}-key Keypad</p>
+			<p class="text-xs text-blue-600">{keypadLabel}</p>
 		</div>
 		<button
 			class="p-1 text-red-500 transition-colors hover:text-red-700"
@@ -95,14 +104,14 @@
 	</div>
 
 	<KeypadKeyCard
-		{unit}
-		allRooms={rooms}
-		keyPad={keypad}
-		{zones}
-		{loads}
+		{keypad}
 		{keyActions}
 		type={keypadType}
 		{keypadKeys}
+		{allZones}
+		{allRooms}
+		{selectedRoom}
+		{selectedZone}
 	/>
 
 	<!-- Programming Status -->

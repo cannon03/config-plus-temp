@@ -6,7 +6,7 @@ export type ChannelResponse = {
 	object_id: number;
 	channel_number: number;
 	bus_no: null;
-	load: number;
+	load_id: number;
 };
 
 export type ChannelRequest = {
