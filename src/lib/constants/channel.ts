@@ -1,6 +1,6 @@
 export const CHANNEL_CONTENT_TYPES = {
-	RCU: 23,
-	DIN: 25
+	RCU: 20,
+	DIN: 23
 };
 
 export const DALI_BUS_NUMBER = 1;

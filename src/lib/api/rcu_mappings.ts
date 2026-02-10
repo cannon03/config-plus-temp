@@ -1,10 +1,8 @@
 import { getApiAuthHeaders, API_BASE } from '$lib/constants/api';
 
-const PATH = `/api/firmware_mappings_export/`;
-
-export async function fetchFirmwareMappings(unitId: number) {
-	const url = new URL(`${API_BASE}${PATH}`);
-	url.searchParams.set('unit', unitId.toString());
+export async function fetchFirmwareMappings(unitId: number, exportType: string = 'v3') {
+	const url = new URL(`${API_BASE}/api/units/${unitId}/download_firmware/`);
+	url.searchParams.set('export_type', exportType);
 	const response = await fetch(url, {
 		method: 'GET',
 		headers: getApiAuthHeaders()
