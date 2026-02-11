@@ -95,7 +95,7 @@
 		{#if ctx.domainGraph.layout.zones.length > 0}
 			<div class="space-y-6">
 				{#each ctx.domainGraph.layout.zones as zone}
-					{@const rooms = zone.rooms}
+					{@const zoneRooms = zone.rooms}
 					<div class="rounded-lg border border-gray-200">
 						<!-- Zone Header -->
 						<div
@@ -110,7 +110,7 @@
 								<div>
 									<h4 class="font-medium text-gray-900">{zone.name}</h4>
 									<p class="text-xs text-gray-500">
-										{rooms.length} room{rooms.length !== 1 ? 's' : ''}
+										{zoneRooms.length} room{zoneRooms.length !== 1 ? 's' : ''}
 									</p>
 								</div>
 							</div>

@@ -34,7 +34,6 @@
 		allZones,
 		allRooms,
 		zone,
-		loads,
 		showModal = $bindable(false)
 	}: {
 		unit: Unit;
@@ -44,20 +43,19 @@
 		allRooms: Array<RoomResponse>;
 		zone: ZoneResponse;
 		room: RoomResponse;
-		loads: Array<LoadResponse>;
 		showModal?: boolean;
 	} = $props();
 
 	let controlScope = $state<SceneFormControlScopeValue>(SCENE_FORM_CONTROL_SCOPES.ROOM.value);
 
-	let selectedRoomId = $derived(room.id);
-	let selectedZoneId = $derived(zone.id);
+	let selectedRoomId = $state(room.id);
+	let selectedZoneId = $state(zone.id);
 
 	let sceneLoads = $state<Array<SceneLoadData>>([]);
 	let showSuccessModal = $state(false);
 
-	const selectedRoom = $derived.by(() => room);
-	const selectedZone = $derived.by(() => zone);
+	const selectedRoom = $derived.by(() => allRooms.find((r) => r.id === selectedRoomId) ?? room);
+	const selectedZone = $derived.by(() => allZones.find((z) => z.id === selectedZoneId) ?? zone);
 
 	let selectedLoad = $state<LoadResponse | null>(null);
 
@@ -84,10 +82,10 @@
 	}));
 
 	let availiableLoads = $derived.by(() => {
-		if (controlScope === SCENE_FORM_CONTROL_SCOPES.ROOM.value) return room.loads;
+		if (controlScope === SCENE_FORM_CONTROL_SCOPES.ROOM.value) return selectedRoom.loads;
 		if (controlScope === SCENE_FORM_CONTROL_SCOPES.ZONE.value)
-			return zone.rooms.flatMap((room) => room.loads);
-		return loads;
+			return selectedZone.rooms.flatMap((room) => room.loads);
+		return allRooms.flatMap((room) => room.loads);
 	});
 
 	let modalReturnType = $state(MODAL_RETURN_TYPES.cancel);
@@ -138,7 +136,7 @@
 	}
 
 	onMount(() => {
-		console.log('LOADS IN SCENE EDITOR:', $state.snapshot(loads));
+		console.log('LOADS IN SCENE EDITOR:', $state.snapshot(availiableLoads));
 	});
 </script>
 

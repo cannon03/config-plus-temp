@@ -30,30 +30,22 @@
 		unit: Unit;
 	} = $props();
 
-	async function onScopeChange(e: Event) {
-		const target = e.target as HTMLSelectElement;
-		const value = Number(target.value);
-
+	$effect(() => {
 		if (controlScope === SCENE_FORM_CONTROL_SCOPES.ROOM.value) {
-			selectedRoomId = value;
-			selectedZoneId = allRooms.find((r) => r.id === value)?.zone ?? selectedZoneId;
-		} else if (controlScope === SCENE_FORM_CONTROL_SCOPES.ZONE.value) {
-			selectedZoneId = value;
-		} else if (controlScope === SCENE_FORM_CONTROL_SCOPES.ALL.value) {
-			selectedRoomId = input.location_room;
-			selectedZoneId = allRooms.find((r) => r.id === input.location_room)?.zone ?? selectedZoneId;
+			selectedZoneId = allRooms.find((r) => r.id === selectedRoomId)?.zone ?? selectedZoneId;
 		}
-	}
+	});
 
 	async function addLoadsinScope() {
-		for (const load of availiableLoads) {
-			sceneLoads.push({
+		const newLoads = availiableLoads
+			.filter((load) => !sceneLoads.some((sl) => sl.load_id === load.id))
+			.map((load) => ({
 				name: load.name,
 				load_id: load.id,
 				value: 0,
 				load_type: load.load_type
-			});
-		}
+			}));
+		sceneLoads = [...sceneLoads, ...newLoads];
 	}
 </script>
 
@@ -78,23 +70,35 @@
 
 		<div class="space-y-2">
 			<label for="scope-select" class="text-sm font-medium text-gray-700">Scope Selection</label>
-			<select
-				id="scope-select"
-				onchange={onScopeChange}
-				class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-			>
-				{#if controlScope === SCENE_FORM_CONTROL_SCOPES.ROOM.value}
+			{#if controlScope === SCENE_FORM_CONTROL_SCOPES.ROOM.value}
+				<select
+					id="scope-select"
+					bind:value={selectedRoomId}
+					class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+				>
 					{#each allRooms as room}
 						<option value={room.id}>{room.name}</option>
 					{/each}
-				{:else if controlScope === SCENE_FORM_CONTROL_SCOPES.ZONE.value}
+				</select>
+			{:else if controlScope === SCENE_FORM_CONTROL_SCOPES.ZONE.value}
+				<select
+					id="scope-select"
+					bind:value={selectedZoneId}
+					class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+				>
 					{#each zones as zone}
 						<option value={zone.id}>{zone.name}</option>
 					{/each}
-				{:else}
+				</select>
+			{:else}
+				<select
+					id="scope-select"
+					disabled
+					class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+				>
 					<option value={unit.id}>{unit.name}</option>
-				{/if}
-			</select>
+				</select>
+			{/if}
 			<button
 				onclick={addLoadsinScope}
 				class="mt-1 rounded-md border border-gray-300 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100"
