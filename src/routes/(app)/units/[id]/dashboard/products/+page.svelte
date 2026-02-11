@@ -28,11 +28,13 @@
 	onMount(async () => {
 		// products = await fetchProducts();
 	});
+
+	const rooms = $derived.by(() => ctx.domainGraph.layout.zones.flatMap((zone) => zone.rooms));
 </script>
 
 {#key showModalKey}
 	<Modal bind:showModal title="Add Product to Room">
-		<AddRoomProductForm rooms={ctx.rooms} product={selectedProduct} bind:showModal />
+		<AddRoomProductForm {rooms} product={selectedProduct} bind:showModal />
 	</Modal>
 {/key}
 

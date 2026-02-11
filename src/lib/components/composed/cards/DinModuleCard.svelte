@@ -9,13 +9,16 @@
 	import { deleteDinModule } from '$lib/api/din_module';
 	import MapChannelForm from '../forms/MapChannelForm.svelte';
 	import { CHANNEL_CONTENT_TYPES } from '$lib/constants/channel';
+	import type { RoomResponse } from '$lib/types/room';
 
 	const {
 		module,
-		loads
+		loads,
+		rooms
 	}: {
 		module: DinModuleResponse;
 		loads: Array<LoadResponse>;
+		rooms: Array<RoomResponse>;
 	} = $props();
 
 	const moduleData = DIN_MODULE_TYPES[module.module_type];
@@ -70,6 +73,7 @@
 <Modal title="Add Mapping" bind:showModal={showMapModal}>
 	<MapChannelForm
 		objectId={module.id}
+		{rooms}
 		content_type={CHANNEL_CONTENT_TYPES.DIN}
 		channels={availableChannels}
 		loads={availableLoads}
@@ -83,7 +87,7 @@
 			<Icon class="h-5 w-5 text-blue-600" />
 			<div>
 				<p class="text-sm font-medium text-gray-900">
-					{moduleData.label} (Address {module.address})
+					{moduleData.label}
 				</p>
 				<p class="text-xs text-gray-500">{moduleData.channels} channels</p>
 			</div>

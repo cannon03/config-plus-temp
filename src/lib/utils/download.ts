@@ -23,9 +23,33 @@ export async function downloadElectricalLayout(unitId: number, exportName: strin
 	downloadJSON(data, `${exportName}-electrical-layout.json`);
 }
 
-export async function downloadRCUMappings(unitId: number, exportName: string) {
-	const data = await fetchFirmwareMappings(unitId);
-	downloadJSON(data, `${exportName}-rcu-mappings.json`);
+function downloadBlob(blob: Blob, filename: string) {
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = filename;
+	a.click();
+	URL.revokeObjectURL(url);
+}
+
+export async function downloadRCUMappings(unitId: number, exportName: string, exportType: string = 'v3') {
+	const response = await fetchFirmwareMappings(unitId, exportType);
+
+	if (exportType === 'v3') {
+		const data = await response.json();
+		downloadJSON(data, `${exportName}-rcu-mappings.json`);
+	} else if (exportType === 'v2_json') {
+		const text = await response.text();
+		const blob = new Blob([text], { type: 'text/plain' });
+		downloadBlob(blob, `${exportName}-rcu-mappings.txt`);
+	} else if (exportType === 'v2_header') {
+		const text = await response.text();
+		const blob = new Blob([text], { type: 'text/plain' });
+		downloadBlob(blob, `${exportName}-rcu-mappings.h`);
+	} else if (exportType === 'all') {
+		const blob = await response.blob();
+		downloadBlob(blob, `${exportName}-rcu-mappings.zip`);
+	}
 }
 
 export async function downloadBillOfMaterials(projectId: number, exportName: string) {

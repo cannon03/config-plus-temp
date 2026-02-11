@@ -6,6 +6,7 @@
 	import Button from '$lib/components/base/Button.svelte';
 	import { Save } from 'lucide-svelte';
 	import { createChannel } from '$lib/api/channel';
+	import type { RoomResponse } from '$lib/types/room';
 
 	let {
 		objectId,
@@ -13,6 +14,7 @@
 		channels,
 		loads,
 		moduleData,
+		rooms,
 		showModal = $bindable(false)
 	}: {
 		objectId: number;
@@ -20,6 +22,7 @@
 		channels: Array<number>;
 		loads: Array<LoadResponse>;
 		moduleData?: keyof typeof DIN_MODULE_TYPES;
+		rooms: Array<RoomResponse>;
 		showModal: boolean;
 	} = $props();
 
@@ -47,8 +50,10 @@
 			id="load-name"
 			class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 		>
-			{#each loads as load}
-				<option value={load.id}>{load.name}</option>
+			{#each rooms as room}
+				{#each room.loads as load}
+					<option value={load.id}> {room.name} - {load.name}</option>
+				{/each}
 			{/each}
 		</select>
 	</div>

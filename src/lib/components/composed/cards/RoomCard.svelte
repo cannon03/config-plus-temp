@@ -22,6 +22,10 @@
 	});
 </script>
 
+<Modal title={ROOM_FORM_TYPES.EDIT} bind:showModal>
+	<RoomForm {zone} {room} type={ROOM_FORM_TYPES.EDIT} bind:showModal />
+</Modal>
+
 <Modal title="Delete Room" bind:showModal={showDelModal}>
 	<div class="flex flex-col items-center gap-6 text-center">
 		<p class="text-sm text-gray-600">

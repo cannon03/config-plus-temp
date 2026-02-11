@@ -59,7 +59,7 @@
 		</select>
 	</div>
 	<div class="flex flex-col">
-		<label for="address-number" class="text-sm font-medium text-gray-600">Channel Count</label>
+		<label for="address-number" class="text-sm font-medium text-gray-600">Address</label>
 		<select
 			bind:value={dinModuleRequest.address}
 			name="address-number"
@@ -67,7 +67,7 @@
 			class="mt-1 rounded-lg border bg-gray-200 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 		>
 			{#each addresses as address}
-				<option value={address}>Channel {address}</option>
+				<option value={address}>Address {address}</option>
 			{/each}
 		</select>
 	</div>

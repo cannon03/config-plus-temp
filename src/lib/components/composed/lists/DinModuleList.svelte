@@ -1,14 +1,25 @@
 <script lang="ts">
 	import { Settings } from 'lucide-svelte';
 	import DinModuleCard from '$lib/components/composed/cards/DinModuleCard.svelte';
+	import type { LoadResponse } from '$lib/types/load';
+	import type { RoomResponse } from '$lib/types/room';
+	import type { DinModuleResponse } from '$lib/types/din_module';
 
-	const { modules, loads } = $props();
+	const {
+		modules,
+		loads,
+		rooms
+	}: {
+		modules: Array<DinModuleResponse>;
+		loads: Array<LoadResponse>;
+		rooms: Array<RoomResponse>;
+	} = $props();
 </script>
 
 {#if modules.length > 0}
 	<div class="space-y-3">
 		{#each modules as module}
-			<DinModuleCard {module} {loads} />
+			<DinModuleCard {module} {loads} {rooms} />
 		{/each}
 	</div>
 {:else}

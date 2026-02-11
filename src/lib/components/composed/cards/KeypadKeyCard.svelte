@@ -39,7 +39,7 @@
 
 	const { rows, cols, layout } = $derived.by(() => type);
 	const keyMap = $derived.by(() => new Map(layout.map((k) => [`${k.row},${k.col}`, k])));
-	const buttonSize = 20;
+	const buttonSize = keypadKeys.length > 4 ? 12 : 20;
 	const isCorridor = $derived(keypad.sub_type === 'corridor');
 	const fourthKey = $derived(keypadKeys.find((k) => k.key_index === 4));
 

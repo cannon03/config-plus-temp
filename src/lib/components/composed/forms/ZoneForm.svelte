@@ -51,6 +51,8 @@
 		/>
 	</div>
 	<div class="flex justify-end">
-		<Button type="submit" variant="saveform">Create Zone <Save class="h-4 w-4" /></Button>
+		<Button type="submit" variant="saveform"
+			>{zone ? 'Update Zone' : 'Create Zone'} <Save class="h-4 w-4" /></Button
+		>
 	</div>
 </form>

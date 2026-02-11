@@ -12,5 +12,5 @@ export async function fetchFirmwareMappings(unitId: number, exportType: string =
 		const body = await response.text(); // safer than json for errors
 		throw new Error(`Unable to fetch electrical layout: ${body}`);
 	}
-	return response.json();
+	return response;
 }

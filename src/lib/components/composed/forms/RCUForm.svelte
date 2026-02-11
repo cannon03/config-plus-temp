@@ -37,19 +37,18 @@
 
 <form class="flex flex-col space-y-4" onsubmit={handleSubmit}>
 	<div class="flex flex-col">
-		<label for="unit-name" class="text-sm font-medium text-gray-600">Unit</label>
+		<label for="rcu-name" class="text-sm font-medium text-gray-600">RCU Name</label>
 		<input
 			type="text"
-			name="unit-name"
+			name="rcu-name"
 			bind:value={rcuRequest.name}
-			id="unit-name"
+			id="rcu-name"
 			class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 		/>
 	</div>
 	<div class="flex flex-col">
 		<label for="channel-count" class="text-sm font-medium text-gray-600">Channel Count</label>
 		<select
-			disabled
 			bind:value={rcuRequest.channel_count}
 			name="channel-count"
 			id="channel-count"

@@ -13,15 +13,18 @@
 	import type { LoadResponse } from '$lib/types/load';
 	import DinModuleForm from '../forms/DinModuleForm.svelte';
 	import { DIN_MODULE_FORM_TYPES } from '$lib/constants/din_module';
+	import type { RoomResponse } from '$lib/types/room';
 
 	const {
 		unit,
 		rcu,
-		loads
+		loads,
+		rooms
 	}: {
 		unit: Unit;
 		rcu: RCUResponse;
 		loads: Array<LoadResponse>;
+		rooms: Array<RoomResponse>;
 	} = $props();
 
 	const totalChannels = rcu.channel_count;
@@ -92,6 +95,7 @@
 		content_type={CHANNEL_CONTENT_TYPES.RCU}
 		loads={availableLoads}
 		channels={availableChannels}
+		{rooms}
 		bind:showModal={showMapChannelModal}
 	/>
 </Modal>
@@ -111,7 +115,7 @@
 		<div class="flex items-center space-x-3">
 			<Cpu class="h-5 w-5 text-blue-600" />
 			<div>
-				<h5 class="font-medium text-gray-900">{rcu.name}</h5>
+				<h5 class="font-medium text-gray-900">RCU - {rcu.name}</h5>
 				<p class="text-sm text-gray-500">{rcu.channel_count} channels</p>
 			</div>
 		</div>
@@ -156,6 +160,6 @@
 			</button>
 		</div>
 
-		<DinModuleList modules={rcuModules} {loads} />
+		<DinModuleList modules={rcuModules} {loads} {rooms} />
 	</div>
 </div>

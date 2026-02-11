@@ -9,9 +9,9 @@
 	const ctx = getDashboardContext();
 	let showModal = $state(false);
 
-	const loads = $derived.by(() =>
-		ctx.domainGraph.layout.zones.flatMap((z) => z.rooms).flatMap((r) => r.loads)
-	);
+	const rooms = $derived.by(() => ctx.domainGraph.layout.zones.flatMap((z) => z.rooms));
+
+	const loads = $derived.by(() => rooms.flatMap((r) => r.loads));
 </script>
 
 <Modal bind:showModal title="Create RCU">
@@ -31,7 +31,7 @@
 		{#if ctx.domainGraph.hardware.rcus.length > 0}
 			<div class="space-y-4">
 				{#each ctx.domainGraph.hardware.rcus as rcu}
-					<RCUCard {rcu} unit={ctx.domainGraph.unit} {loads} />
+					<RCUCard {rcu} unit={ctx.domainGraph.unit} {loads} {rooms} />
 				{/each}
 			</div>
 		{:else}
