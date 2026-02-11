@@ -75,7 +75,10 @@
 			<!-- Keypads Grid -->
 			<div class="flex flex-row flex-wrap justify-evenly gap-6">
 				{#each keypads as keypad}
-					<KeypadCard allKeypadKeys={keypad.inputs} keyActions={[]} {keypad} {room} />
+					{@const room = rooms.find((r) => r.id === keypad.location_room)}
+					{#if room}
+						<KeypadCard allKeypadKeys={keypad.inputs} keyActions={[]} {keypad} {room} />
+					{/if}
 				{/each}
 			</div>
 		{/if}

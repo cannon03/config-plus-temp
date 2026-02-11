@@ -46,3 +46,39 @@ export type ProductSearchResponse = {
 	count: number;
 	results: Array<ProductResponse>;
 };
+
+export type ProductRequest = {
+	product_type: number;
+	name: string;
+	model_number: string;
+	description: string;
+	specifications: {
+		depth: string;
+		modules: number;
+		material: string;
+	};
+	price: string;
+	is_active: boolean;
+};
+
+export type ProductTypeResponse = {
+	id: number;
+	name: string;
+	key: string;
+};
+
+export type ProductTypeRequest = {
+	category: number;
+	name: string;
+	description: string;
+};
+
+export type CategoryResponse = {
+	id: number;
+	name: string;
+};
+
+export type CategoryRequest = {
+	name: string;
+	description: string;
+};

@@ -3,9 +3,14 @@
 	import { getDashboardContext } from '$lib/context/dashboard';
 	import { Search } from 'lucide-svelte';
 	import type { ProductResponse } from '$lib/types/product';
+	import type { ProductTypeResponse } from '$lib/types/product';
 	import { onMount } from 'svelte';
 	import Modal from '$lib/components/composed/modals/Modal.svelte';
 	import AddRoomProductForm from '$lib/components/composed/forms/AddRoomProductForm.svelte';
+	import CreateProductForm from '$lib/components/composed/forms/CreateProductForm.svelte';
+	import CreateProductTypeForm from '$lib/components/composed/forms/CreateProductTypeForm.svelte';
+	import CreateCategoryForm from '$lib/components/composed/forms/CreateCategoryForm.svelte';
+	import type { CategoryResponse } from '$lib/types/product';
 
 	let search = $state('');
 	const ctx = getDashboardContext();
@@ -13,6 +18,10 @@
 	let products: Array<ProductResponse> = $state([]);
 	let showModal = $state(false);
 	let showModalKey = $state(0);
+
+	let showCreateProductModal = $state(false);
+	let showCreateProductTypeModal = $state(false);
+	let showCreateCategoryModal = $state(false);
 
 	async function searchProducts(event: Event) {
 		if (event) event.preventDefault();
@@ -25,11 +34,28 @@
 		showModalKey++;
 		showModal = true;
 	}
+
+	function handleProductCreated(product: ProductResponse) {
+		// Optionally add the new product to the list or refresh
+		products = [product, ...products];
+	}
+
+	function handleProductTypeCreated(productType: ProductTypeResponse) {
+		// Product type created successfully — could refresh types list if needed
+		console.log('Product type created:', productType);
+	}
+
+	function handleCategoryCreated(category: CategoryResponse) {
+		// Category created successfully
+		console.log('Category created:', category);
+	}
+
 	onMount(async () => {
 		// products = await fetchProducts();
 	});
 
 	const rooms = $derived.by(() => ctx.domainGraph.layout.zones.flatMap((zone) => zone.rooms));
+	// const roomProducts = $derived.by(() => rooms.flatMap((room) => room.products));
 </script>
 
 {#key showModalKey}
@@ -37,6 +63,18 @@
 		<AddRoomProductForm {rooms} product={selectedProduct} bind:showModal />
 	</Modal>
 {/key}
+
+<Modal bind:showModal={showCreateProductModal} title="Create New Product">
+	<CreateProductForm bind:showModal={showCreateProductModal} onSuccess={handleProductCreated} />
+</Modal>
+
+<Modal bind:showModal={showCreateProductTypeModal} title="Create New Product Type">
+	<CreateProductTypeForm bind:showModal={showCreateProductTypeModal} onSuccess={handleProductTypeCreated} />
+</Modal>
+
+<Modal bind:showModal={showCreateCategoryModal} title="Create New Category">
+	<CreateCategoryForm bind:showModal={showCreateCategoryModal} onSuccess={handleCategoryCreated} />
+</Modal>
 
 <div class="w-full space-y-10 bg-[#f7f9fc] p-6">
 	<!-- Search -->
@@ -73,7 +111,29 @@
 
 	<!-- Global Catalogue -->
 	<div class="space-y-3">
-		<p class="text-sm font-semibold tracking-wide text-gray-700">Global Catalogue</p>
+		<div class="flex items-center justify-between">
+			<p class="text-sm font-semibold tracking-wide text-gray-700">Global Catalogue</p>
+			<div class="flex items-center gap-2">
+				<button
+					class="rounded-lg border border-blue-600 px-4 py-2 text-xs font-semibold text-blue-600 shadow-sm transition hover:bg-blue-50"
+					onclick={() => (showCreateCategoryModal = true)}
+				>
+					Create Category
+				</button>
+				<button
+					class="rounded-lg border border-blue-600 px-4 py-2 text-xs font-semibold text-blue-600 shadow-sm transition hover:bg-blue-50"
+					onclick={() => (showCreateProductTypeModal = true)}
+				>
+					Create Product Type
+				</button>
+				<button
+					class="rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700"
+					onclick={() => (showCreateProductModal = true)}
+				>
+					Create Product
+				</button>
+			</div>
+		</div>
 
 		<div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
 			<!-- Header -->
@@ -124,11 +184,11 @@
 	</div>
 
 	<!-- Existing Products -->
-	<div class="space-y-3">
+	<!-- <div class="space-y-3">
 		<p class="text-sm font-semibold tracking-wide text-gray-700">Existing Products</p>
 
-		<div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
-			<table class="w-full text-left text-sm">
+		<div class="overflow-hidden rounded-xl border border-gray-200 bg-white"> -->
+			<!-- <table class="w-full text-left text-sm">
 				<thead
 					class="border-b border-gray-200 bg-gray-50 text-[11px] tracking-wider text-gray-600 uppercase"
 				>
@@ -145,7 +205,7 @@
 				</thead>
 
 				<tbody class="divide-y divide-gray-100 text-gray-700">
-					{#each ctx.roomProducts as product}
+					{#each roomProducts as product}
 						<tr class="transition hover:bg-[#4C8BF5]/3">
 							<td class="px-4 py-3 font-medium text-gray-900">
 								{product.product_name}
@@ -164,7 +224,7 @@
 						</tr>
 					{/each}
 				</tbody>
-			</table>
-		</div>
-	</div>
+			</table> -->
+		<!-- </div> -->
+	<!-- </div> -->
 </div>
