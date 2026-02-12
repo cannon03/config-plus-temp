@@ -47,6 +47,20 @@ export async function createUnit(unit: UnitRequest) {
 	throw Error(`Unable to create unit: ${body}`);
 }
 
+export async function updateUnit(id: number, unit: UnitRequest) {
+	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
+		method: 'PATCH',
+		headers: getApiAuthHeaders(),
+		body: JSON.stringify(unit)
+	});
+	const body = await response.json();
+	if (response.ok) {
+		window.dispatchEvent(new Event(RELOAD_TARGETS.UNITS));
+		return body as Unit;
+	}
+	throw Error(`Unable to update unit: ${body}`);
+}
+
 export async function deleteUnit(unitId: number) {
 	const response = await fetch(`${API_BASE}${PATH}${unitId}/`, {
 		method: 'DELETE',

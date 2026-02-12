@@ -1,21 +1,28 @@
 <script lang="ts">
 	import Button from '$lib/components/base/Button.svelte';
-	import type { UnitRequest } from '$lib/types/unit';
-	import { createUnit } from '$lib/api/unit';
+	import type { UnitRequest, Unit } from '$lib/types/unit';
+	import { createUnit, updateUnit } from '$lib/api/unit';
 
-	let { projectId, showModal = $bindable(false) }: { projectId: number; showModal?: boolean } =
-		$props();
+	let {
+		projectId,
+		showModal = $bindable(false),
+		unit
+	}: { projectId: number; showModal?: boolean; unit?: Unit } = $props();
 
 	let unitRequest = $state<UnitRequest>({
-		name: '',
-		description: '',
-		notes: '',
-		project: projectId
+		name: unit ? unit.name : '',
+		description: unit ? unit.description : '',
+		notes: unit ? unit.notes : '',
+		project: unit ? unit.project : projectId
 	});
 
 	async function handleSubmit(e: Event) {
 		e.preventDefault();
-		await createUnit(unitRequest);
+		if (unit) {
+			await updateUnit(unit.id, unitRequest);
+		} else {
+			await createUnit(unitRequest);
+		}
 		showModal = false;
 	}
 </script>
@@ -53,6 +60,6 @@
 	</div>
 
 	<div class="pt-2">
-		<Button type="submit" class="w-full">Create Unit</Button>
+		<Button type="submit" class="w-full">{unit ? 'Update Unit' : 'Create Unit'}</Button>
 	</div>
 </form>

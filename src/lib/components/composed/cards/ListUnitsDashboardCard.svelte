@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { CalendarDays, Info, Folder, Trash2 } from 'lucide-svelte';
+	import { CalendarDays, Info, Folder, Trash2, Edit2, Edit, Edit3, Pencil } from 'lucide-svelte';
 	import Button from '$lib/components/base/Button.svelte';
 	import { goto } from '$app/navigation';
 	import type { Unit } from '$lib/types/unit';
 	import Modal from '../modals/Modal.svelte';
+	import CreateUnitForm from '../forms/CreateUnitForm.svelte';
 	import { deleteUnit } from '$lib/api/unit';
 
 	const { unit, reloadUnits }: { unit: Unit; reloadUnits: () => void } = $props();
@@ -12,6 +13,8 @@
 	const updatedAtDate = new Date(unit.updated_at);
 
 	let showModal = $state(false);
+	let showEditModal = $state(false);
+	let showUnitModal = $state(false);
 
 	const formattedCreatedAt = createdAtDate.toLocaleDateString('en-IN', {
 		year: 'numeric',
@@ -58,6 +61,11 @@
 		</div>
 	</div>
 </Modal>
+
+<Modal bind:showModal={showEditModal} title="Edit Unit">
+	<CreateUnitForm projectId={unit.project} bind:showModal={showEditModal} {unit} />
+</Modal>
+
 <div
 	class="group flex flex-col justify-between rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
 >
@@ -69,11 +77,18 @@
 			>
 				{unit.name}
 			</h2>
-			<button onclick={() => (showModal = true)}
-				><Trash2
-					class="h-4 w-4 text-red-600 opacity-80 hover:cursor-pointer hover:text-red-800"
-				/></button
-			>
+			<div class="flex gap-2">
+				<button onclick={() => (showEditModal = true)}>
+					<Pencil
+						class="h-4 w-4 text-gray-600 opacity-80 hover:cursor-pointer hover:text-gray-900"
+					/>
+				</button>
+				<button onclick={() => (showModal = true)}
+					><Trash2
+						class="h-4 w-4 text-red-600 opacity-80 hover:cursor-pointer hover:text-red-800"
+					/></button
+				>
+			</div>
 		</div>
 		<p class="line-clamp-2 text-sm text-gray-500">
 			{unit.description || 'No description available.'}
