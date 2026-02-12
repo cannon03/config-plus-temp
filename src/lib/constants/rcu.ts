@@ -31,3 +31,6 @@ export const CHANNEL_COUNTS = [
 	25,
 	26
 ] as const;
+
+
+export const RCU_ACCEPTED_LOAD_TYPES = ['relay'];

@@ -42,9 +42,7 @@
 	);
 
 	const filteredLoads = $derived.by(() =>
-		availableLoads.filter(
-			(load) => moduleData.accepted_loads.includes(load.load_type)
-		)
+		availableLoads.filter((load) => moduleData.accepted_loads.includes(load.load_type))
 	);
 
 	async function del(e: Event) {
@@ -70,16 +68,18 @@
 	</div>
 </Modal>
 
-<Modal title="Add Mapping" bind:showModal={showMapModal}>
-	<MapChannelForm
-		objectId={module.id}
-		{rooms}
-		content_type={CHANNEL_CONTENT_TYPES.DIN}
-		channels={availableChannels}
-		loads={filteredLoads}
-		bind:showModal={showMapModal}
-	/>
-</Modal>
+{#key availableChannels || filteredLoads}
+	<Modal title="Add Mapping" bind:showModal={showMapModal}>
+		<MapChannelForm
+			objectId={module.id}
+			{rooms}
+			content_type={CHANNEL_CONTENT_TYPES.DIN}
+			channels={availableChannels}
+			loads={filteredLoads}
+			bind:showModal={showMapModal}
+		/>
+	</Modal>
+{/key}
 
 <div class="rounded-lg border border-gray-200 p-3">
 	<div class="flex items-center justify-between">

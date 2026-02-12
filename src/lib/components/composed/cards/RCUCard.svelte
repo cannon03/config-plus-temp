@@ -5,7 +5,7 @@
 	import Modal from '../modals/Modal.svelte';
 	import { deleteRCU } from '$lib/api/rcu';
 	import RCUForm from '../forms/RCUForm.svelte';
-	import { RCU_FORM_TYPES } from '$lib/constants/rcu';
+	import { RCU_ACCEPTED_LOAD_TYPES, RCU_FORM_TYPES } from '$lib/constants/rcu';
 	import MapChannelForm from '../forms/MapChannelForm.svelte';
 	import { CHANNEL_CONTENT_TYPES } from '$lib/constants/channel';
 	import type { Unit } from '$lib/types/unit';
@@ -55,7 +55,9 @@
 	});
 
 	const availableLoads = $derived.by(() => loads.filter((load) => !usedLoadIds.has(load.id)));
-
+	const availiableLoadsRCU = $derived.by(() =>
+		availableLoads.filter((load) => RCU_ACCEPTED_LOAD_TYPES.includes(load.load_type))
+	);
 	const usedAddresses = $derived.by(() => new Set(rcuModules.map((module) => module.address)));
 	const availableAddresses = $derived.by(() =>
 		Array.from({ length: rcu.channel_count }, (_, i) => i + 1).filter(
@@ -89,20 +91,18 @@
 	<RCUForm type={RCU_FORM_TYPES.EDIT} {unit} bind:showModal {rcu} />
 </Modal>
 
-{#key availableChannels}
-<Modal title="Map Channel" bind:showModal={showMapChannelModal}>
-	<MapChannelForm
-		objectId={rcu.id}
-		content_type={CHANNEL_CONTENT_TYPES.RCU}
-		loads={availableLoads}
-		channels={availableChannels}
-		{rooms}
-		bind:showModal={showMapChannelModal}
-	/>
-</Modal>
+{#key availableChannels || availiableLoadsRCU}
+	<Modal title="Map Channel" bind:showModal={showMapChannelModal}>
+		<MapChannelForm
+			objectId={rcu.id}
+			content_type={CHANNEL_CONTENT_TYPES.RCU}
+			loads={availiableLoadsRCU}
+			channels={availableChannels}
+			{rooms}
+			bind:showModal={showMapChannelModal}
+		/>
+	</Modal>
 {/key}
-
-
 
 <Modal title="Add Module" bind:showModal={showAddModuleModal}>
 	<DinModuleForm
@@ -164,6 +164,6 @@
 			</button>
 		</div>
 
-		<DinModuleList modules={rcuModules} {loads} availableLoads={availableLoads} {rooms} />
+		<DinModuleList modules={rcuModules} {loads} {availableLoads} {rooms} />
 	</div>
 </div>
