@@ -71,7 +71,9 @@
 	});
 
 	let keyIdentifier = $derived(inputKey.key_index);
-	let sceneName = $derived(inputKey.name ?? `Key ${keyIdentifier}`);
+	let sceneName = $derived.by(() =>
+		inputKey.name == null || inputKey.name === '' ? `Key ${keyIdentifier}` : inputKey.name
+	);
 
 	let sceneRequest = $derived.by<SceneRequest>(() => ({
 		unit: unit.id,
@@ -235,6 +237,7 @@
 	<!-- Footer -->
 	<div class="mt-6 flex justify-end gap-3 border-t border-gray-200 pt-4">
 		<button
+			onclick={() => (showModal = false)}
 			class="rounded-md bg-gray-100 px-6 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"
 			>Cancel</button
 		>

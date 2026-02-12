@@ -43,10 +43,36 @@ export interface LedSyncGroupRequest {
 	members: LedSyncGroupMember[];
 }
 
+export interface DomainGraphSceneLoad {
+	id: number;
+	load_id: number;
+	load_name: string;
+	value: number;
+	brightness: number | null;
+	ct: number | null;
+	r: number | null;
+	g: number | null;
+	b: number | null;
+	cw: number | null;
+	ww: number | null;
+	fade_ms: number;
+	delay_ms: number;
+}
+
+export interface DomainGraphScene {
+	id: number;
+	name: string;
+	priority: number;
+	scope: string;
+	scope_id: number;
+	scene_loads: DomainGraphSceneLoad[];
+}
+
 export interface UnitDomainGraphResponse {
 	unit: Unit;
 	layout: {
 		zones: ZoneResponse[];
+		scenes: DomainGraphScene[];
 		custom_led_mappings: CustomLedMappingResponse[];
 		led_sync_groups: LedSyncGroupResponse[];
 	};

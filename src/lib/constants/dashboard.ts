@@ -1,9 +1,10 @@
-import { Building2, ChartColumn, Cpu, Gamepad2, Lightbulb, Link2, Projector } from 'lucide-svelte';
+import { Building2, ChartColumn, Cpu, Gamepad2, Layers, Lightbulb, Link2, Projector } from 'lucide-svelte';
 
 export const DASHBOARD_TABS = [
 	{ id: 'overview', title: 'Overview', path: '', icon: ChartColumn },
 	{ id: 'Zones & Rooms', title: 'Zones & Rooms', path: 'zones', icon: Building2 },
 	{ id: 'loads', title: 'Loads', path: 'loads', icon: Lightbulb },
+	{ id: 'scenes', title: 'Scenes', path: 'scenes', icon: Layers },
 	{ id: 'hardware', title: 'Hardware', path: 'hardware', icon: Cpu },
 	{ id: 'keypads', title: 'Keypads', path: 'keypads', icon: Gamepad2 },
 	{ id: 'products', title: 'Products', path: 'products', icon: Projector },

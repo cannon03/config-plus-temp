@@ -170,6 +170,7 @@
 	const loads = rooms.flatMap((room) => room.loads);
 	const keypads = rooms.flatMap((room) => room.keypads);
 	const dinModules = rcus.flatMap((rcu) => rcu.din_modules);
+	const scenes = ctx.domainGraph.layout.scenes;
 
 	$effect(() => {
 		function handler(e: Event) {
@@ -194,7 +195,7 @@
 	<div class="grid w-full grid-cols-1 gap-6 lg:grid-cols-3">
 		<!-- Pass required props from the page load into these components -->
 		<ProjectProgressCard
-			num_scenes={0}
+			num_scenes={scenes.length}
 			num_rcus={rcus.length}
 			num_keypads={keypads.length}
 			num_rooms={rooms.length}
