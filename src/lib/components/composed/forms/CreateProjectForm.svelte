@@ -1,19 +1,24 @@
 <script lang="ts">
 	import Button from '$lib/components/base/Button.svelte';
 
-	import type { ProjectRequest } from '$lib/types/project';
-	import { createProject } from '$lib/api/project';
+	import type { ProjectRequest, Project } from '$lib/types/project';
+	import { createProject, updateProject } from '$lib/api/project';
 
-	let { showModal = $bindable(false) }: { showModal?: boolean } = $props();
+	let { showModal = $bindable(false), project }: { showModal?: boolean; project?: Project } =
+		$props();
 
 	let projectRequest = $state<ProjectRequest>({
-		name: '',
-		description: ''
+		name: project ? project.name : '',
+		description: project ? project.description : ''
 	});
 
 	async function handleSubmit(e: Event) {
 		e.preventDefault();
-		await createProject(projectRequest);
+		if (project) {
+			await updateProject(project.id, projectRequest);
+		} else {
+			await createProject(projectRequest);
+		}
 		showModal = false;
 	}
 </script>
@@ -41,6 +46,6 @@
 	</div>
 
 	<div class="pt-2">
-		<Button type="submit" class="w-full">Create Project</Button>
+		<Button type="submit" class="w-full">{project ? 'Update Project' : 'Create Project'}</Button>
 	</div>
 </form>

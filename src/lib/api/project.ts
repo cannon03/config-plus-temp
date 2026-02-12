@@ -39,3 +39,16 @@ export async function createProject(ProjectRequest: ProjectRequest) {
 	}
 	throw Error(`Unable to create project: ${body}`);
 }
+
+export async function updateProject(id: number, projectRequest: ProjectRequest) {
+	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
+		method: 'PUT',
+		headers: getApiAuthHeaders(),
+		body: JSON.stringify(projectRequest)
+	});
+	const body = await response.json();
+	if (response.ok) {
+		return body as Project;
+	}
+	throw Error(`Unable to update project: ${body}`);
+}

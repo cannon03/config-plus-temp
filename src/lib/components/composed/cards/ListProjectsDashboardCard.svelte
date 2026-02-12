@@ -2,8 +2,17 @@
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/base/Button.svelte';
 	import type { Project } from '$lib/types/project';
-	import { CalendarDays, Users, Folder, Link as LinkIcon, Info, Trash2 } from 'lucide-svelte';
+	import {
+		CalendarDays,
+		Users,
+		Folder,
+		Link as LinkIcon,
+		Info,
+		Trash2,
+		Pencil
+	} from 'lucide-svelte';
 	import Modal from '../modals/Modal.svelte';
+	import CreateProjectForm from '../forms/CreateProjectForm.svelte';
 	import { deleteProject } from '$lib/api/project';
 	const { project, reloadProjects }: { project: Project; reloadProjects: () => void } = $props();
 
@@ -22,6 +31,7 @@
 	});
 
 	let showModal = $state(false);
+	let showEditModal = $state(false);
 
 	async function handleViewProject() {
 		goto(`/projects/${project.id}`);
@@ -32,6 +42,12 @@
 		showModal = false;
 		reloadProjects();
 	}
+
+	$effect(() => {
+		if (!showEditModal) {
+			reloadProjects();
+		}
+	});
 </script>
 
 <Modal title="Delete Project" bind:showModal>
@@ -50,6 +66,10 @@
 	</div>
 </Modal>
 
+<Modal title="Edit Project" bind:showModal={showEditModal}>
+	<CreateProjectForm bind:showModal={showEditModal} {project} />
+</Modal>
+
 <div
 	class="flex h-[40vh] w-[20vw] flex-col justify-between rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
 >
@@ -57,11 +77,18 @@
 	<div class="border-b border-gray-100 p-6">
 		<div class="flex justify-between">
 			<h2 class="mb-1 truncate text-xl font-semibold text-gray-900">{project.name}</h2>
-			<button onclick={() => (showModal = true)}
-				><Trash2
-					class="h-4 w-4 text-red-600 opacity-80 hover:cursor-pointer hover:text-red-800"
-				/></button
-			>
+			<div class="flex gap-2">
+				<button onclick={() => (showModal = true)}
+					><Trash2
+						class="h-4 w-4 text-red-600 opacity-80 hover:cursor-pointer hover:text-red-800"
+					/></button
+				>
+				<button onclick={() => (showEditModal = true)}>
+					<Pencil
+						class="h-4 w-4 text-gray-600 opacity-80 hover:cursor-pointer hover:text-gray-900"
+					/>
+				</button>
+			</div>
 		</div>
 		<p class="line-clamp-2 text-sm text-gray-600">{project.description}</p>
 	</div>

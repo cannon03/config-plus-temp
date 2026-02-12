@@ -1,5 +1,15 @@
 <script lang="ts">
-	import { CalendarDays, Info, Folder, Trash2, Edit2, Edit, Edit3, Pencil } from 'lucide-svelte';
+	import {
+		CalendarDays,
+		Info,
+		Folder,
+		Trash2,
+		Edit2,
+		Edit,
+		Edit3,
+		Pencil,
+		StickyNote
+	} from 'lucide-svelte';
 	import Button from '$lib/components/base/Button.svelte';
 	import { goto } from '$app/navigation';
 	import type { Unit } from '$lib/types/unit';
@@ -37,6 +47,12 @@
 		showModal = false;
 		reloadUnits();
 	}
+
+	$effect(() => {
+		if (!showEditModal) {
+			reloadUnits();
+		}
+	});
 </script>
 
 <Modal bind:showModal title="Delete Unit">
@@ -101,6 +117,22 @@
 			<Folder class="h-4 w-4 text-gray-500" />
 			<span>Project ID: <span class="font-medium text-gray-900">{unit.project}</span></span>
 		</div>
+
+		{#if unit.notes?.trim()}
+			<div
+				class="group/notes flex items-start gap-3 text-sm text-gray-700 transition-colors hover:text-gray-900"
+			>
+				<StickyNote
+					class="mt-0.5 h-4 w-4 shrink-0 text-gray-500 transition-colors group-hover/notes:text-blue-500"
+				/>
+				<div class="flex min-w-0 flex-col">
+					<span class="font-medium text-gray-900">Notes:</span>
+					<p class="line-clamp-2 leading-relaxed text-gray-600" title={unit.notes}>
+						{unit.notes}
+					</p>
+				</div>
+			</div>
+		{/if}
 
 		<div class="flex items-center gap-3 text-sm text-gray-700">
 			<CalendarDays class="h-4 w-4 text-gray-500" />
