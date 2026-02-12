@@ -26,6 +26,16 @@
 		showModal: boolean;
 	} = $props();
 
+	const loadRoomMap = $derived.by(() => {
+		const map = new Map<number, string>();
+		for (const room of rooms) {
+			for (const load of room.loads) {
+				map.set(load.id, room.name);
+			}
+		}
+		return map;
+	});
+
 	let channelRequest = $state<ChannelRequest>({
 		object_id: objectId,
 		content_type: content_type,
@@ -50,10 +60,8 @@
 			id="load-name"
 			class="mt-1 rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 		>
-			{#each rooms as room}
-				{#each room.loads as load}
-					<option value={load.id}> {room.name} - {load.name}</option>
-				{/each}
+			{#each loads as load}
+				<option value={load.id}>{loadRoomMap.get(load.id) ?? 'Unknown'} - {load.name}</option>
 			{/each}
 		</select>
 	</div>

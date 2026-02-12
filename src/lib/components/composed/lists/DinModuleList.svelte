@@ -8,10 +8,12 @@
 	const {
 		modules,
 		loads,
+		availableLoads,
 		rooms
 	}: {
 		modules: Array<DinModuleResponse>;
 		loads: Array<LoadResponse>;
+		availableLoads: Array<LoadResponse>;
 		rooms: Array<RoomResponse>;
 	} = $props();
 </script>
@@ -19,7 +21,7 @@
 {#if modules.length > 0}
 	<div class="space-y-3">
 		{#each modules as module}
-			<DinModuleCard {module} {loads} {rooms} />
+			<DinModuleCard {module} {loads} {availableLoads} {rooms} />
 		{/each}
 	</div>
 {:else}

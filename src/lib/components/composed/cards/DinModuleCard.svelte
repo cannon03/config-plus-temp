@@ -14,10 +14,12 @@
 	const {
 		module,
 		loads,
+		availableLoads,
 		rooms
 	}: {
 		module: DinModuleResponse;
 		loads: Array<LoadResponse>;
+		availableLoads: Array<LoadResponse>;
 		rooms: Array<RoomResponse>;
 	} = $props();
 
@@ -39,11 +41,9 @@
 		)
 	);
 
-	const usedLoadIds = $derived.by(() => new Set(moduleChannels.map((ch) => ch.load_id)));
-
-	const availableLoads = $derived.by(() =>
-		loads.filter(
-			(load) => !usedLoadIds.has(load.id) && moduleData.accepted_loads.includes(load.load_type)
+	const filteredLoads = $derived.by(() =>
+		availableLoads.filter(
+			(load) => moduleData.accepted_loads.includes(load.load_type)
 		)
 	);
 
@@ -76,7 +76,7 @@
 		{rooms}
 		content_type={CHANNEL_CONTENT_TYPES.DIN}
 		channels={availableChannels}
-		loads={availableLoads}
+		loads={filteredLoads}
 		bind:showModal={showMapModal}
 	/>
 </Modal>
@@ -87,7 +87,7 @@
 			<Icon class="h-5 w-5 text-blue-600" />
 			<div>
 				<p class="text-sm font-medium text-gray-900">
-					{moduleData.label}
+					{moduleData.label} - Address {module.address}
 				</p>
 				<p class="text-xs text-gray-500">{moduleData.channels} channels</p>
 			</div>

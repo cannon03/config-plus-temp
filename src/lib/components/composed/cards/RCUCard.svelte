@@ -89,6 +89,7 @@
 	<RCUForm type={RCU_FORM_TYPES.EDIT} {unit} bind:showModal {rcu} />
 </Modal>
 
+{#key availableChannels}
 <Modal title="Map Channel" bind:showModal={showMapChannelModal}>
 	<MapChannelForm
 		objectId={rcu.id}
@@ -99,6 +100,9 @@
 		bind:showModal={showMapChannelModal}
 	/>
 </Modal>
+{/key}
+
+
 
 <Modal title="Add Module" bind:showModal={showAddModuleModal}>
 	<DinModuleForm
@@ -160,6 +164,6 @@
 			</button>
 		</div>
 
-		<DinModuleList modules={rcuModules} {loads} {rooms} />
+		<DinModuleList modules={rcuModules} {loads} availableLoads={availableLoads} {rooms} />
 	</div>
 </div>

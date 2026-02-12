@@ -7,21 +7,21 @@ export const DIN_MODULE_TYPES = {
 		accepted_loads: ['phase_cut'] as Array<LOAD_TYPE_KEY>,
 		label: 'Phase Cut Dimmer',
 		icon: Zap,
-		channels: 8
+		channels: 4
 	},
 	relay: {
 		key: 'relay',
 		label: 'Relay Module',
 		accepted_loads: ['relay'] as Array<LOAD_TYPE_KEY>,
 		icon: ToggleRight,
-		channels: 8
+		channels: 4
 	},
 	'1-10v': {
 		key: '1-10v',
 		label: '1-10V Dimmer',
 		accepted_loads: ['1-10v'] as Array<LOAD_TYPE_KEY>,
 		icon: Zap,
-		channels: 8
+		channels: 4
 	},
 	curtain: {
 		key: 'curtain',
@@ -35,7 +35,7 @@ export const DIN_MODULE_TYPES = {
 		label: 'DALI Master',
 		accepted_loads: ['dali-dt6', 'dali-dt8'] as Array<LOAD_TYPE_KEY>,
 		icon: Cpu,
-		channels: 8
+		channels: 4
 	}
 } as const;
 
