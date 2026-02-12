@@ -140,8 +140,14 @@
 									<img
 										src={LogicBoardKeyImage}
 										alt="Switch"
-										class="transition group-hover:brightness-75"
+										class="m-4 transition group-hover:brightness-75"
 									/>
+									{#if key_input.actions && key_input.actions.length > 0}
+										<div
+											title={key_input.actions.map((a) => a.event_type).join(', ')}
+											class="absolute -top-4 -right-4 h-4 w-4 rounded-full border border-white bg-green-500 shadow-md"
+										></div>
+									{/if}
 								</button>
 								<button
 									onclick={() => showKeyNameModal(key_input)}

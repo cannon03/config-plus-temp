@@ -7,7 +7,7 @@ export const LOGICBOARD_TYPES = {
 	'1key': {
 		key: '1key',
 		type: 'standard',
-		label: '1-Key Keypad',
+		label: '1-Key Logicboard',
 		num_keys: 1,
 		layout: [{ key_id: 1, row: 2, col: 2 }],
 		rows: 3,
@@ -17,7 +17,7 @@ export const LOGICBOARD_TYPES = {
 	'2key': {
 		key: '2key',
 		type: 'standard',
-		label: '2-Key Keypad',
+		label: '2-Key Logicboard',
 		num_keys: 2,
 		layout: [
 			{ key_id: 1, row: 2, col: 2 },
@@ -30,7 +30,7 @@ export const LOGICBOARD_TYPES = {
 	'3key': {
 		key: '3key',
 		type: 'standard',
-		label: '3-Key Keypad',
+		label: '3-Key Logicboard',
 		num_keys: 3,
 		layout: [
 			{ key_id: 1, row: 2, col: 1 },
@@ -44,7 +44,7 @@ export const LOGICBOARD_TYPES = {
 	'4key': {
 		key: '4key',
 		type: 'standard',
-		label: '4-Key Keypad',
+		label: '4-Key Logicboard',
 		num_keys: 4,
 		layout: [
 			{ key_id: 1, row: 2, col: 1 },

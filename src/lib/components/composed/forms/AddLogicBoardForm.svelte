@@ -106,7 +106,7 @@
 	<div class="mt-2 flex justify-end">
 		<Button type="submit" variant="saveform" class="flex items-center gap-2 px-5 py-2.5 text-sm">
 			<Save class="h-4 w-4" />
-			Add Keypad
+			Add Logicboard
 		</Button>
 	</div>
 </form>
