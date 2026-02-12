@@ -78,16 +78,16 @@
 		<div class="flex justify-between">
 			<h2 class="mb-1 truncate text-xl font-semibold text-gray-900">{project.name}</h2>
 			<div class="flex gap-2">
-				<button onclick={() => (showModal = true)}
-					><Trash2
-						class="h-4 w-4 text-red-600 opacity-80 hover:cursor-pointer hover:text-red-800"
-					/></button
-				>
 				<button onclick={() => (showEditModal = true)}>
 					<Pencil
 						class="h-4 w-4 text-gray-600 opacity-80 hover:cursor-pointer hover:text-gray-900"
 					/>
 				</button>
+				<button onclick={() => (showModal = true)}
+					><Trash2
+						class="h-4 w-4 text-red-600 opacity-80 hover:cursor-pointer hover:text-red-800"
+					/></button
+				>
 			</div>
 		</div>
 		<p class="line-clamp-2 text-sm text-gray-600">{project.description}</p>
