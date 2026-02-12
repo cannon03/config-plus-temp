@@ -5,6 +5,7 @@
 	import KeypadKeyInfoModal from '../composed/modals/KeypadKeyInfoModal.svelte';
 	import type { KeypadKeyActionResponse } from '$lib/types/key_action';
 	import SceneForm from '../composed/forms/SceneForm.svelte';
+	import KeyInputNameForm from '../composed/forms/KeyInputNameForm.svelte';
 	import Modal from '../composed/modals/Modal.svelte';
 	import { SCENE_FORM_TYPES } from '$lib/constants/scene';
 	import type { Unit } from '$lib/types/unit';
@@ -39,6 +40,12 @@
 	let showModal = $state(false);
 	const existingKeyActions = $derived.by(() => keyActions.filter((ka) => ka.key === keypadKey.id));
 
+	const actionEventTypesTooltip = $derived.by(() => {
+		if (keypadKey.actions.length === 0) return '';
+		const uniqueTypes = [...new Set(keypadKey.actions.map((a) => a.event_type))];
+		return uniqueTypes.join(', ');
+	});
+
 	let sceneModalKey = $state(0);
 
 	function showSceneModal() {
@@ -47,9 +54,9 @@
 	}
 </script>
 
-<!-- {#if showKeypadEditModal}
-	<KeypadKeyInfoModal bind:showModal={showKeypadEditModal} {keypadKey} />
-{/if} -->
+<Modal bind:showModal={showKeypadEditModal} title="Rename Key">
+	<KeyInputNameForm bind:showModal={showKeypadEditModal} keyInput={keypadKey} />
+</Modal>
 
 {#key sceneModalKey}
 	<Modal bind:showModal title={SCENE_FORM_TYPES.CREATE}>
@@ -62,7 +69,6 @@
 			{allRooms}
 			room={selectedRoom}
 			zone={selectedZone}
-			loads={selectedRoom.loads}
 		/>
 	</Modal>
 {/key}
@@ -76,10 +82,10 @@
 		onclick={showSceneModal}
 	>
 		<img src={switchIcon} alt="Switch" class="transition group-hover:brightness-75" />
-		{#if existingKeyActions.length > 0}
+		{#if keypadKey.actions.length > 0}
 			<div
 				class="absolute -top-2 -right-2 h-4 w-4 rounded-full border border-white bg-green-500 shadow-md"
-				title="Key active"
+				title={actionEventTypesTooltip}
 			></div>
 		{/if}
 	</button>
@@ -92,7 +98,7 @@
 		}}
 		class="mt-2 rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white shadow-sm hover:cursor-pointer"
 	>
-		{keypadKey.name ?? 'Key ' + keypadKey.key_index}
+		{keypadKey.name == '' || !keypadKey.name ? 'Key ' + keypadKey.key_index : keypadKey.name}
 	</button>
 
 	<!-- Green status indicator -->

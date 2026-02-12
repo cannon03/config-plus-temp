@@ -67,7 +67,6 @@
 					{allRooms}
 					room={selectedRoom}
 					zone={selectedZone}
-					loads={selectedRoom.loads}
 				/>
 			</Modal>
 		{/key}

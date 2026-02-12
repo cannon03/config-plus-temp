@@ -4,6 +4,7 @@
 	import LogicBoardKeyImage from '$lib/assets/logicboard_key.svg';
 	import Modal from '../modals/Modal.svelte';
 	import SceneForm from '../forms/SceneForm.svelte';
+	import KeyInputNameForm from '../forms/KeyInputNameForm.svelte';
 	import { SCENE_FORM_TYPES } from '$lib/constants/scene';
 	import type { Unit } from '$lib/types/unit';
 	import type { RoomResponse } from '$lib/types/room';
@@ -44,6 +45,14 @@
 		showModal = true;
 	};
 
+	let showNameModal = $state(false);
+	let nameModalKeyInput = $state<KeyInput | null>(null);
+
+	function showKeyNameModal(keyInput: KeyInput) {
+		nameModalKeyInput = keyInput;
+		showNameModal = true;
+	}
+
 	let showDelModal = $state(false);
 	async function del(e: Event) {
 		await deleteLogicBoard(input.id);
@@ -73,6 +82,12 @@
 		</div>
 	</div>
 </Modal>
+
+{#if nameModalKeyInput}
+	<Modal bind:showModal={showNameModal} title="Rename Key">
+		<KeyInputNameForm bind:showModal={showNameModal} keyInput={nameModalKeyInput} />
+	</Modal>
+{/if}
 
 <div
 	class="w-96 rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
@@ -114,19 +129,27 @@
 					{#if map_obj}
 						{@const key_input = input.inputs.find((k) => k.key_index === map_obj.key_id)}
 						{#if key_input}
-							<button
-								type="button"
-								title="Configure key"
-								style="width: {buttonSize}px; height: {buttonSize}px"
-								class="group relative flex items-center justify-center rounded-xl shadow-md transition hover:scale-105 hover:cursor-pointer hover:shadow-lg"
-								onclick={() => (showModal = true)}
-							>
-								<img
-									src={LogicBoardKeyImage}
-									alt="Switch"
-									class="transition group-hover:brightness-75"
-								/>
-							</button>
+							<div class="flex flex-col items-center justify-center gap-3">
+								<button
+									type="button"
+									title="Configure key"
+									style="width: {buttonSize}px; height: {buttonSize}px"
+									class="group relative flex items-center justify-center rounded-xl shadow-md transition hover:scale-105 hover:cursor-pointer hover:shadow-lg"
+									onclick={() => (showModal = true)}
+								>
+									<img
+										src={LogicBoardKeyImage}
+										alt="Switch"
+										class="transition group-hover:brightness-75"
+									/>
+								</button>
+								<button
+									onclick={() => showKeyNameModal(key_input)}
+									class="mt-1 rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white shadow-sm hover:cursor-pointer"
+								>
+									{key_input.name ? key_input.name : 'Key ' + key_input.key_index}
+								</button>
+							</div>
 							<Modal bind:showModal title={SCENE_FORM_TYPES.CREATE}>
 								<SceneForm
 									bind:showModal
@@ -137,7 +160,6 @@
 									{allRooms}
 									room={selectedRoom}
 									zone={selectedZone}
-									loads={selectedRoom.loads}
 								/>
 							</Modal>
 						{/if}
