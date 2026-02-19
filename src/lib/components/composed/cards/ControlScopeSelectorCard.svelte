@@ -49,62 +49,83 @@
 	}
 </script>
 
-<div>
-	<div class="space-y-4">
-		<label for="scope" class="text-sm font-medium text-gray-700">Control Scope</label>
-		<div id="scope" class="flex w-full gap-2">
-			{#each Object.values(SCENE_FORM_CONTROL_SCOPES) as scope}
-				<button
-					class={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium transition
-								${
-									controlScope === scope.value
-										? 'border-blue-600 bg-blue-600 text-white shadow-sm'
-										: 'border-gray-300 text-gray-700 hover:bg-gray-100'
-								}`}
-					onclick={() => (controlScope = scope.value)}
-				>
-					{scope.label}
-				</button>
-			{/each}
-		</div>
+<section class="space-y-3">
+	<h3 class="text-sm font-semibold text-gray-900">Control Scope</h3>
 
-		<div class="space-y-2">
-			<label for="scope-select" class="text-sm font-medium text-gray-700">Scope Selection</label>
-			{#if controlScope === SCENE_FORM_CONTROL_SCOPES.ROOM.value}
-				<select
-					id="scope-select"
-					bind:value={selectedRoomId}
-					class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+	<div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+		<div class="space-y-4">
+			<!-- Scope Selection Tabs/Buttons -->
+			<div class="grid grid-cols-2 gap-1 rounded-lg bg-gray-100 p-1">
+				{#each Object.values(SCENE_FORM_CONTROL_SCOPES) as scope}
+					<button
+						onclick={() => (controlScope = scope.value)}
+						class={`rounded-md px-3 py-2 text-sm font-medium transition-all ${
+							controlScope === scope.value
+								? 'bg-white text-gray-900 shadow-sm'
+								: 'text-gray-500 hover:text-gray-900'
+						}`}
+					>
+						{scope.label}
+					</button>
+				{/each}
+			</div>
+
+			<!-- Dynamic Dropdowns based on Scope -->
+			<div class="space-y-4">
+				{#if controlScope === SCENE_FORM_CONTROL_SCOPES.ROOM.value}
+					<div>
+						<label
+							for="room-select"
+							class="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase"
+							>Select Room</label
+						>
+						<div class="relative">
+							<select
+								id="room-select"
+								bind:value={selectedRoomId}
+								class="block w-full rounded-md border-0 py-2 pr-10 pl-3 text-gray-900 ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-600 sm:text-sm sm:leading-6"
+							>
+								{#each allRooms as room}
+									<option value={room.id}>{room.name}</option>
+								{/each}
+							</select>
+						</div>
+					</div>
+				{/if}
+
+				{#if controlScope === SCENE_FORM_CONTROL_SCOPES.ZONE.value}
+					<div>
+						<label
+							for="zone-select"
+							class="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase"
+							>Select Zone</label
+						>
+						<div class="relative">
+							<select
+								id="zone-select"
+								bind:value={selectedZoneId}
+								class="block w-full rounded-md border-0 py-2 pr-10 pl-3 text-gray-900 ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-600 sm:text-sm sm:leading-6"
+							>
+								{#each zones as zone}
+									<option value={zone.id}>{zone.name}</option>
+								{/each}
+							</select>
+						</div>
+					</div>
+				{/if}
+
+				<!-- Action Button -->
+				<button
+					onclick={addLoadsinScope}
+					class="flex w-full items-center justify-center gap-2 rounded-md border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-600 transition-colors hover:bg-blue-100"
 				>
-					{#each allRooms as room}
-						<option value={room.id}>{room.name}</option>
-					{/each}
-				</select>
-			{:else if controlScope === SCENE_FORM_CONTROL_SCOPES.ZONE.value}
-				<select
-					id="scope-select"
-					bind:value={selectedZoneId}
-					class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-				>
-					{#each zones as zone}
-						<option value={zone.id}>{zone.name}</option>
-					{/each}
-				</select>
-			{:else}
-				<select
-					id="scope-select"
-					disabled
-					class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-				>
-					<option value={unit.id}>{unit.name}</option>
-				</select>
-			{/if}
-			<button
-				onclick={addLoadsinScope}
-				class="mt-1 rounded-md border border-gray-300 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100"
-			>
-				Add All Loads in Scope
-			</button>
+					<span
+						>Import Loads from {controlScope === SCENE_FORM_CONTROL_SCOPES.ROOM.value
+							? 'Room'
+							: 'Zone'}</span
+					>
+				</button>
+			</div>
 		</div>
 	</div>
-</div>
+</section>

@@ -9,7 +9,7 @@
 		availiableLoads
 	}: {
 		selectedLoad: LoadResponse | null;
-		availiableLoads: Array<LoadResponse>;
+		availiableLoads: Array<LoadResponse> | [];
 		sceneLoads: Array<SceneLoadData>;
 	} = $props();
 
@@ -26,48 +26,39 @@
 	}
 </script>
 
-<!-- Load Selection -->
-<section class="space-y-3">
-	<h3 class="text-base font-semibold text-gray-900">Load Selection</h3>
-	<label for="load-select" class="block text-sm font-medium text-gray-600">Add Loads to Scene</label
-	>
-	<select
-		id="load-select"
-		bind:value={selectedLoad}
-		class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-	>
-		{#each availiableLoads as load}
-			<option value={load}>{load.name}</option>
-		{/each}
-	</select>
+<div class="space-y-3">
+	<div class="flex items-center justify-between">
+		<h3 class="text-sm font-semibold text-gray-900">Individual Loads</h3>
+	</div>
 
-	<!-- Selected Load Preview -->
-	{#if selectedLoad}
-		{@const loadData = LOAD_TYPES[selectedLoad.load_type]}
-		{@const LoadIcon = loadData.icon}
-		{@const loadLabel = loadData.label}
-		<div class="rounded-xl border border-gray-200 bg-gray-50 p-5 shadow-sm">
-			<div class="mb-4 flex items-center gap-3">
-				<LoadIcon class="h-5 w-5 text-gray-700" />
-				<div>
-					<div class="text-sm font-semibold text-gray-900">{selectedLoad.name}</div>
-					<div class="text-xs text-gray-500">{loadLabel}</div>
-				</div>
-			</div>
-			<div class="flex gap-3">
-				<button
-					onclick={addLoadToScene}
-					class="flex-1 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+	<div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+		<label
+			for="load-select"
+			class="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase"
+		>
+			Add Single Load
+		</label>
+		<div class="flex gap-2">
+			<div class="relative flex-1">
+				<select
+					id="load-select"
+					bind:value={selectedLoad}
+					class="block w-full rounded-md border-0 py-2 pr-10 pl-3 text-gray-900 ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-600 sm:text-sm sm:leading-6"
 				>
-					Add to Scene
-				</button>
-				<button
-					onclick={() => (selectedLoad = null)}
-					class="flex-1 rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"
-				>
-					Cancel
-				</button>
+					<option value={null}>Select a load to add...</option>
+					{#each availiableLoads ?? [] as load}
+						<option value={load}>{load.name} ({load.load_type})</option>
+					{/each}
+				</select>
 			</div>
+
+			<button
+				disabled={!selectedLoad}
+				onclick={addLoadToScene}
+				class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+			>
+				Add
+			</button>
 		</div>
-	{/if}
-</section>
+	</div>
+</div>

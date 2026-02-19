@@ -51,7 +51,7 @@
 	}
 
 	onMount(async () => {
-		// products = await fetchProducts();
+		products = await fetchProducts();
 	});
 
 	const rooms = $derived.by(() => ctx.domainGraph.layout.zones.flatMap((zone) => zone.rooms));
@@ -69,7 +69,10 @@
 </Modal>
 
 <Modal bind:showModal={showCreateProductTypeModal} title="Create New Product Type">
-	<CreateProductTypeForm bind:showModal={showCreateProductTypeModal} onSuccess={handleProductTypeCreated} />
+	<CreateProductTypeForm
+		bind:showModal={showCreateProductTypeModal}
+		onSuccess={handleProductTypeCreated}
+	/>
 </Modal>
 
 <Modal bind:showModal={showCreateCategoryModal} title="Create New Category">
@@ -188,7 +191,7 @@
 		<p class="text-sm font-semibold tracking-wide text-gray-700">Existing Products</p>
 
 		<div class="overflow-hidden rounded-xl border border-gray-200 bg-white"> -->
-			<!-- <table class="w-full text-left text-sm">
+	<!-- <table class="w-full text-left text-sm">
 				<thead
 					class="border-b border-gray-200 bg-gray-50 text-[11px] tracking-wider text-gray-600 uppercase"
 				>
@@ -225,6 +228,6 @@
 					{/each}
 				</tbody>
 			</table> -->
-		<!-- </div> -->
+	<!-- </div> -->
 	<!-- </div> -->
 </div>

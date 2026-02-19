@@ -13,32 +13,41 @@
 	let showModal = $state(false);
 </script>
 
-<Modal bind:showModal title="Create Loads from Preset">
-	<div class="space-y-4">
-		<p class="text-sm text-gray-700">Do you want to create loads from the preset?</p>
-		<div class="flex justify-end gap-3">
-			<button
-				onclick={() => {
-					createPreset();
-					showModal = false;
-				}}
-				class="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
-			>
-				Yes
-			</button>
-			<button
-				onclick={() => (showModal = false)}
-				class="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"
-			>
-				No
-			</button>
-		</div>
+<Modal bind:showModal title="Apply Preset">
+	<div class="mt-2">
+		<p class="text-sm text-gray-500">
+			This will set all loads in the current scene to the predefined values for <strong
+				>{selectedPreset?.name}</strong
+			>. Existing values will be overwritten.
+		</p>
+	</div>
+
+	<div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+		<button
+			type="button"
+			class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:col-start-2"
+			onclick={() => {
+				createPreset();
+				showModal = false;
+			}}
+		>
+			Apply Preset
+		</button>
+		<button
+			type="button"
+			class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:col-start-1 sm:mt-0"
+			onclick={() => (showModal = false)}
+		>
+			Cancel
+		</button>
 	</div>
 </Modal>
 
 <section class="space-y-3">
-	<h3 class="text-base font-semibold text-gray-900">Presets</h3>
-	<p class="text-sm text-gray-600">Apply predefined levels per load type</p>
+	<div class="flex items-center justify-between">
+		<h3 class="text-sm font-semibold text-gray-900">Quick Presets</h3>
+	</div>
+
 	<div class="grid grid-cols-2 gap-3">
 		{#each Object.entries(SCENE_PRESETS) as [_, preset]}
 			{@const Icon = preset.icon}
@@ -47,13 +56,10 @@
 					selectedPreset = preset;
 					showModal = true;
 				}}
-				class="rounded-lg border border-gray-200 bg-gray-50 p-3 text-left shadow-sm transition hover:bg-gray-100"
+				class="group relative flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:outline-none"
 			>
-				<div class="mb-1 flex items-center gap-2">
-					<Icon class="h-5 w-5 text-yellow-600" />
-					<span class="text-sm font-semibold text-gray-900">{preset.name}</span>
-				</div>
-				<p class="text-xs text-gray-500">{preset.description}</p>
+				<Icon class="h-4 w-4 text-gray-400 group-hover:text-blue-500" />
+				<span>{preset.name}</span>
 			</button>
 		{/each}
 	</div>

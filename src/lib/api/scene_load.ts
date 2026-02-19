@@ -38,3 +38,28 @@ export async function createSceneLoads(sceneLoadRequests: Array<SceneLoadRequest
 
 	return responses;
 }
+
+export async function updateSceneLoad(id: number, sceneLoadRequest: Partial<SceneLoadRequest>) {
+	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
+		method: 'PATCH',
+		headers: getApiAuthHeaders(),
+		body: JSON.stringify(sceneLoadRequest)
+	});
+	const body = await response.json();
+	if (response.ok) {
+		window.dispatchEvent(new Event(RELOAD_TARGETS.SCENE_LOADS));
+		return body as SceneLoadResponse;
+	}
+	throw Error(`Unable to update scene load: ${body}`);
+}
+
+export async function deleteSceneLoad(id: number) {
+	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
+		method: 'DELETE',
+		headers: getApiAuthHeaders()
+	});
+	if (!response.ok) {
+		throw Error(`Unable to delete scene load: ${response.statusText}`);
+	}
+	window.dispatchEvent(new Event(RELOAD_TARGETS.SCENE_LOADS));
+}

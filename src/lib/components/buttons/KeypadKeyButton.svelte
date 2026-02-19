@@ -14,31 +14,23 @@
 	import type { ZoneResponse } from '$lib/types/zone';
 	import type { LoadResponse } from '$lib/types/load';
 	import { getDashboardContext } from '$lib/context/dashboard';
+	import SceneFormNew from '../composed/forms/SceneFormNew.svelte';
 
 	const {
 		keypad,
 		keypadKey,
-		allZones,
-		allRooms,
-		selectedRoom,
-		selectedZone,
-		keyActions,
 		buttonSize
 	}: {
 		keypad: KeypadResponse;
 		keypadKey: KeypadInputResponse;
-		allZones: Array<ZoneResponse>;
-		allRooms: Array<RoomResponse>;
-		selectedRoom: RoomResponse;
-		selectedZone: ZoneResponse;
-		keyActions: Array<KeypadKeyActionResponse>;
+
 		buttonSize: number;
 	} = $props();
 
 	const ctx = getDashboardContext();
 	let showKeypadEditModal = $state(false);
 	let showModal = $state(false);
-	const existingKeyActions = $derived.by(() => keyActions.filter((ka) => ka.key === keypadKey.id));
+	const existingKeyActions = $derived.by(() => keypadKey.actions);
 
 	const actionEventTypesTooltip = $derived.by(() => {
 		if (keypadKey.actions.length === 0) return '';
@@ -59,8 +51,8 @@
 </Modal>
 
 {#key sceneModalKey}
-	<Modal bind:showModal title={SCENE_FORM_TYPES.CREATE}>
-		<SceneForm
+	<Modal bind:showModal title={SCENE_FORM_TYPES.CREATE.value}>
+		<!-- <SceneForm
 			bind:showModal
 			unit={ctx.domainGraph.unit}
 			input={keypad}
@@ -69,6 +61,16 @@
 			{allRooms}
 			room={selectedRoom}
 			zone={selectedZone}
+		/> -->
+		<SceneFormNew
+			bind:showModal
+			keyInput={keypadKey}
+			zones={ctx.domainGraph.layout.zones}
+			unit={ctx.domainGraph.unit}
+			input={keypad}
+			keyInputScenes={ctx.domainGraph.layout.scenes.filter((s) =>
+				keypadKey.actions.some((a) => a.action_target === s.id)
+			)}
 		/>
 	</Modal>
 {/key}

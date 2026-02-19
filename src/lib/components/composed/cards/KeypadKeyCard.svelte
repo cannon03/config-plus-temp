@@ -17,37 +17,22 @@
 
 	const {
 		keypad,
-		keypadKeys,
-		allZones,
-		allRooms,
-		selectedRoom,
-		selectedZone,
-		keyActions,
 		type
 	}: {
 		keypad: KeypadResponse;
-		keypadKeys: Array<KeypadInputResponse>;
-		allZones: Array<ZoneResponse>;
-		allRooms: Array<RoomResponse>;
-		selectedRoom: RoomResponse;
-		selectedZone: ZoneResponse;
-		keyActions: Array<KeypadKeyActionResponse>;
+
 		type: (typeof KEYPAD_TYPES)[keyof typeof KEYPAD_TYPES];
 	} = $props();
 
 	const ctx = getDashboardContext();
 
+	const keypadKeys = $derived.by(() => keypad.inputs);
+
 	const { rows, cols, layout } = $derived.by(() => type);
 	const keyMap = $derived.by(() => new Map(layout.map((k) => [`${k.row},${k.col}`, k])));
-	const buttonSize = keypadKeys.length > 4 ? 12 : 20;
+	const buttonSize = $derived.by(() => (keypadKeys.length > 4 ? 12 : 20));
 	const isCorridor = $derived(keypad.sub_type === 'corridor');
 	const fourthKey = $derived(keypadKeys.find((k) => k.key_index === 4));
-
-	// $effect(() => {
-	// 	console.log('BUTTON SIZE', $state.snapshot(buttonSize));
-	// 	console.log('KEYPAD KEYS', $state.snapshot(keypadKeys));
-	// 	console.log('KEYPAD', $state.snapshot(keypad));
-	// });
 
 	let showModal = $state(false);
 	let sceneModalKey = $state(0);
@@ -55,9 +40,9 @@
 
 {#if isCorridor}
 	<!-- Corridor Panel Display -->
-	{#if fourthKey}
+	<!-- {#if fourthKey}
 		{#key sceneModalKey}
-			<Modal bind:showModal title={SCENE_FORM_TYPES.CREATE}>
+			<Modal bind:showModal title={SCENE_FORM_TYPES.CREATE.label}>
 				<SceneForm
 					bind:showModal
 					unit={ctx.domainGraph.unit}
@@ -70,16 +55,9 @@
 				/>
 			</Modal>
 		{/key}
-	{/if}
+	{/if} -->
 	<div class="relative m-auto w-80 overflow-hidden rounded-2xl bg-gray-50 shadow-lg">
-		<button
-			onclick={() => {
-				if (fourthKey) {
-					sceneModalKey++;
-					showModal = true;
-				}
-			}}
-		>
+		<button>
 			<img src={corridorPanelImage} alt="Corridor Panel" class="h-auto w-full object-contain" />
 		</button>
 	</div>
@@ -104,16 +82,7 @@
 					{@const map_obj = keyMap.get(`${r + 1},${c + 1}`)}
 					{@const keypadKey = keypadKeys.find((k) => k.key_index === map_obj?.key_id)}
 					{#if keypadKey}
-						<KeypadKeyButton
-							{keypad}
-							{buttonSize}
-							{keyActions}
-							{keypadKey}
-							{allZones}
-							{allRooms}
-							{selectedRoom}
-							{selectedZone}
-						/>
+						<KeypadKeyButton {keypad} {buttonSize} {keypadKey} />
 					{:else}
 						<div class="h-{buttonSize} w-{buttonSize}"></div>
 					{/if}

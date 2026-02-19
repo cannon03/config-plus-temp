@@ -29,3 +29,28 @@ export async function createScene(scnerequest: SceneRequest) {
 	}
 	throw Error(`Unable to create scene: ${body}`);
 }
+
+export async function updateScene(id: number, sceneRequest: Partial<SceneRequest>) {
+	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
+		method: 'PATCH',
+		headers: getApiAuthHeaders(),
+		body: JSON.stringify(sceneRequest)
+	});
+	const body = await response.json();
+	if (response.ok) {
+		window.dispatchEvent(new Event(RELOAD_TARGETS.SCENES));
+		return body as SceneResponse;
+	}
+	throw Error(`Unable to update scene: ${body}`);
+}
+
+export async function deleteScene(id: number) {
+	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
+		method: 'DELETE',
+		headers: getApiAuthHeaders()
+	});
+	if (!response.ok) {
+		throw Error(`Unable to delete scene: ${response.statusText}`);
+	}
+	window.dispatchEvent(new Event(RELOAD_TARGETS.SCENES));
+}

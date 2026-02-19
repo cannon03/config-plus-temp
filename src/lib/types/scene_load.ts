@@ -27,7 +27,8 @@ export type SceneLoadResponse = {
 	fade_ms: number;
 	delay_ms: number;
 	scene: number;
-	load: number;
+	load_id: number;
+	load_name: string;
 };
 
 export type SceneLoadRequest = {

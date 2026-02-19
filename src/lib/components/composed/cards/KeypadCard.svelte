@@ -4,38 +4,23 @@
 	import { Trash2 } from 'lucide-svelte';
 	import KeypadKeyCard from './KeypadKeyCard.svelte';
 	import { KEYPAD_TYPES } from '$lib/constants/keypad';
-	import { getDashboardContext } from '$lib/context/dashboard';
+
 	import Modal from '../modals/Modal.svelte';
 
 	import { deleteKeypad } from '$lib/api/keypad';
-	import type { Unit } from '$lib/types/unit';
-	import type { ZoneResponse } from '$lib/types/zone';
-	import type { KeypadInputResponse, KeypadKeyResponse } from '$lib/types/keypadkey';
-	import type { LoadResponse } from '$lib/types/load';
-	import type { KeypadKeyActionResponse } from '$lib/types/key_action';
 
 	const {
 		keypad,
-		keypadKeys,
-		allZones,
-		allRooms,
-		selectedRoom,
-		selectedZone,
-		keyActions
+		selectedRoom
 	}: {
-		keypadKeys: Array<KeypadInputResponse>;
 		keypad: KeypadResponse;
-		allZones: Array<ZoneResponse>;
-		allRooms: Array<RoomResponse>;
 		selectedRoom: RoomResponse;
-		selectedZone: ZoneResponse;
-		keyActions: Array<KeypadKeyActionResponse>;
 	} = $props();
 
 	// const keypadKeys = $derived.by(() => allKeypadKeys.filter((k) => k.keypad === keypad.id));
-	const mappedKeys = $derived.by(() =>
-		keypadKeys.filter((k) => keyActions.some((ka) => ka.key === k.id))
-	);
+	// const mappedKeys = $derived.by(() =>
+	// 	keypadKeys.filter((k) => keyActions.some((ka) => ka.key === k.id))
+	// );
 
 	const keypadType = $derived.by(() => {
 		if (keypad.sub_type === 'corridor') {
@@ -56,6 +41,8 @@
 		await deleteKeypad(keypad.id);
 		showDelModal = false;
 	}
+
+	const mappedKeys = $derived.by(() => keypad.inputs.filter((k) => k.actions.length > 0));
 </script>
 
 <Modal title="Delete Keypad" bind:showModal={showDelModal}>
@@ -103,26 +90,17 @@
 		</button>
 	</div>
 
-	<KeypadKeyCard
-		{keypad}
-		{keyActions}
-		type={keypadType}
-		{keypadKeys}
-		{allZones}
-		{allRooms}
-		{selectedRoom}
-		{selectedZone}
-	/>
+	<KeypadKeyCard {keypad} type={keypadType} />
 
 	<!-- Programming Status -->
 	<div class="p-4 text-center">
 		<div class="mb-2 text-sm text-gray-600">
-			{mappedKeys.length}/{keypadKeys.length} buttons programmed
+			{mappedKeys.length}/{keypad.inputs.length} buttons programmed
 		</div>
 		<div class="h-2 w-full rounded-full bg-gray-200">
 			<div
 				class="h-2 rounded-full bg-blue-600 transition-all duration-300"
-				style="width: {(mappedKeys.length / keypadKeys.length) * 100}%"
+				style="width: {(mappedKeys.length / keypad.inputs.length) * 100}%"
 			></div>
 		</div>
 	</div>

@@ -77,7 +77,7 @@
 				{#each keypads as keypad}
 					{@const room = rooms.find((r) => r.id === keypad.location_room)}
 					{#if room}
-						<KeypadCard allKeypadKeys={keypad.inputs} keyActions={[]} {keypad} {room} />
+						<KeypadCard {keypad} selectedRoom={room} />
 					{/if}
 				{/each}
 			</div>

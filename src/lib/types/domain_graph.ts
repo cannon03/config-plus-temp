@@ -1,6 +1,7 @@
 import type { Unit } from './unit';
 import type { ZoneResponse } from './zone';
 import type { RCUResponse } from './rcu';
+import type { SceneResponse } from './scene';
 
 export interface LedTarget {
 	address: number;
@@ -72,7 +73,7 @@ export interface UnitDomainGraphResponse {
 	unit: Unit;
 	layout: {
 		zones: ZoneResponse[];
-		scenes: DomainGraphScene[];
+		scenes: SceneResponse[];
 		custom_led_mappings: CustomLedMappingResponse[];
 		led_sync_groups: LedSyncGroupResponse[];
 	};

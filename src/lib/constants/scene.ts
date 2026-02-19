@@ -1,8 +1,16 @@
 import { Moon, SunMedium } from 'lucide-svelte';
 
 export const SCENE_FORM_TYPES = {
-	CREATE: 'CREATE A SCENE',
-	EDIT: 'EDIT A SCENE'
+	CREATE: {
+		value: 'CREATE',
+		label: 'Create Scene',
+		subtitle: 'Create a new scene with the specified settings'
+	},
+	EDIT: {
+		value: 'EDIT',
+		label: 'Edit Scene',
+		subtitle: 'Edit the settings of an existing scene'
+	}
 } as const;
 
 export const SCENE_FORM_CONTROL_SCOPES = {
@@ -43,3 +51,4 @@ export const SCENE_PRESETS = {
 } as const;
 
 export const SCENE_PRIORITY = 1;
+

@@ -29,3 +29,17 @@ export async function createKeyAction(keypadKeyActionRequest: KeyActionRequest) 
 	}
 	throw Error(`Unable to create keypad key action: ${body}`);
 }
+
+export async function updateKeyAction(id: number, keypadKeyActionRequest: Partial<KeyActionRequest>) {
+	const response = await fetch(`${API_BASE}${PATH}${id}/`, {
+		method: 'PATCH',
+		headers: getApiAuthHeaders(),
+		body: JSON.stringify(keypadKeyActionRequest)
+	});
+	const body = await response.json();
+	if (response.ok) {
+		window.dispatchEvent(new Event(RELOAD_TARGETS.KEY_ACTIONS));
+		return body as KeypadKeyActionResponse;
+	}
+	throw Error(`Unable to update keypad key action: ${body}`);
+}
