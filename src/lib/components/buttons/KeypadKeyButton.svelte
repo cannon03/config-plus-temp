@@ -51,7 +51,7 @@
 </Modal>
 
 {#key sceneModalKey}
-	<Modal bind:showModal title={SCENE_FORM_TYPES.CREATE.value}>
+	<Modal bind:showModal title={SCENE_FORM_TYPES.CREATE.label}>
 		<!-- <SceneForm
 			bind:showModal
 			unit={ctx.domainGraph.unit}

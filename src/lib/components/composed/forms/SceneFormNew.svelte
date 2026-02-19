@@ -215,7 +215,7 @@
 	}
 </script>
 
-<div class="flex h-full w-full min-w-[1000px] flex-col overflow-hidden bg-gray-50">
+<div class="flex h-[80vh] w-[85vw] min-w-[1000px] flex-col overflow-hidden bg-gray-50">
 	<!-- Top Tabs for Key Action (On/Off) -->
 	<header class="z-10 bg-white shadow-sm">
 		<nav class="flex border-b border-gray-200" aria-label="Tabs">

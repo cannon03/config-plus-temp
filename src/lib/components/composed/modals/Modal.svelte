@@ -26,7 +26,7 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
-	class="m-auto rounded-lg bg-white p-6 shadow-lg"
+	class="m-auto overflow-hidden rounded-lg bg-white p-6 shadow-lg"
 	bind:this={dialog}
 	onclose={() => {
 		showModal = false;

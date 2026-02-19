@@ -190,9 +190,9 @@
 	class="mx-auto flex h-[75vh] w-[70vw] max-w-6xl flex-col rounded-2xl bg-white p-8 text-gray-800"
 >
 	<!-- Main Body -->
-	<div class="flex flex-1 gap-10 overflow-y-auto">
+	<div class="flex min-h-0 flex-1 gap-10 overflow-hidden">
 		<!-- Left Column -->
-		<div class="flex w-1/2 flex-col gap-8">
+		<div class="flex w-1/2 flex-col gap-8 overflow-y-auto">
 			<!-- Scene Name -->
 			<div class="space-y-2">
 				<label for="name" class="text-sm font-medium text-gray-700">Scene Name</label>
@@ -229,7 +229,9 @@
 		</div>
 
 		<!-- Right Column -->
-		<div class="flex w-1/2 flex-col gap-6">
+		<div
+			class="flex min-h-0 w-1/2 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md"
+		>
 			<SceneLoadsManager bind:sceneLoads />
 		</div>
 	</div>
