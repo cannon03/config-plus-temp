@@ -33,16 +33,16 @@
 	</Modal>
 {/key}
 
-<div class="flex h-full flex-col bg-gray-50">
+<div class="flex h-full flex-col bg-background">
 	<!-- Header -->
-	<div class="border-b border-gray-200 bg-white p-6">
+	<div class="border-b border-border bg-card p-6">
 		<div class="flex items-center justify-between">
 			<div>
-				<h1 class="text-2xl font-bold text-gray-900">Keypads</h1>
-				<p class="mt-1 text-gray-600">Add keypads and program them visually with scenes</p>
+				<h1 class="text-2xl font-bold text-foreground">Keypads</h1>
+				<p class="mt-1 text-muted-foreground">Add keypads and program them visually with scenes</p>
 			</div>
 			<button
-				class="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
+				class="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-primary-foreground transition-colors hover:opacity-90"
 				onclick={() => (showModal = true)}
 			>
 				<Plus class="h-4 w-4" />
@@ -56,16 +56,16 @@
 		{#if keypads.length === 0}
 			<!-- Empty State -->
 			<div class="flex h-full flex-col items-center justify-center text-center">
-				<div class="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gray-100">
+				<div class="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-muted">
 					<span class="text-4xl">🎛️</span>
 				</div>
-				<h3 class="mb-2 text-xl font-medium text-gray-900">No keypads installed</h3>
-				<p class="mb-6 max-w-md text-gray-600">
+				<h3 class="mb-2 text-xl font-medium text-foreground">No keypads installed</h3>
+				<p class="mb-6 max-w-md text-muted-foreground">
 					Start by adding your first keypad. Choose the room, select the keypad type, and begin
 					programming scenes visually.
 				</p>
 				<button
-					class="flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
+					class="flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-primary-foreground transition-colors hover:opacity-90"
 				>
 					<Plus class="h-5 w-5" />
 					Add Your First Keypad

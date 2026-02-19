@@ -79,33 +79,33 @@
 	<CreateCategoryForm bind:showModal={showCreateCategoryModal} onSuccess={handleCategoryCreated} />
 </Modal>
 
-<div class="w-full space-y-10 bg-[#f7f9fc] p-6">
+<div class="w-full space-y-10 bg-background p-6">
 	<!-- Search -->
 	<div class="space-y-3">
 		<label
 			for="products-search"
-			class="text-xs font-semibold tracking-wide text-gray-600 uppercase"
+			class="text-xs font-semibold tracking-wide text-muted-foreground uppercase"
 		>
 			Search products
 		</label>
 
 		<form
-			class="relative flex items-center rounded-xl border border-gray-300 bg-white focus-within:border-[#4C8BF5] focus-within:ring-1 focus-within:ring-[#4C8BF5]"
+			class="relative flex items-center rounded-xl border border-border bg-card transition-colors focus-within:border-primary focus-within:ring-1 focus-within:ring-ring"
 			onsubmit={searchProducts}
 		>
-			<Search class="ml-3 h-4 w-4 text-gray-400" />
+			<Search class="ml-3 h-4 w-4 text-muted-foreground" />
 
 			<input
 				id="products-search"
 				type="search"
 				bind:value={search}
 				placeholder="Search by name, category, or type"
-				class="w-full bg-transparent px-3 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none"
+				class="w-full bg-transparent px-3 py-2 text-sm text-foreground placeholder-muted-foreground focus:outline-none"
 			/>
 
 			<button
 				type="submit"
-				class="hover:bg-blue-80 mr-2 rounded-lg px-4 py-1.5 text-xs font-semibold text-[#4C8BF5] opacity-90 hover:cursor-pointer"
+				class="mr-2 rounded-lg px-4 py-1.5 text-xs font-semibold text-primary opacity-90 transition-opacity hover:cursor-pointer hover:opacity-100"
 			>
 				Search
 			</button>
@@ -115,22 +115,22 @@
 	<!-- Global Catalogue -->
 	<div class="space-y-3">
 		<div class="flex items-center justify-between">
-			<p class="text-sm font-semibold tracking-wide text-gray-700">Global Catalogue</p>
+			<p class="text-sm font-semibold tracking-wide text-foreground">Global Catalogue</p>
 			<div class="flex items-center gap-2">
 				<button
-					class="rounded-lg border border-blue-600 px-4 py-2 text-xs font-semibold text-blue-600 shadow-sm transition hover:bg-blue-50"
+					class="rounded-lg border border-primary px-4 py-2 text-xs font-semibold text-primary shadow-sm transition hover:bg-primary/5"
 					onclick={() => (showCreateCategoryModal = true)}
 				>
 					Create Category
 				</button>
 				<button
-					class="rounded-lg border border-blue-600 px-4 py-2 text-xs font-semibold text-blue-600 shadow-sm transition hover:bg-blue-50"
+					class="rounded-lg border border-primary px-4 py-2 text-xs font-semibold text-primary shadow-sm transition hover:bg-primary/5"
 					onclick={() => (showCreateProductTypeModal = true)}
 				>
 					Create Product Type
 				</button>
 				<button
-					class="rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700"
+					class="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-sm transition hover:opacity-90"
 					onclick={() => (showCreateProductModal = true)}
 				>
 					Create Product
@@ -138,10 +138,10 @@
 			</div>
 		</div>
 
-		<div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+		<div class="overflow-hidden rounded-xl border border-border bg-card">
 			<!-- Header -->
 			<div
-				class="grid grid-cols-7 border-b border-gray-200 bg-gray-50 px-4 py-2 text-[11px] font-semibold tracking-wider text-gray-600 uppercase"
+				class="grid grid-cols-7 border-b border-border bg-muted/40 px-4 py-2 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase"
 			>
 				<div>Category</div>
 				<div class="col-span-2">Product</div>
@@ -153,23 +153,23 @@
 
 			{#each products as p}
 				<div
-					class="grid grid-cols-7 items-center border-b border-gray-100 px-4 py-3 text-sm transition hover:bg-[#4C8BF5]/3"
+					class="grid grid-cols-7 items-center border-b border-border/50 px-4 py-3 text-sm transition hover:bg-muted/30"
 				>
-					<div class="text-gray-500">{p.category_name}</div>
+					<div class="text-muted-foreground">{p.category_name}</div>
 
-					<div class="col-span-2 font-medium text-gray-900">
+					<div class="col-span-2 font-medium text-foreground">
 						{p.name}
 					</div>
 
-					<div class="text-gray-600">{p.type_name}</div>
+					<div class="text-muted-foreground">{p.type_name}</div>
 
-					<div class="text-gray-500">{p.model_number}</div>
+					<div class="text-muted-foreground">{p.model_number}</div>
 
-					<div class="text-right font-medium text-gray-800">{p.price}</div>
+					<div class="text-right font-medium text-foreground">{p.price}</div>
 
 					<div class="text-right">
 						<button
-							class="rounded-full border border-[#4C8BF5]/30 bg-[#4C8BF5]/10 px-3 py-1 text-xs font-semibold text-[#4C8BF5] hover:cursor-pointer hover:bg-[#4C8BF5]/20"
+							class="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition-colors hover:cursor-pointer hover:bg-primary/20"
 							onclick={() => showAddRoomProductModal(p)}
 						>
 							Add
@@ -179,55 +179,10 @@
 			{/each}
 
 			{#if products.length === 0}
-				<div class="px-6 py-12 text-center text-sm text-gray-400">
+				<div class="px-6 py-12 text-center text-sm text-muted-foreground">
 					Start typing to search the catalogue
 				</div>
 			{/if}
 		</div>
 	</div>
-
-	<!-- Existing Products -->
-	<!-- <div class="space-y-3">
-		<p class="text-sm font-semibold tracking-wide text-gray-700">Existing Products</p>
-
-		<div class="overflow-hidden rounded-xl border border-gray-200 bg-white"> -->
-	<!-- <table class="w-full text-left text-sm">
-				<thead
-					class="border-b border-gray-200 bg-gray-50 text-[11px] tracking-wider text-gray-600 uppercase"
-				>
-					<tr>
-						<th class="px-4 py-3 font-semibold">Product</th>
-						<th class="px-4 py-3 font-semibold">Category</th>
-						<th class="px-4 py-3 font-semibold">Type</th>
-						<th class="px-4 py-3 font-semibold">Model</th>
-						<th class="px-4 py-3 font-semibold">Unit Price</th>
-						<th class="px-4 py-3 font-semibold">Qty</th>
-						<th class="px-4 py-3 font-semibold">Total</th>
-						<th class="px-4 py-3 font-semibold">Notes</th>
-					</tr>
-				</thead>
-
-				<tbody class="divide-y divide-gray-100 text-gray-700">
-					{#each roomProducts as product}
-						<tr class="transition hover:bg-[#4C8BF5]/3">
-							<td class="px-4 py-3 font-medium text-gray-900">
-								{product.product_name}
-							</td>
-							<td class="px-4 py-3">{product.category_name}</td>
-							<td class="px-4 py-3">{product.type_name}</td>
-							<td class="px-4 py-3 text-gray-500">{product.product_model}</td>
-							<td class="px-4 py-3">{product.product_price}</td>
-							<td class="px-4 py-3">{product.quantity}</td>
-							<td class="px-4 py-3 font-semibold text-[#4C8BF5]">
-								{product.total_price}
-							</td>
-							<td class="max-w-[220px] truncate px-4 py-3 text-gray-500 italic">
-								{product.notes}
-							</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table> -->
-	<!-- </div> -->
-	<!-- </div> -->
 </div>

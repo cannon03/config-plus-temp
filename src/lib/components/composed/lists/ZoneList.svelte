@@ -24,12 +24,12 @@
 	{/key}
 </Modal>
 
-<div class="rounded-lg bg-white p-6">
+<div class="rounded-lg bg-card p-6">
 	<!-- Header -->
 	<div class="mb-6 flex items-end justify-end">
 		<button
 			onclick={() => openModal()}
-			class="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+			class="inline-flex items-center rounded-lg border border-transparent bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none"
 		>
 			<Plus class="mr-2 h-4 w-4" /> Add Zone
 		</button>
@@ -43,13 +43,13 @@
 			{/each}
 		{:else}
 			<div class="py-8 text-center">
-				<Building2 class="mx-auto mb-4 h-12 w-12 text-gray-300" />
-				<h5 class="mb-2 text-sm font-medium text-gray-900">No zones created</h5>
-				<p class="mb-4 text-sm text-gray-500">
+				<Building2 class="mx-auto mb-4 h-12 w-12 text-muted-foreground/40" />
+				<h5 class="mb-2 text-sm font-medium text-foreground">No zones created</h5>
+				<p class="mb-4 text-sm text-muted-foreground">
 					Create your first zone to start building the structure
 				</p>
 				<button
-					class="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
+					class="inline-flex items-center rounded-lg border border-transparent bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90"
 					onclick={openModal}
 				>
 					<Plus class="mr-2 h-4 w-4" /> Create Zone

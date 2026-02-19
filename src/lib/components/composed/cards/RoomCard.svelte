@@ -28,7 +28,7 @@
 
 <Modal title="Delete Room" bind:showModal={showDelModal}>
 	<div class="flex flex-col items-center gap-6 text-center">
-		<p class="text-sm text-gray-600">
+		<p class="text-sm text-muted-foreground">
 			Are you sure you want to delete this room? This action cannot be undone.
 		</p>
 
@@ -41,7 +41,7 @@
 			</button>
 			<button
 				onclick={() => (showDelModal = false)}
-				class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+				class="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
 			>
 				Cancel
 			</button>
@@ -54,20 +54,20 @@
 </Modal> -->
 
 <div
-	class="flex items-center justify-between rounded-lg border border-gray-200 p-3 hover:bg-gray-50"
+	class="flex items-center justify-between rounded-lg border border-border p-3 hover:bg-muted/50"
 >
 	<div class="flex items-center space-x-3">
-		<MapPin class="h-4 w-4 text-gray-400" />
-		<p class="text-sm font-medium text-gray-900">{room.name}</p>
+		<MapPin class="h-4 w-4 text-muted-foreground" />
+		<p class="text-sm font-medium text-foreground">{room.name}</p>
 	</div>
 
 	<div class="flex items-center space-x-1">
-		<button class="rounded p-1 text-gray-400 hover:text-gray-600" title="View details">
+		<button class="rounded p-1 text-muted-foreground hover:text-foreground" title="View details">
 			<Eye class="h-3 w-3" />
 		</button>
 		<button
 			onclick={() => (showModal = true)}
-			class="rounded p-1 text-gray-400 hover:text-gray-600"
+			class="rounded p-1 text-muted-foreground hover:text-foreground"
 			title="Edit room"
 		>
 			<Pencil class="h-3 w-3" />
@@ -76,7 +76,7 @@
 			onclick={() => {
 				showDelModal = true;
 			}}
-			class="rounded p-1 text-gray-400 hover:text-red-600"
+			class="rounded p-1 text-muted-foreground hover:text-red-600"
 			title="Delete room"
 		>
 			<Trash2 class="h-3 w-3" />

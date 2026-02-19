@@ -19,24 +19,24 @@
 
 	const stateLabel = (state: 0 | 1) => (state === 1 ? 'ON' : 'OFF');
 	const stateBadgeClass = (state: 0 | 1) =>
-		state === 1 ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600';
+		state === 1 ? 'bg-green-100 text-green-700' : 'bg-muted text-muted-foreground';
 </script>
 
 <div
-	class="group relative rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:border-blue-200 hover:shadow-md"
+	class="group relative rounded-xl border border-border bg-card p-4 shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
 >
 	<!-- Header -->
 	<div class="mb-3 flex items-start justify-between">
 		<div class="flex items-center gap-2">
-			<Link2 class="h-5 w-5 text-blue-500" />
-			<h4 class="font-medium text-gray-900">
+			<Link2 class="h-5 w-5 text-primary" />
+			<h4 class="font-medium text-foreground">
 				{mapping.name || `Mapping ${mapping.x_address}-${mapping.x_key}`}
 			</h4>
 		</div>
 		<button
 			onclick={handleDelete}
 			disabled={deleting}
-			class="rounded-lg p-1.5 text-gray-400 opacity-0 transition group-hover:opacity-100 hover:bg-red-50 hover:text-red-500 disabled:opacity-50"
+			class="rounded-lg p-1.5 text-muted-foreground opacity-0 transition group-hover:opacity-100 hover:bg-red-50 hover:text-red-500 disabled:opacity-50"
 			title="Delete mapping"
 		>
 			<Trash2 class="h-4 w-4" />
@@ -44,10 +44,12 @@
 	</div>
 
 	<!-- Trigger Info -->
-	<div class="mb-3 rounded-lg bg-gray-50 p-3">
-		<p class="mb-1 text-xs font-medium tracking-wide text-gray-500 uppercase">When triggered</p>
+	<div class="mb-3 rounded-lg bg-muted/50 p-3">
+		<p class="mb-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+			When triggered
+		</p>
 		<div class="flex items-center gap-2 text-sm">
-			<span class="font-mono text-gray-700">
+			<span class="font-mono text-foreground">
 				Address {mapping.x_address}, Key {mapping.x_key}
 			</span>
 			<span class="rounded-full px-2 py-0.5 text-xs font-medium {stateBadgeClass(mapping.x_state)}">
@@ -58,11 +60,11 @@
 
 	<!-- LED Targets -->
 	<div>
-		<p class="mb-2 text-xs font-medium tracking-wide text-gray-500 uppercase">Set LEDs</p>
+		<p class="mb-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">Set LEDs</p>
 		<div class="flex flex-wrap gap-2">
 			{#each mapping.led_targets as target}
 				<span
-					class="inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs font-medium text-gray-700"
+					class="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2 py-1 text-xs font-medium text-foreground"
 				>
 					<span class="font-mono">{target.address}:{target.key}</span>
 					<span class="rounded px-1 {stateBadgeClass(target.state)}">

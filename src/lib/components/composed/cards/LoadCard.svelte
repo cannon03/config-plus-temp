@@ -26,7 +26,7 @@
 
 <Modal title="Delete Load" bind:showModal={showDelModal}>
 	<div class="flex flex-col items-center gap-6 text-center">
-		<p class="text-sm text-gray-600">
+		<p class="text-sm text-muted-foreground">
 			Are you sure you want to delete this load? This action cannot be undone.
 		</p>
 
@@ -39,7 +39,7 @@
 			</button>
 			<button
 				onclick={() => (showDelModal = false)}
-				class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+				class="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
 			>
 				Cancel
 			</button>
@@ -48,14 +48,14 @@
 </Modal>
 
 <div
-	class="rounded-lg border border-gray-200 p-4 transition-colors hover:border-blue-300 hover:shadow-sm"
+	class="rounded-lg border border-border p-4 transition-colors hover:border-primary/40 hover:shadow-sm"
 >
 	<div class="flex items-start justify-between">
 		<div class="flex items-center space-x-3">
-			<Lightbulb class="h-5 w-5 text-blue-600" />
+			<Lightbulb class="h-5 w-5 text-primary" />
 			<div>
-				<h6 class="text-sm font-medium text-gray-900">{load.name}</h6>
-				<p class="text-xs text-gray-500 capitalize">{load.load_type}</p>
+				<h6 class="text-sm font-medium text-foreground">{load.name}</h6>
+				<p class="text-xs text-muted-foreground capitalize">{load.load_type}</p>
 			</div>
 		</div>
 
@@ -64,7 +64,7 @@
 				onclick={() => {
 					showModal = true;
 				}}
-				class="rounded p-1 text-gray-400 hover:text-gray-600"
+				class="rounded p-1 text-muted-foreground hover:text-foreground"
 				title="Edit load"
 			>
 				<Pencil class="h-3 w-3" />
@@ -73,7 +73,7 @@
 				onclick={() => {
 					showDelModal = true;
 				}}
-				class="rounded p-1 text-gray-400 hover:text-red-600"
+				class="rounded p-1 text-muted-foreground hover:text-red-600"
 				title="Delete load"
 			>
 				<Trash2 class="h-3 w-3" />

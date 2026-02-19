@@ -26,7 +26,7 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
-	class="m-auto overflow-hidden rounded-lg bg-white p-6 shadow-lg"
+	class="m-auto overflow-hidden rounded-xl border border-border bg-card p-6 text-card-foreground shadow-xl"
 	bind:this={dialog}
 	onclose={() => {
 		showModal = false;
@@ -38,10 +38,11 @@
 	}}
 >
 	<div class="flex flex-col gap-4">
-		<h2 class="flex justify-between">
+		<h2 class="flex justify-between text-base font-semibold text-foreground">
 			{title}
-			<button class="hover:cursor-pointer" onclick={() => (showModal = false)}
-				><X class="h-5 w-5" /></button
+			<button
+				class="text-muted-foreground transition-colors hover:cursor-pointer hover:text-foreground"
+				onclick={() => (showModal = false)}><X class="h-5 w-5" /></button
 			>
 		</h2>
 		{@render children?.()}

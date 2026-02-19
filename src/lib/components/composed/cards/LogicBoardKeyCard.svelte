@@ -62,7 +62,7 @@
 
 <Modal title="Delete Logic Board" bind:showModal={showDelModal}>
 	<div class="flex flex-col items-center gap-6 text-center">
-		<p class="text-sm text-gray-600">
+		<p class="text-sm text-muted-foreground">
 			Are you sure you want to delete this Logic Board? This action cannot be undone.
 		</p>
 
@@ -75,7 +75,7 @@
 			</button>
 			<button
 				onclick={() => (showDelModal = false)}
-				class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+				class="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
 			>
 				Cancel
 			</button>
@@ -90,15 +90,15 @@
 {/if}
 
 <div
-	class="w-96 rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+	class="w-96 rounded-xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
 >
 	<!-- Header -->
 	<div class="mb-4 flex items-center justify-between">
 		<div>
-			<h3 class="font-semibold text-gray-900">Address {input.address}</h3>
-			<h3 class="font-semibold text-gray-900">CAT-6 Branch: {input.cat6_branch}</h3>
-			<p class="text-sm text-gray-600">{selectedRoom.name}</p>
-			<p class="text-xs text-blue-600">Logic Board</p>
+			<h3 class="font-semibold text-foreground">Address {input.address}</h3>
+			<h3 class="font-semibold text-foreground">CAT-6 Branch: {input.cat6_branch}</h3>
+			<p class="text-sm text-muted-foreground">{selectedRoom.name}</p>
+			<p class="text-xs text-primary">Logic Board</p>
 		</div>
 		<button
 			class="p-1 text-red-500 transition-colors hover:text-red-700"
@@ -111,7 +111,7 @@
 
 	<!-- Main keypad container -->
 	<div
-		class="relative m-auto aspect-square w-80 rounded-2xl bg-gray-50 shadow-lg"
+		class="relative m-auto aspect-square w-80 rounded-2xl bg-muted shadow-lg"
 		style={`background-image:url('${backgroundImage}');
 			background-size:contain;
 			background-repeat:no-repeat;
@@ -151,7 +151,7 @@
 								</button>
 								<button
 									onclick={() => showKeyNameModal(key_input)}
-									class="mt-1 rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white shadow-sm hover:cursor-pointer"
+									class="mt-1 rounded-full bg-primary px-2 py-0.5 text-xs font-medium text-primary-foreground shadow-sm hover:cursor-pointer hover:opacity-90"
 								>
 									{key_input.name ? key_input.name : 'Key ' + key_input.key_index}
 								</button>

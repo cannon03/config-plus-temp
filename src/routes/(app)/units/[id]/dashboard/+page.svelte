@@ -5,8 +5,6 @@
 </script>
 
 <section>
-	<h2 class="text-xl font-semibold">Overview</h2>
-	<p class="mt-2 text-sm text-gray-600">Summary and default section content.</p>
-
-	<!-- any default actions or content you want inside the dashboard -->
+	<h2 class="text-xl font-semibold text-foreground">Overview</h2>
+	<p class="mt-2 text-sm text-muted-foreground">Summary and default section content.</p>
 </section>

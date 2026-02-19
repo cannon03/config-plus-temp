@@ -31,10 +31,10 @@
 </script>
 
 <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-	<div class="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
+	<div class="rounded-xl border border-border bg-card px-4 py-8 shadow-md sm:px-10">
 		<form class="space-y-6" onsubmit={handleLogin}>
 			<div>
-				<label for="username" class="block text-sm font-medium text-gray-700"> Username </label>
+				<label for="username" class="block text-sm font-medium text-foreground"> Username </label>
 				<div class="mt-1">
 					<Input
 						id="username"
@@ -48,7 +48,7 @@
 			</div>
 
 			<div>
-				<label for="password" class="block text-sm font-medium text-gray-700"> Password </label>
+				<label for="password" class="block text-sm font-medium text-foreground"> Password </label>
 				<div class="relative mt-1">
 					<Input
 						id="password"
@@ -70,15 +70,17 @@
 		<div class="mt-6">
 			<div class="relative">
 				<div class="absolute inset-0 flex items-center">
-					<div class="w-full border-t border-gray-300"></div>
+					<div class="w-full border-t border-border"></div>
 				</div>
 				<div class="relative flex justify-center text-sm">
-					<span class="bg-white px-2 text-gray-500">API Authentication</span>
+					<span class="bg-card px-2 text-muted-foreground">API Authentication</span>
 				</div>
 			</div>
-			<div class="mt-4 text-center text-sm text-gray-600">
+			<div class="mt-4 text-center text-sm text-muted-foreground">
 				<p>Enter your API credentials to access the configuration tool</p>
-				<p class="mt-2 text-xs text-gray-500">Contact your administrator for access credentials</p>
+				<p class="mt-2 text-xs text-muted-foreground">
+					Contact your administrator for access credentials
+				</p>
 			</div>
 		</div>
 	</div>

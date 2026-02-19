@@ -213,12 +213,12 @@
 		<UnitActionsCard unit={ctx.domainGraph.unit} />
 	</div>
 	<div
-		class={`mt-8 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300
+		class={`mt-8 overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300
 		${expanded ? 'fixed inset-0 z-50 m-6 rounded-2xl shadow-2xl' : ''}`}
 	>
 		<!-- Tabs -->
-		<nav class="flex items-center justify-between border-b border-gray-200 bg-white">
-			<ul class="flex flex-wrap gap-1 px-4 pt-3 text-sm font-medium text-gray-600">
+		<nav class="flex items-center justify-between border-b border-border bg-card">
+			<ul class="flex flex-wrap gap-1 px-4 pt-3 text-sm font-medium text-muted-foreground">
 				{#each DASHBOARD_TABS as tab}
 					{@const SectionIcon = tab.icon}
 					<li>
@@ -226,8 +226,8 @@
 							href={href(tab.path)}
 							class="flex items-center justify-center gap-2 rounded-t-lg px-4 py-2 transition-colors duration-150
 						{isActive(tab.path)
-								? 'border-b-2 border-blue-600 bg-blue-50 text-blue-600'
-								: 'border-b-2 border-transparent hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800'}"
+								? 'border-b-2 border-primary bg-primary/5 text-primary'
+								: 'border-b-2 border-transparent hover:border-border hover:bg-muted hover:text-foreground'}"
 							aria-current={isActive(tab.path) ? 'page' : undefined}
 						>
 							{tab.title}
@@ -240,7 +240,7 @@
 			<!-- Expand/Collapse Button -->
 			<button
 				onclick={() => (expanded = !expanded)}
-				class="mr-4 ml-auto rounded-md px-3 py-1 text-sm text-gray-600 hover:bg-gray-100"
+				class="mr-4 ml-auto rounded-md px-3 py-1 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
 			>
 				{#if !expanded}
 					<Expand class="h-4 w-4" />

@@ -45,10 +45,10 @@
 
 <!-- Header + Button Row -->
 <div class="mb-4 flex items-center justify-end gap-2">
-	<h2 class="flex-1 text-lg font-semibold">Units</h2>
+	<h2 class="flex-1 text-lg font-semibold text-foreground">Units</h2>
 
 	<button
-		class="flex cursor-pointer items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
+		class="flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted active:bg-border"
 		onclick={() => goto(`/projects/${projectId}/files`)}
 	>
 		Project Files
@@ -56,7 +56,7 @@
 	</button>
 
 	<button
-		class="flex cursor-pointer items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
+		class="flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted active:bg-border"
 		onclick={openCreateUnitModal}
 	>
 		Add Unit
@@ -64,7 +64,7 @@
 	</button>
 
 	<button
-		class="flex cursor-pointer items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
+		class="flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted active:bg-border"
 		onclick={getBillOfMaterials}
 	>
 		Bill of Materials

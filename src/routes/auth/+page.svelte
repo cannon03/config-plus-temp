@@ -12,15 +12,19 @@
 	});
 </script>
 
-<div class="flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8">
+<div class="flex min-h-screen flex-col justify-center bg-background py-12 sm:px-6 lg:px-8">
 	<div class="sm:mx-auto sm:w-full sm:max-w-md">
 		<div class="flex justify-center">
-			<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600">
-				<Lock class="h-8 w-8 text-white" />
+			<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary shadow-md">
+				<Lock class="h-8 w-8 text-primary-foreground" />
 			</div>
 		</div>
-		<h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Toyama RCU Configuration</h2>
-		<p class="mt-2 text-center text-sm text-gray-600">Sign in to access the configuration tool</p>
+		<h2 class="mt-6 text-center text-3xl font-extrabold text-foreground">
+			Toyama RCU Configuration
+		</h2>
+		<p class="mt-2 text-center text-sm text-muted-foreground">
+			Sign in to access the configuration tool
+		</p>
 	</div>
 	<LoginForm />
 </div>

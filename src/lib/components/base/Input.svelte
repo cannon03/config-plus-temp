@@ -1,11 +1,11 @@
 <script lang="ts">
 	const variants = {
-		standard: `block w-full appearance-none rounded-md border border-gray-300 px-3 py-2
-			placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500
-			focus:outline-none sm:text-sm`,
-		outline: `block w-full appearance-none rounded-md border border-blue-500 px-3 py-2
-			placeholder-gray-400 focus:border-blue-600 focus:ring-blue-600
-			focus:outline-none sm:text-sm`
+		standard: `block w-full appearance-none rounded-lg border border-border bg-card px-3 py-2
+			placeholder-muted-foreground text-foreground focus:border-primary focus:ring-primary
+			focus:outline-none sm:text-sm transition-colors`,
+		outline: `block w-full appearance-none rounded-lg border border-primary bg-card px-3 py-2
+			placeholder-muted-foreground text-foreground focus:border-primary focus:ring-primary
+			focus:outline-none sm:text-sm transition-colors`
 	} as const;
 
 	type Variant = keyof typeof variants;

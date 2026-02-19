@@ -11,7 +11,7 @@
 </svelte:head>
 
 <!-- Full-page flex container -->
-<div class="flex h-screen flex-col bg-gray-50">
+<div class="flex h-screen flex-col bg-background">
 	<!-- Fixed-height navigation bar -->
 	<NavigationBar />
 

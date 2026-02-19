@@ -59,19 +59,19 @@
 
 {#if sidebarOpen}
 	<aside
-		class="relative flex w-64 flex-col border-r border-gray-200 bg-white shadow-sm transition-all duration-300"
+		class="relative flex w-64 flex-col border-r border-border bg-card shadow-sm transition-all duration-300"
 	>
 		<div class="absolute top-1/2 -right-4 -translate-y-1/2">
 			<button
 				onclick={toggleSidebar}
-				class="flex items-center justify-center rounded-full border border-gray-200 bg-white p-2 shadow-sm transition-all duration-200 hover:bg-gray-100"
+				class="flex items-center justify-center rounded-full border border-border bg-card p-2 shadow-sm transition-all duration-200 hover:bg-muted"
 				aria-label="Collapse sidebar"
 			>
-				<ChevronLeft class="h-5 w-5 text-gray-700" />
+				<ChevronLeft class="h-5 w-5 text-foreground" />
 			</button>
 		</div>
 		<!-- Navigation -->
-		<nav class="flex flex-1 flex-col justify-start space-y-2 p-4">
+		<nav class="flex flex-1 flex-col justify-start space-y-1 p-4">
 			{#if isUnits}
 				<Button variant="sidebar" onclick={navigateToProjectUnits}>
 					<LayoutDashboard class="h-5 w-5" />
@@ -83,7 +83,7 @@
 					<span>Projects</span>
 				</Button>
 				<button
-					class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+					class="flex w-full items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
 				>
 					<MonitorSmartphone class="h-5 w-5" />
 					<span>Devices</span>
@@ -98,18 +98,16 @@
 			{/if}
 		</nav>
 
-		<!-- Collapse Button (vertically centered, reactive) -->
-
 		<!-- Footer -->
-		<div class="space-y-2 border-t border-gray-200 p-4">
+		<div class="space-y-1 border-t border-border p-4">
 			<button
-				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+				class="flex w-full items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
 			>
 				<CircleQuestionMark class="h-5 w-5" />
 				<span>Help & Guide</span>
 			</button>
 			<button
-				class="flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+				class="flex w-full items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
 				onclick={logOut}
 			>
 				<LogOut class="h-5 w-5" />
@@ -120,10 +118,10 @@
 {:else}
 	<!-- Collapsed Sidebar Toggle -->
 	<button
-		class="fixed top-1/2 left-2 -translate-y-1/2 rounded-full border border-gray-200 bg-white p-2 shadow-sm transition-all duration-200 hover:bg-gray-100"
+		class="fixed top-1/2 left-2 -translate-y-1/2 rounded-full border border-border bg-card p-2 shadow-sm transition-all duration-200 hover:bg-muted"
 		onclick={toggleSidebar}
 		aria-label="Open sidebar"
 	>
-		<ChevronRight class="h-5 w-5 text-gray-700" />
+		<ChevronRight class="h-5 w-5 text-foreground" />
 	</button>
 {/if}

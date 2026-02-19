@@ -47,7 +47,7 @@
 
 <Modal title="Delete Keypad" bind:showModal={showDelModal}>
 	<div class="flex flex-col items-center gap-6 text-center">
-		<p class="text-sm text-gray-600">
+		<p class="text-sm text-muted-foreground">
 			Are you sure you want to delete this Keypad? This action cannot be undone.
 		</p>
 
@@ -60,7 +60,7 @@
 			</button>
 			<button
 				onclick={() => (showDelModal = false)}
-				class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+				class="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
 			>
 				Cancel
 			</button>
@@ -69,17 +69,17 @@
 </Modal>
 
 <div
-	class="w-96 rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+	class="w-96 rounded-xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
 >
 	<!-- Keypad Header -->
 	<div class="mb-4 flex items-center justify-between">
 		<div>
-			<h3 class="font-semibold text-gray-900">Address {keypad.address}</h3>
-			<h3 class="font-semibold text-gray-900">CAT-6 Branch: {keypad.cat6_branch}</h3>
+			<h3 class="font-semibold text-foreground">Address {keypad.address}</h3>
+			<h3 class="font-semibold text-foreground">CAT-6 Branch: {keypad.cat6_branch}</h3>
 
-			<p class="text-sm text-gray-600">{selectedRoom.name}</p>
+			<p class="text-sm text-muted-foreground">{selectedRoom.name}</p>
 
-			<p class="text-xs text-blue-600">{keypadLabel}</p>
+			<p class="text-xs text-primary">{keypadLabel}</p>
 		</div>
 		<button
 			class="p-1 text-red-500 transition-colors hover:text-red-700"
@@ -94,12 +94,12 @@
 
 	<!-- Programming Status -->
 	<div class="p-4 text-center">
-		<div class="mb-2 text-sm text-gray-600">
+		<div class="mb-2 text-sm text-muted-foreground">
 			{mappedKeys.length}/{keypad.inputs.length} buttons programmed
 		</div>
-		<div class="h-2 w-full rounded-full bg-gray-200">
+		<div class="h-2 w-full rounded-full bg-muted">
 			<div
-				class="h-2 rounded-full bg-blue-600 transition-all duration-300"
+				class="h-2 rounded-full bg-primary transition-all duration-300"
 				style="width: {(mappedKeys.length / keypad.inputs.length) * 100}%"
 			></div>
 		</div>

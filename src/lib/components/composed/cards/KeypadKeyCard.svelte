@@ -56,7 +56,7 @@
 			</Modal>
 		{/key}
 	{/if} -->
-	<div class="relative m-auto w-80 overflow-hidden rounded-2xl bg-gray-50 shadow-lg">
+	<div class="relative m-auto w-80 overflow-hidden rounded-2xl bg-muted shadow-lg">
 		<button>
 			<img src={corridorPanelImage} alt="Corridor Panel" class="h-auto w-full object-contain" />
 		</button>
@@ -64,7 +64,7 @@
 {:else}
 	<!-- Main keypad container -->
 	<div
-		class="relative m-auto aspect-square w-80 rounded-2xl bg-gray-50 shadow-lg"
+		class="relative m-auto aspect-square w-80 rounded-2xl bg-muted shadow-lg"
 		style={`background-image:url('${backgroundImage}');
 				background-size:contain;
 				background-repeat:no-repeat;

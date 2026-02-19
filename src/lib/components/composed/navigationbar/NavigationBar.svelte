@@ -43,38 +43,39 @@
 	});
 </script>
 
-<nav class="border-b border-gray-200 bg-white shadow-sm">
+<nav class="border-b border-border bg-card shadow-sm">
 	<div class="mx-auto w-full px-6">
 		<div class="grid h-16 w-full grid-cols-3 items-center">
 			<!-- Brand (Left) -->
 			<div class="flex items-center space-x-3">
-				<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-					<TreePine class="h-5 w-5 text-white" />
+				<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+					<TreePine class="h-5 w-5 text-primary-foreground" />
 				</div>
 				<div>
-					<h1 class="text-xl font-semibold text-gray-900">Toyama RCU</h1>
-					<p class="text-sm text-gray-500">Configuration Tool</p>
+					<h1 class="text-xl font-semibold text-foreground">Toyama RCU</h1>
+					<p class="text-sm text-muted-foreground">Configuration Tool</p>
 				</div>
 			</div>
 
 			<!-- Breadcrumb (Center) -->
-			<div class="flex items-center justify-center space-x-2 text-sm text-gray-500">
+			<div class="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
 				<button
 					onclick={() => goto('/projects')}
-					class="cursor-pointer hover:text-gray-700 hover:underline">Dashboard</button
+					class="cursor-pointer transition-colors hover:text-foreground hover:underline"
+					>Dashboard</button
 				>
 				{#if (isProjects && thisProject) || (isUnits && thisProject)}
 					{@const projectId = thisProject.id}
 					<ChevronRight class="h-4 w-4" />
 					<button
-						class="cursor-pointer hover:text-gray-700 hover:underline"
+						class="cursor-pointer transition-colors hover:text-foreground hover:underline"
 						onclick={() => goto(`/projects/${projectId}`)}>{thisProject.name}</button
 					>
 
 					{#if atFiles}
 						<ChevronRight class="h-4 w-4" />
 						<button
-							class="cursor-pointer hover:text-gray-700 hover:underline"
+							class="cursor-pointer transition-colors hover:text-foreground hover:underline"
 							onclick={() => goto(`/projects/${projectId}/files`)}>Files</button
 						>
 					{/if}
@@ -84,13 +85,13 @@
 					{@const unitId = thisUnit.id}
 					<ChevronRight class="h-4 w-4" />
 					<button
-						class="cursor-pointer hover:text-gray-700 hover:underline"
+						class="cursor-pointer transition-colors hover:text-foreground hover:underline"
 						onclick={() => goto(`/units/${unitId}/dashboard`)}>{thisUnit.name}</button
 					>
 				{/if}
 			</div>
 
-			<!-- Empty Right (for balance or future items like profile/settings) -->
+			<!-- Empty Right -->
 			<div></div>
 		</div>
 	</div>

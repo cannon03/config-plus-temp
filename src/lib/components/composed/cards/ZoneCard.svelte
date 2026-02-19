@@ -28,7 +28,7 @@
 
 <Modal title="Delete Load" bind:showModal={showDelModal}>
 	<div class="flex flex-col items-center gap-6 text-center">
-		<p class="text-sm text-gray-600">
+		<p class="text-sm text-muted-foreground">
 			Are you sure you want to delete this zone? This action cannot be undone.
 		</p>
 
@@ -41,7 +41,7 @@
 			</button>
 			<button
 				onclick={() => (showDelModal = false)}
-				class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+				class="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
 			>
 				Cancel
 			</button>
@@ -59,27 +59,27 @@
 	<ZoneForm {unit} {zone} type={ZONE_FORM_TYPES.EDIT} bind:showModal={showEditModal} />
 </Modal>
 
-<div class="rounded-lg border border-gray-200">
+<div class="rounded-lg border border-border">
 	<!-- Zone Header -->
-	<div class="flex items-center justify-between border-b border-gray-200 bg-gray-50 p-4">
+	<div class="flex items-center justify-between border-b border-border bg-muted/50 p-4">
 		<div class="flex items-center space-x-3">
-			<Layers class="h-5 w-5 text-blue-600" />
+			<Layers class="h-5 w-5 text-primary" />
 			<div>
-				<h5 class="font-medium text-gray-900">{zone.name}</h5>
-				<p class="text-sm text-gray-500">Unit {unit.id}</p>
+				<h5 class="font-medium text-foreground">{zone.name}</h5>
+				<p class="text-sm text-muted-foreground">Unit {unit.id}</p>
 			</div>
 		</div>
 
 		<div class="flex items-center space-x-2">
 			<button
-				class="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+				class="rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
 				onclick={() => (showEditModal = true)}
 				title="Edit zone"
 			>
 				<Pencil class="h-4 w-4" />
 			</button>
 			<button
-				class="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-600"
+				class="rounded-lg p-2 text-muted-foreground hover:bg-red-50 hover:text-red-600"
 				onclick={() => (showDelModal = true)}
 				title="Delete zone"
 			>
@@ -91,10 +91,10 @@
 	<!-- Zone Content -->
 	<div class="p-4">
 		<div class="mb-4 flex items-center justify-between">
-			<h6 class="text-sm font-medium text-gray-700">Rooms</h6>
+			<h6 class="text-sm font-medium text-foreground">Rooms</h6>
 			<button
 				onclick={() => openModal()}
-				class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+				class="inline-flex items-center rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none"
 			>
 				<Plus class="mr-1 h-3 w-3" /> Add Room
 			</button>

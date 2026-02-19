@@ -14,9 +14,9 @@
 		{/each}
 	</div>
 {:else}
-	<div class="py-4 text-center text-gray-500">
-		<MapPin class="mx-auto mb-2 h-8 w-8 text-gray-300" />
+	<div class="py-4 text-center text-muted-foreground">
+		<MapPin class="mx-auto mb-2 h-8 w-8 text-muted-foreground/40" />
 		<p class="text-sm">No rooms in this zone</p>
-		<button class="mt-2 text-xs text-blue-600 hover:text-blue-800">Add first room</button>
+		<button class="mt-2 text-xs text-primary hover:opacity-80">Add first room</button>
 	</div>
 {/if}

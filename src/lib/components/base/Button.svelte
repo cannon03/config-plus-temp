@@ -4,24 +4,24 @@
 	import type { HTMLAttributes } from 'svelte/elements';
 
 	const variants = {
-		standard: `flex w-full justify-center gap-4 rounded-md border border-transparent bg-blue-600
-			px-4 py-2 text-sm font-medium text-white
-			shadow-sm hover:bg-blue-700 focus:ring-2
-			focus:ring-blue-500 focus:ring-offset-2 focus:outline-none`,
+		standard: `flex w-full justify-center gap-4 rounded-lg border border-transparent bg-primary
+			px-4 py-2 text-sm font-medium text-primary-foreground
+			shadow-sm hover:opacity-90 focus:ring-2
+			focus:ring-ring focus:ring-offset-2 focus:outline-none transition-opacity`,
 
-		projects: `flex items-center space-x-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white 
-		shadow-sm transition hover:cursor-pointer hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none`,
+		projects: `flex items-center space-x-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground 
+		shadow-sm transition hover:cursor-pointer hover:opacity-90 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none`,
 
-		white: `flex w-full justify-between rounded-md border border-transparent bg-white-600
-			px-4 py-2 text-sm font-medium text-black
-			shadow-sm hover:bg-white-700 focus:ring-2
-			focus:ring-gray-500 focus:ring-offset-2 focus:outline-none`,
-		saveform: `flex justify-between gap-2 items-center rounded-md border border-transparent bg-blue-600 w-fit
-			px-4 py-2 text-sm font-medium text-white
-			shadow-sm hover:bg-blue-700 focus:ring-2
-			focus:ring-blue-500 focus:ring-offset-2 focus:outline-none
-			hover:cursor-pointer`,
-		sidebar: `flex w-full items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:cursor-pointer`
+		white: `flex w-full justify-between rounded-lg border border-border bg-card
+			px-4 py-2 text-sm font-medium text-foreground
+			shadow-sm hover:bg-muted focus:ring-2
+			focus:ring-ring focus:ring-offset-2 focus:outline-none transition-colors`,
+		saveform: `flex justify-between gap-2 items-center rounded-lg border border-transparent bg-primary w-fit
+			px-4 py-2 text-sm font-medium text-primary-foreground
+			shadow-sm hover:opacity-90 focus:ring-2
+			focus:ring-ring focus:ring-offset-2 focus:outline-none
+			hover:cursor-pointer transition-opacity`,
+		sidebar: `flex w-full items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium text-foreground hover:bg-muted hover:cursor-pointer transition-colors`
 	} as const;
 
 	type Variant = keyof typeof variants;
