@@ -6,13 +6,13 @@
 
 	let {
 		showModal = $bindable(false),
-		onSuccess
+		onSuccess,
+		categories
 	}: {
 		showModal?: boolean;
 		onSuccess?: (productType: ProductTypeResponse) => void;
+		categories: Array<CategoryResponse>;
 	} = $props();
-
-	let categories: Array<CategoryResponse> = $state([]);
 
 	let category = $state<number | null>(null);
 	let name = $state('');
@@ -40,17 +40,6 @@
 			console.error(error);
 		}
 	}
-
-	onMount(async () => {
-		try {
-			categories = await fetchCategories();
-			if (categories.length > 0) {
-				category = categories[0].id;
-			}
-		} catch (e) {
-			console.error('Failed to load categories', e);
-		}
-	});
 </script>
 
 <form class="flex h-full flex-col" onsubmit={handleSubmit}>

@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { fetchProducts, fuzzySearchProducts } from '$lib/api/product';
+	import {
+		fetchCategories,
+		fetchProducts,
+		fetchProductTypes,
+		fuzzySearchProducts
+	} from '$lib/api/product';
 	import { getDashboardContext } from '$lib/context/dashboard';
 	import { Search } from 'lucide-svelte';
 	import type { ProductResponse } from '$lib/types/product';
@@ -23,6 +28,12 @@
 	let showCreateProductTypeModal = $state(false);
 	let showCreateCategoryModal = $state(false);
 
+	let showProductTypeModalKey = $state(0);
+	let showProductCategoryModalKey = $state(0);
+
+	let productTypes = $state<ProductTypeResponse[]>([]);
+	let productCategories = $state<CategoryResponse[]>([]);
+
 	async function searchProducts(event: Event) {
 		if (event) event.preventDefault();
 		const searchResponse = await fuzzySearchProducts(search);
@@ -42,16 +53,19 @@
 
 	function handleProductTypeCreated(productType: ProductTypeResponse) {
 		// Product type created successfully — could refresh types list if needed
+		productTypes = [productType, ...productTypes];
 		console.log('Product type created:', productType);
 	}
 
 	function handleCategoryCreated(category: CategoryResponse) {
-		// Category created successfully
+		productCategories = [category, ...productCategories];
 		console.log('Category created:', category);
 	}
 
 	onMount(async () => {
 		products = await fetchProducts();
+		productTypes = await fetchProductTypes();
+		productCategories = await fetchCategories();
 	});
 
 	const rooms = $derived.by(() => ctx.domainGraph.layout.zones.flatMap((zone) => zone.rooms));
@@ -65,19 +79,31 @@
 {/key}
 
 <Modal bind:showModal={showCreateProductModal} title="Create New Product">
-	<CreateProductForm bind:showModal={showCreateProductModal} onSuccess={handleProductCreated} />
-</Modal>
-
-<Modal bind:showModal={showCreateProductTypeModal} title="Create New Product Type">
-	<CreateProductTypeForm
-		bind:showModal={showCreateProductTypeModal}
-		onSuccess={handleProductTypeCreated}
+	<CreateProductForm
+		{productTypes}
+		bind:showModal={showCreateProductModal}
+		onSuccess={handleProductCreated}
 	/>
 </Modal>
 
-<Modal bind:showModal={showCreateCategoryModal} title="Create New Category">
-	<CreateCategoryForm bind:showModal={showCreateCategoryModal} onSuccess={handleCategoryCreated} />
-</Modal>
+{#key showProductTypeModalKey}
+	<Modal bind:showModal={showCreateProductTypeModal} title="Create New Product Type">
+		<CreateProductTypeForm
+			categories={productCategories}
+			bind:showModal={showCreateProductTypeModal}
+			onSuccess={handleProductTypeCreated}
+		/>
+	</Modal>
+{/key}
+
+{#key showProductCategoryModalKey}
+	<Modal bind:showModal={showCreateCategoryModal} title="Create New Category">
+		<CreateCategoryForm
+			bind:showModal={showCreateCategoryModal}
+			onSuccess={handleCategoryCreated}
+		/>
+	</Modal>
+{/key}
 
 <div class="w-full space-y-10 bg-background p-6">
 	<!-- Search -->

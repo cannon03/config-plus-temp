@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { Save } from 'lucide-svelte';
 	import { createProduct, fetchProductTypes } from '$lib/api/product';
-	import type { ProductRequest, ProductResponse } from '$lib/types/product';
+	import type { ProductRequest, ProductResponse, ProductTypeResponse } from '$lib/types/product';
 	import { onMount } from 'svelte';
 
 	let {
 		showModal = $bindable(false),
-		onSuccess
+		onSuccess,
+		productTypes
 	}: {
 		showModal?: boolean;
 		onSuccess?: (product: ProductResponse) => void;
+		productTypes: Array<ProductTypeResponse>;
 	} = $props();
-
-	let productTypes: Array<{ id: number; name: string }> = $state([]);
 
 	let productType = $state<number | null>(null);
 	let name = $state('');
@@ -60,17 +60,6 @@
 			console.error(error);
 		}
 	}
-
-	onMount(async () => {
-		try {
-			productTypes = await fetchProductTypes();
-			if (productTypes.length > 0) {
-				productType = productTypes[0].id;
-			}
-		} catch (e) {
-			console.error('Failed to load product types', e);
-		}
-	});
 </script>
 
 <form class="flex h-full flex-col overflow-y-auto" onsubmit={handleSubmit}>
