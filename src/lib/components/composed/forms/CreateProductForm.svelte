@@ -73,7 +73,7 @@
 	});
 </script>
 
-<form class="flex h-full flex-col" onsubmit={handleSubmit}>
+<form class="flex h-full flex-col overflow-y-auto" onsubmit={handleSubmit}>
 	<!-- Content -->
 	<div class="grid grid-cols-1 gap-x-6 gap-y-4 overflow-y-auto p-6 md:grid-cols-2">
 		<div class="flex flex-col">

@@ -93,11 +93,11 @@
 										min="0"
 										max="100"
 										bind:value={load.value}
-										class="h-2 w-full cursor-pointer rounded-full accent-primary focus:outline-none focus:ring-0"
+										class="h-2 w-full cursor-pointer rounded-full accent-primary focus:ring-0 focus:outline-none"
 									/>
 								</div>
 								<div
-									class="w-14 rounded-md bg-primary/20 py-1.5 text-center font-mono text-sm font-bold text-primary ring-1 ring-primary shadow-[0_0_10px_rgba(var(--primary),0.3)]"
+									class="w-14 rounded-md bg-primary/20 py-1.5 text-center font-mono text-sm font-bold text-primary shadow-[0_0_10px_rgba(var(--primary),0.3)] ring-1 ring-primary"
 								>
 									{load.value}%
 								</div>
