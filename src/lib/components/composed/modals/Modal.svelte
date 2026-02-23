@@ -26,7 +26,7 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
-	class="m-auto overflow-hidden rounded-xl border border-border bg-card p-6 text-card-foreground shadow-xl"
+	class="m-auto rounded-xl border border-border bg-card p-6 text-card-foreground shadow-xl"
 	bind:this={dialog}
 	onclose={() => {
 		showModal = false;
