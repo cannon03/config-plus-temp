@@ -143,15 +143,7 @@
 											</div>
 											<div class="flex flex-wrap gap-4">
 												{#each room.keypads as keypad}
-													<KeypadCard
-														{keypad}
-														keyActions={[]}
-														keypadKeys={keypad.inputs}
-														selectedRoom={room}
-														selectedZone={zone}
-														allZones={ctx.domainGraph.layout.zones}
-														allRooms={rooms}
-													/>
+													<KeypadCard {keypad} selectedRoom={room} />
 												{/each}
 											</div>
 										</div>
@@ -214,7 +206,9 @@
 											<div
 												class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100"
 											>
-												<Plus class="h-5 w-5 text-gray-400" />
+												<button onclick={() => (showModal = true)}>
+													<Plus class="h-5 w-5 text-gray-400" />
+												</button>
 											</div>
 											<div>
 												<p class="text-sm font-medium text-gray-600">No inputs configured</p>
