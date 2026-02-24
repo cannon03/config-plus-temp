@@ -26,7 +26,7 @@
 	import type { InputResponse } from '$lib/types/input';
 	import type { SceneFormType } from '$lib/types/scene';
 	import { createScene, updateScene } from '$lib/api/scene';
-	import { createSceneLoads, deleteSceneLoad } from '$lib/api/scene_load';
+	import { createSceneLoads, deleteSceneLoad, updateSceneLoad } from '$lib/api/scene_load';
 	import { createKeyAction, updateKeyAction } from '$lib/api/key_action';
 	import SceneLoadsManager from '../lists/SceneLoadsManager.svelte';
 	import SceneLoadsSelectorCard from '../cards/SceneLoadsSelectorCard.svelte';
@@ -195,6 +195,19 @@
 			await createSceneLoads(newRequests);
 		}
 
+		// 4. Update existing scene loads
+		for (const currentLoad of sceneLoads) {
+			const existingLoad = selectedScene.scene_loads.find(
+				(sl) => sl.load_id === currentLoad.load_id
+			);
+			if (existingLoad && currentLoad.value !== existingLoad.value) {
+				await updateSceneLoad(existingLoad.id, {
+					value: currentLoad.value,
+					fade_ms: SCENE_LOAD_FADE_MS,
+					delay_ms: SCENE_LOAD_DELAY_MS
+				});
+			}
+		}
 		// 4. Update the key action target if needed
 		await updateKeyAction(currentKeyAction.id, {
 			event_type: selectedKeyEvent,
@@ -207,7 +220,14 @@
 	}
 
 	async function saveScene() {
-		if (formType.value === 'CREATE') {
+		console.log(
+			'SAVING SCENE:',
+			$state.snapshot(sceneRequest),
+			$state.snapshot(sceneLoads),
+			$state.snapshot(formType.value),
+			$state.snapshot(currentKeyAction)
+		);
+		if (!currentKeyAction) {
 			await handleCreateScene();
 		} else {
 			await handleEditScene();
