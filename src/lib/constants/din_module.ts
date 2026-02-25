@@ -14,7 +14,7 @@ export const DIN_MODULE_TYPES = {
 		label: 'Relay Module',
 		accepted_loads: ['relay'] as Array<LOAD_TYPE_KEY>,
 		icon: ToggleRight,
-		channels: 4
+		channels: 8
 	},
 	'1-10v': {
 		key: '1-10v',
